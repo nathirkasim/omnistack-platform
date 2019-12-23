@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
+
+with open(os.environ['HOME'] + '/.config/mysite/config.json') as f:
+    config = json.load(f)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,8 +80,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config['database']['default']['name'],
+        'USER': config['database']['default']['user'],
+        'PASSWORD': config['database']['default']['password'],
+        'HOST': config['database']['default']['host'],
+        'PORT': config['database']['default']['port'],
     }
 }
 
