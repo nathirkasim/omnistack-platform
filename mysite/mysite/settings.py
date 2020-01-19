@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import json
 
-with open(os.environ['HOME'] + '/.config/mysite/config.json') as f:
+with open('/etc/opt/' + os.environ['PROJECT'] + '/mysite/config.json') as f:
     config = json.load(f)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
