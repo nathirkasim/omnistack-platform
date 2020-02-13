@@ -19,6 +19,7 @@ PROJECT ?= backend-starter-django
 # Version to use for tagging images.
 VERSION ?= 0.1.0
 
+DOCKER_CACHE_FLAG ?= "--no-cache"
 DOCKER_CONTAINER_BASE_IMAGE = ${BASE_IMAGE}
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
 DOCKER_CONTAINER_PORT = 8000 # Whatever the Django default port is
@@ -56,7 +57,7 @@ image:
 	docker build \
 		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
 		--build-arg="PROJECT=${PROJECT}" \
-		--no-cache \
+		${DOCKER_CACHE_FLAG} \
 		--rm \
 		--tag=${DOCKER_NAME} \
 		--tag=${DOCKER_NAME}:${DOCKER_TAG} \
