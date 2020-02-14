@@ -19,6 +19,7 @@ PROJECT ?= backend-starter-django
 # Version to use for tagging images.
 VERSION ?= 0.1.0
 
+DOCKER_APP_PATH ?= .
 DOCKER_CACHE_FLAG ?= "--no-cache"
 DOCKER_CONTAINER_BASE_IMAGE = ${BASE_IMAGE}
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
@@ -48,20 +49,22 @@ clean:
 	rm -rf .local .cache
 
 bash:
-	docker run \
+	@mkdir -p .venv
+	@docker run \
 		${DOCKER_ARGS} \
 		--rm -it \
 		${DOCKER_NAME}:${DOCKER_TAG} bash
 
 image:
-	docker build \
+	@docker build \
+		${DOCKER_CACHE_FLAG} \
 		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
 		--build-arg="PROJECT=${PROJECT}" \
-		${DOCKER_CACHE_FLAG} \
+		--file=Dockerfile \
 		--rm \
 		--tag=${DOCKER_NAME} \
 		--tag=${DOCKER_NAME}:${DOCKER_TAG} \
-		.
+		${DOCKER_APP_PATH}
 
 .PHONY: image bash clean run
 # vi: set nowrap:
