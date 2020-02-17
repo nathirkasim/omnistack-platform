@@ -8,9 +8,8 @@ This example demonstrates the sanic-openapi example code demonstrated at
 
 ## Usage
 In order to build the Sanic OpenAPI example, execute the provided make rules
-with the APP_PATH and TAG variables set to point to the [home directory][pwd]
-of this README and a descriptive tag such as sanic-openapi-example
-respectively.
+with the APP_PATH set to point to the [home directory][pwd] of this README and
+a descriptive tag such as sanic-openapi-example respectively.
 
 ### Build images
 Build the images for the given example by running:
