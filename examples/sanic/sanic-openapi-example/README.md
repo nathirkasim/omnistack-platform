@@ -16,11 +16,11 @@ respectively.
 Build the images for the given example by running:
 
 ```bash
-APP_PATH=examples/django/django-3.0-tutorial make dev-image
+APP_PATH=examples/sanic/sanic-openapi-example make dev-image
 ```
 
 ```bash
-APP_PATH=examples/django/django-3.0-tutorial make prod-image
+APP_PATH=examples/sanic/sanic-openapi-example make prod-image
 ```
 
 ### Development
