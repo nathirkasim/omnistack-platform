@@ -57,12 +57,15 @@ RUN \
     appgroup \
   && \
   adduser \
+    --no-create-home \
     --uid ${UID} \
     --gecos ${GECOS} \
     --gid ${GID} \
     --disabled-password \
     --disabled-login \
-    appuser
+    appuser \
+  && \
+  > /var/log/faillog && > /var/log/lastlog
 USER ${UID}:${GID}
 
 ENV VIRTUAL_ENV=/opt/venv
