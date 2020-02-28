@@ -13,7 +13,7 @@ APP_PATH ?= .
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-BASE_IMAGE ?= python:3.8.0-slim
+BASE_IMAGE ?= python:3.8.0-slim-buster
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
@@ -23,7 +23,7 @@ HOST ?= 127.0.0.1
 PORT ?= 8121
 
 # Prefix for Docker images
-PROJECT ?= backend-starter-django
+PROJECT ?= backend-python
 
 # Version to use for tagging images.
 VERSION ?= 0.1.0
