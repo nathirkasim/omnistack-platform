@@ -60,10 +60,10 @@ DOCKER_HOST_PROJECT_PATH = ${PWD}
 
 
 # Docker image name
-DOCKER_NAME = ${PROJECT}
+DOCKER_IMAGE_NAME = ${PROJECT}
 
 # Docker image tag
-DOCKER_TAG ?= ${VERSION}
+DOCKER_IMAGE_TAG ?= ${VERSION}
 
 # Absolute path to Dockerfile
 DOCKER_FILE = ${PWD}/Dockerfile
@@ -108,7 +108,7 @@ bash:
 	@docker run \
 		${DOCKER_ARGS} \
 		--rm -it \
-		${DOCKER_NAME}:${DOCKER_TAG}-dev bash
+		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev bash
 
 # Build production image
 prod-image:
@@ -119,8 +119,8 @@ prod-image:
 		--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag=${DOCKER_NAME} \
-		--tag=${DOCKER_NAME}:${DOCKER_TAG} \
+		--tag=${DOCKER_IMAGE_NAME} \
+		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
 		--target=prod-image \
 		${APP_PATH}
 
@@ -133,7 +133,7 @@ dev-image:
 		--build-arg="PYTHON_DEPS_INSTALL_COMMAND=${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag=${DOCKER_NAME}:${DOCKER_TAG}-dev \
+		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev \
 		--target=dev-image \
 		${APP_PATH}
 
