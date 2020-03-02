@@ -52,11 +52,15 @@ DOCKER_HOST_PORT = ${PORT}
 # Path of the project of interest, defaults to the current working directory
 DOCKER_HOST_PROJECT_PATH = ${PWD}
 
+
 # Docker image name
 DOCKER_NAME = ${PROJECT}
 
 # Docker image tag
 DOCKER_TAG ?= ${VERSION}
+
+# Absolute path to Dockerfile
+DOCKER_FILE = ${PWD}/Dockerfile
 
 # Caching flag for Docker build process
 # Disable caching to force the docker builder to always rebuild all layers and
@@ -95,7 +99,7 @@ clean:
 # Spawn a Bash shell for the development image
 bash:
 	@mkdir -p .config .venv ${APP_PATH}
-	docker run \
+	@docker run \
 		${DOCKER_ARGS} \
 		--rm -it \
 		${DOCKER_NAME}:${DOCKER_TAG}-dev bash
@@ -104,9 +108,10 @@ bash:
 prod-image:
 	@docker build \
 		${DOCKER_CACHE_FLAG} \
-		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
-		--build-arg="PROJECT=${PROJECT}" \
-		--file=Dockerfile \
+		--build-arg=DOCKER_BASE_IMAGE="${DOCKER_CONTAINER_BASE_IMAGE}" \
+		--build-arg=PROJECT="${PROJECT}" \
+		--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
+		--file=${DOCKER_FILE} \
 		--rm \
 		--tag=${DOCKER_NAME} \
 		--tag=${DOCKER_NAME}:${DOCKER_TAG} \
@@ -119,7 +124,8 @@ dev-image:
 		${DOCKER_CACHE_FLAG} \
 		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
 		--build-arg="PROJECT=${PROJECT}" \
-		--file=Dockerfile \
+		--build-arg="PYTHON_DEPS_INSTALL_COMMAND=${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
+		--file=${DOCKER_FILE} \
 		--rm \
 		--tag=${DOCKER_NAME}:${DOCKER_TAG}-dev \
 		--target=dev-image \
