@@ -3,7 +3,7 @@
 # declaring those variables in the project.mk file which is conditionally
 # included after variable declaration in this Makefile.
 
-# The path to the shippable part of your application.
+# The path to the shippable part of your application
 # The shippable part of your application should contain manifest files
 # (requirements.txt in case of pip, pyproject.toml and poetry.lock in case of
 # Poetry) and the actual source that you will want to run inside of your
@@ -17,10 +17,10 @@ BASE_IMAGE ?= python:3.8.0-slim-buster
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
-HOST ?= 127.0.0.1
+HOST_ADDRESS ?= 127.0.0.1
 
 # Port on host to be mapped into the container
-PORT ?= 8121
+HOST_PORT ?= 8121
 
 # Prefix for Docker images
 PROJECT ?= backend-python
@@ -49,11 +49,11 @@ DOCKER_CONTAINER_PORT = 8000
 
 # Docker host parameters
 
-# IP address or hostname of the host, defaults to the ${HOST} loopback address
-DOCKER_HOST_ADDRESS = ${HOST}
+# IP address or hostname of the host, defaults to the host loopback address
+DOCKER_HOST_ADDRESS = ${HOST_ADDRESS}
 
-# Port of the host, defaults to ${PORT}
-DOCKER_HOST_PORT = ${PORT}
+# Port of the host, defaults to ${HOST_PORT}
+DOCKER_HOST_PORT = ${HOST_PORT}
 
 # Path of the project of interest, defaults to the current working directory
 DOCKER_HOST_PROJECT_PATH = ${PWD}
@@ -63,7 +63,7 @@ DOCKER_HOST_PROJECT_PATH = ${PWD}
 DOCKER_IMAGE_NAME = ${PROJECT}
 
 # Docker image tag
-DOCKER_IMAGE_TAG ?= ${VERSION}
+DOCKER_IMAGE_TAG = ${VERSION}
 
 # Absolute path to Dockerfile
 DOCKER_FILE = ${PWD}/Dockerfile
@@ -94,8 +94,8 @@ DOCKER_ARGS = \
 	-v `realpath ${APP_PATH}`:/tmp/${PROJECT} \
 	-w /tmp/${PROJECT}
 
-# Include the project.mk file if it exists and allow for all variables thusfar
-# defined to be overriden.
+
+# Include the project.mk file if it exists to override defined parameters
 -include project.mk
 
 # Remove temporary files
