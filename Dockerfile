@@ -42,8 +42,9 @@ ENV PROJECT=${PROJECT}
 WORKDIR /tmp/${PROJECT}
 
 # Copy Python dependency manifests and install listed dependencies
-COPY pyproject.toml poetry.lock /tmp/${PROJECT}/
-RUN poetry install --no-dev
+ARG PYTHON_DEPS_INSTALL_COMMAND="poetry install --no-dev"
+COPY . /tmp/${PROJECT}/
+RUN ${PYTHON_DEPS_INSTALL_COMMAND}
 
 
 FROM ${DOCKER_BASE_IMAGE} AS prod-image

@@ -25,6 +25,12 @@ PORT ?= 8121
 # Prefix for Docker images
 PROJECT ?= backend-python
 
+# Python dependency installation command
+# The following example installation commands should work:
+# -	for projects that use Pip: `pip install -r requirements.txt`
+# - for projects that use Poetry: `poetry install --no-dev`
+PROJECT_PYTHON_DEPS_INSTALL_COMMAND ?= poetry install --no-dev
+
 # Version to use for tagging images.
 VERSION ?= 0.1.0
 
