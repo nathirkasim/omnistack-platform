@@ -32,6 +32,8 @@ RUN curl -sSL \
   python /tmp/get-poetry.py && \
   chmod -R a+x ${POETRY_HOME}/bin
 
+# TODO: Clean /var/cache /var/log var/*log /var/log/(fail,last)log
+
 # Define environment vars for venv and initialize a venv
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin/:$PATH"
