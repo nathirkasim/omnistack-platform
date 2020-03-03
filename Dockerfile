@@ -15,12 +15,16 @@ ARG DOCKER_BASE_IMAGE
 
 FROM ${DOCKER_BASE_IMAGE} AS dev-image
 
-# Install system dependencies
+# Copy install-deps.sh for project-specified installation commands
+COPY ./install-deps.sh /tmp/install-deps.sh
+
+# Install system dependencies and run project-specified installation commands
+# Note that buiild-essential curl and python-dev are installed by default
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
-    libpq-dev \
     python-dev \
+    && . /tmp/install-deps.sh \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry to $POETRY_HOME and allow all users to execute Poetry binaries
