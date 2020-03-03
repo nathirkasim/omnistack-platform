@@ -138,4 +138,3 @@ dev-image:
 		${APP_PATH}
 
 .PHONY: prod-image dev-image bash clean
-# vi: set nowrap:
