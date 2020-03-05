@@ -3,17 +3,35 @@
 # declaring those variables in the project.mk file which is conditionally
 # included after variable declaration in this Makefile.
 
-# The path to the shippable part of your application
+# Path to the shippable part of your application
 # The shippable part of your application should contain manifest files
 # (requirements.txt in case of pip, pyproject.toml and poetry.lock in case of
 # Poetry) and the actual source that you will want to run inside of your
 # container.
 APP_PATH ?= .
 
+# Version of the application to be shipped
+APP_VERSION ?= 0.1.0
+
+# Name of the applicationn and resulting Docker image
+APP_NAME ?= backend-python
+
+# Python version for the base Docker image
+# The notation of the version should match the semver notation for which there
+# are official Docker images available, otherwise the BASE_IMAGE variable will
+# have to be modified to pull the appropriate Docker base image.
+PYTHON_VERSION ?= 3.8.0
+
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-BASE_IMAGE ?= python:3.8.0-slim-buster
+PYTHON_IMAGE ?= python:${PYTHON_VERSION}-slim-buster
+
+# Python dependency installation command
+# The following example installation commands should work:
+# -	for projects that use Pip: `pip install -r requirements.txt`
+# - for projects that use Poetry: `poetry install --no-dev`
+PYTHON_DEPS_INSTALL_COMMAND ?= poetry install --no-dev
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
@@ -22,23 +40,20 @@ HOST_ADDRESS ?= 127.0.0.1
 # Port on host to be mapped into the container
 HOST_PORT ?= 8121
 
-# Prefix for Docker images
-PROJECT ?= backend-python
-
-# Python dependency installation command
-# The following example installation commands should work:
-# -	for projects that use Pip: `pip install -r requirements.txt`
-# - for projects that use Poetry: `poetry install --no-dev`
-PROJECT_PYTHON_DEPS_INSTALL_COMMAND ?= poetry install --no-dev
-
-# Version to use for tagging images.
-VERSION ?= 0.1.0
+# Version to use for tagging images
+# By default the APP_VERSION and PYTHON_VERSION are factored into the VERSION
+# variable such that PYTHON_VERSION is part of the pre-release clause. The
+# reason the build metadata was not utilized in this case is because Docker
+# does not allow for tags containing build metadata clauses since plus-signs
+# (+) are technically not allowed in Docker tags.
+# https://semver.org/
+VERSION ?= ${APP_VERSION}-python-${PYTHON_VERSION}
 
 
 # Docker container parameters
 
 # Docker image to use as a source for development and production images
-DOCKER_CONTAINER_BASE_IMAGE = ${BASE_IMAGE}
+DOCKER_CONTAINER_BASE_IMAGE = ${PYTHON_IMAGE}
 
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
@@ -60,7 +75,7 @@ DOCKER_HOST_PROJECT_PATH = ${PWD}
 
 
 # Docker image name
-DOCKER_IMAGE_NAME = ${PROJECT}
+DOCKER_IMAGE_NAME = ${APP_NAME}
 
 # Docker image tag
 DOCKER_IMAGE_TAG = ${VERSION}
@@ -116,11 +131,10 @@ prod-image:
 		${DOCKER_CACHE_FLAG} \
 		--build-arg=DOCKER_BASE_IMAGE="${DOCKER_CONTAINER_BASE_IMAGE}" \
 		--build-arg=PROJECT="${PROJECT}" \
-		--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
+		--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PYTHON_DEPS_INSTALL_COMMAND}" \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag=${DOCKER_IMAGE_NAME} \
-		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
 		--target=prod-image \
 		${APP_PATH}
 
@@ -130,10 +144,10 @@ dev-image:
 		${DOCKER_CACHE_FLAG} \
 		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
 		--build-arg="PROJECT=${PROJECT}" \
-		--build-arg="PYTHON_DEPS_INSTALL_COMMAND=${PROJECT_PYTHON_DEPS_INSTALL_COMMAND}" \
+		--build-arg="PYTHON_DEPS_INSTALL_COMMAND=${PYTHON_DEPS_INSTALL_COMMAND}" \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev \
+		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev" \
 		--target=dev-image \
 		${APP_PATH}
 
