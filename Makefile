@@ -25,7 +25,7 @@ PYTHON_VERSION ?= 3.8.0
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-PYTHON_IMAGE ?= python:${PYTHON_VERSION}-slim-buster
+PYTHON_IMAGE ?= index.docker.io/python:${PYTHON_VERSION}-slim-buster
 
 # Python dependency installation command
 # The following example installation commands should work:
