@@ -96,5 +96,8 @@ WORKDIR /opt/${PROJECT}
 # Prefer COPY over ADD
 COPY --chown=${UID}:${GID} . /opt/${PROJECT}/
 
-# Start service
-EXPOSE 8000
+# Do not provide default ports in order to make this choice explicit
+ARG DOCKER_PORTS
+
+# Expose the ports for the services
+EXPOSE ${DOCKER_PORTS}

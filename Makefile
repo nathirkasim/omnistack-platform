@@ -10,11 +10,14 @@
 # container.
 APP_PATH ?= .
 
-# Version of the application to be shipped
+# Version of the application to build
 APP_VERSION ?= 0.1.0
 
 # Name of the applicationn and resulting Docker image
 APP_NAME ?= backend-python
+
+# Ports of the application to expose
+APP_PORTS ?= 8000/tcp
 
 # Python version for the base Docker image
 # The notation of the version should match the semver notation for which there
@@ -37,9 +40,6 @@ PYTHON_DEPS_INSTALL_COMMAND ?= poetry install --no-dev
 # Don't use 0.0.0.0 as this opens up your machine,
 HOST_ADDRESS ?= 127.0.0.1
 
-# Port on host to be mapped into the container
-HOST_PORT ?= 8121
-
 # Version to use for tagging images
 # By default the APP_VERSION and PYTHON_VERSION are factored into the VERSION
 # variable such that PYTHON_VERSION is part of the pre-release clause. The
@@ -58,17 +58,14 @@ DOCKER_CONTAINER_BASE_IMAGE = ${PYTHON_IMAGE}
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
 
-# Port of the container to which to map the host
-DOCKER_CONTAINER_PORT = 8000
+# Ports of the container to expose
+DOCKER_CONTAINER_PORTS = ${APP_PORTS}
 
 
 # Docker host parameters
 
 # IP address or hostname of the host, defaults to the host loopback address
 DOCKER_HOST_ADDRESS = ${HOST_ADDRESS}
-
-# Port of the host, defaults to ${HOST_PORT}
-DOCKER_HOST_PORT = ${HOST_PORT}
 
 # Path of the project of interest, defaults to the current working directory
 DOCKER_HOST_PROJECT_PATH = ${PWD}
@@ -91,6 +88,19 @@ DOCKER_FILE = ${PWD}/Dockerfile
 # before hitting production environments.
 DOCKER_CACHE_FLAG ?= "--no-cache"
 
+# Arguments for Docker image builds
+# - DOCKER_BASE_IMAGE defines the Docker image to use in the FROM instruction
+# - DOCKER_PORTS defines the ports to expose on the production image
+# - PROJECT defines the name of the project and name of the subdirectory of
+#   /opt where to install the project
+# - PYTHON_DEPS_INSTALL_COMMAND defines the command to install Python
+#   dependencies
+DOCKER_BUILD_ARGS = \
+	--build-arg=DOCKER_BASE_IMAGE="${DOCKER_CONTAINER_BASE_IMAGE}" \
+	--build-arg=DOCKER_PORTS="${DOCKER_CONTAINER_PORTS}" \
+	--build-arg=PROJECT="${PROJECT}" \
+	--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PYTHON_DEPS_INSTALL_COMMAND}" \
+
 # Define the command line arguments to use in spawning Docker runs.
 # - Defines environment variables (-e)
 # - Defines port mappings (-p)
@@ -101,7 +111,6 @@ DOCKER_CACHE_FLAG ?= "--no-cache"
 DOCKER_ARGS = \
 	-e "PROJECT=${PROJECT}" \
 	-e "HOME=${DOCKER_CONTAINER_HOME_PATH}" \
-	-p ${DOCKER_HOST_ADDRESS}:${DOCKER_HOST_PORT}:${DOCKER_CONTAINER_PORT} \
 	-u `id -u`:`id -g` \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.config:/etc/opt/${PROJECT} \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.homedir:${DOCKER_CONTAINER_HOME_PATH} \
@@ -129,9 +138,7 @@ bash:
 prod-image:
 	@docker build \
 		${DOCKER_CACHE_FLAG} \
-		--build-arg=DOCKER_BASE_IMAGE="${DOCKER_CONTAINER_BASE_IMAGE}" \
-		--build-arg=PROJECT="${PROJECT}" \
-		--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PYTHON_DEPS_INSTALL_COMMAND}" \
+		${DOCKER_BUILD_ARGS} \
 		--file=${DOCKER_FILE} \
 		--rm \
 		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
@@ -142,9 +149,7 @@ prod-image:
 dev-image:
 	@docker build \
 		${DOCKER_CACHE_FLAG} \
-		--build-arg="DOCKER_BASE_IMAGE=${DOCKER_CONTAINER_BASE_IMAGE}" \
-		--build-arg="PROJECT=${PROJECT}" \
-		--build-arg="PYTHON_DEPS_INSTALL_COMMAND=${PYTHON_DEPS_INSTALL_COMMAND}" \
+		${DOCKER_BUILD_ARGS} \
 		--file=${DOCKER_FILE} \
 		--rm \
 		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev" \
