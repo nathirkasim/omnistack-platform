@@ -9,3 +9,5 @@
 .local
 .pylint.d
 .venv
+
+project.mk
