@@ -13,7 +13,7 @@ APP_PATH ?= .
 # Version of the application to build
 APP_VERSION ?= 0.1.0
 
-# Name of the applicationn and resulting Docker image
+# Name of the application and resulting Docker image
 APP_NAME ?= backend-python
 
 # Ports of the application to expose
@@ -25,10 +25,13 @@ APP_PORTS ?= 8000/tcp
 # have to be modified to pull the appropriate Docker base image.
 PYTHON_VERSION ?= 3.8.0
 
+# Docker image registry
+DOCKER_IMAGE_REGISTRY ?= index.docker.io/
+
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-PYTHON_IMAGE ?= index.docker.io/python:${PYTHON_VERSION}-slim-buster
+DOCKER_PYTHON_IMAGE ?= ${DOCKER_IMAGE_REGISTRY}python:${PYTHON_VERSION}-slim-buster
 
 # Python dependency installation command
 # The following example installation commands should work:
@@ -53,7 +56,7 @@ VERSION ?= ${APP_VERSION}-python-${PYTHON_VERSION}
 # Docker container parameters
 
 # Docker image to use as a source for development and production images
-DOCKER_CONTAINER_BASE_IMAGE = ${PYTHON_IMAGE}
+DOCKER_CONTAINER_BASE_IMAGE = ${DOCKER_PYTHON_IMAGE}
 
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
