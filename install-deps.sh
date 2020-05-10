@@ -2,8 +2,8 @@
 
 # Install project-specific system dependencies
 apt-get install -y --no-install-recommends \
-  libpq-dev &&
-  return 0
+	libpq-dev &&
+	return 0
 
 # The return statement has been added to keep the diffs "clean" as additions
 # can be made in a manner that flag the lines with the newly added, removed or
