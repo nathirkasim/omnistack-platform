@@ -13,35 +13,36 @@ APP_PATH ?= .
 # Version of the application to build
 APP_VERSION ?= 0.1.0
 
-# Name of the application and resulting Docker image
-APP_NAME ?= backend-python
+# Prefix for Docker images
+APP_NAME ?=
+# Override an empty APP_NAME to equal directory name of APP_PATH
+ifeq ($(strip $(APP_NAME)),)
+APP_NAME = $(notdir $(realpath $(APP_PATH)))
+endif
 
 # Ports of the application to expose
 APP_PORTS ?= 8000/tcp
 
+SYSTEM_PACKAGES ?=
+
 # Python version for the base Docker image
 # The notation of the version should match the semver notation for which there
-# are official Docker images available, otherwise the BASE_IMAGE variable will
-# have to be modified to pull the appropriate Docker base image.
+# are official Docker images available, otherwise the DOCKER_BASE_IMAGE
+# variable will have to be modified to pull the appropriate Docker base image.
 PYTHON_VERSION ?= 3.8.0
-
-# Docker image registry
-DOCKER_IMAGE_REGISTRY ?= index.docker.io/
-
-# Base image (as FROM) for all project images
-# Try to use official images as much as possible.
-# https://docs.docker.com/docker-hub/official_images/
-DOCKER_PYTHON_IMAGE ?= ${DOCKER_IMAGE_REGISTRY}python:${PYTHON_VERSION}-slim-buster
 
 # Python dependency installation command
 # The following example installation commands should work:
 # -	for projects that use Pip: `pip install -r requirements.txt`
 # - for projects that use Poetry: `poetry install --no-dev`
-PYTHON_DEPS_INSTALL_COMMAND ?= poetry install --no-dev
+PYTHON_PACKAGE_INSTALLER ?= poetry install --no-dev
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
 HOST_ADDRESS ?= 127.0.0.1
+
+# Port on host to be mapped into the container
+HOST_PORT ?= 8000
 
 # Version to use for tagging images
 # By default the APP_VERSION and PYTHON_VERSION are factored into the VERSION
@@ -53,35 +54,13 @@ HOST_ADDRESS ?= 127.0.0.1
 VERSION ?= ${APP_VERSION}-python-${PYTHON_VERSION}
 
 
-# Docker container parameters
+# Docker image registry
+DOCKER_REGISTRY ?= index.docker.io/
 
-# Docker image to use as a source for development and production images
-DOCKER_CONTAINER_BASE_IMAGE = ${DOCKER_PYTHON_IMAGE}
-
-# Home path of the container in order to adequately mount .homedir
-DOCKER_CONTAINER_HOME_PATH = /home/appuser
-
-# Ports of the container to expose
-DOCKER_CONTAINER_PORTS = ${APP_PORTS}
-
-
-# Docker host parameters
-
-# IP address or hostname of the host, defaults to the host loopback address
-DOCKER_HOST_ADDRESS = ${HOST_ADDRESS}
-
-# Path of the project of interest, defaults to the current working directory
-DOCKER_HOST_PROJECT_PATH = ${PWD}
-
-
-# Docker image name
-DOCKER_IMAGE_NAME = ${APP_NAME}
-
-# Docker image tag
-DOCKER_IMAGE_TAG = ${VERSION}
-
-# Absolute path to Dockerfile
-DOCKER_FILE = ${PWD}/Dockerfile
+# Base image (as FROM) for all project images
+# Try to use official images as much as possible.
+# https://docs.docker.com/docker-hub/official_images/
+DOCKER_BASE_IMAGE ?= python:${PYTHON_VERSION}-slim-buster
 
 # Caching flag for Docker build process
 # Disable caching to force the docker builder to always rebuild all layers and
@@ -89,7 +68,43 @@ DOCKER_FILE = ${PWD}/Dockerfile
 # validity. If a build is broken because some resource is no longer available
 # from the registries, you would need to know this as soon as possible i.e.:
 # before hitting production environments.
-DOCKER_CACHE_FLAG ?= "--no-cache"
+DOCKER_CACHE_FLAG ?= --no-cache
+
+# Docker stage to build in case of a multi-stage build
+# Defaults to the build stage when undefined as it is fair to assume that
+# manually invoking GNU Make rules is likelier to happen from a software
+# developer's workstation as opposed to a production build environment and
+# therefore the ability to spawn a working build/development environment with
+# minimal manual effort renders this design choice sensible.
+DOCKER_STAGE ?=
+# Override an empty DOCKER_STAGE to equal build
+ifeq ($(strip $(DOCKER_STAGE)),)
+DOCKER_STAGE = build
+endif
+
+# Absolute path to Dockerfile
+DOCKER_FILE = ${PWD}/Dockerfile
+
+# Home path of the container in order to adequately mount .homedir
+DOCKER_CONTAINER_HOME_PATH = /home/appuser
+
+# Ports of the container to expose
+DOCKER_CONTAINER_PORTS = ${APP_PORTS}
+
+# IP address or hostname of the host, defaults to the host loopback address
+DOCKER_HOST_ADDRESS = ${HOST_ADDRESS}
+
+# Port of the host, defaults to ${PORT}
+DOCKER_HOST_PORT = ${HOST_PORT}
+
+# Path of the project of interest, defaults to the current working directory
+DOCKER_HOST_PROJECT_PATH = ${PWD}
+
+# Docker image name
+DOCKER_IMAGE_NAME = ${APP_NAME}
+
+# Docker image tag
+DOCKER_IMAGE_TAG = ${VERSION}
 
 # Arguments for Docker image builds
 # - DOCKER_BASE_IMAGE defines the Docker image to use in the FROM instruction
@@ -99,10 +114,11 @@ DOCKER_CACHE_FLAG ?= "--no-cache"
 # - PYTHON_DEPS_INSTALL_COMMAND defines the command to install Python
 #   dependencies
 DOCKER_BUILD_ARGS = \
-	--build-arg=DOCKER_BASE_IMAGE="${DOCKER_CONTAINER_BASE_IMAGE}" \
-	--build-arg=DOCKER_PORTS="${DOCKER_CONTAINER_PORTS}" \
-	--build-arg=PROJECT="${PROJECT}" \
-	--build-arg=PYTHON_DEPS_INSTALL_COMMAND="${PYTHON_DEPS_INSTALL_COMMAND}" \
+	--build-arg=BASE_IMAGE="${DOCKER_REGISTRY}${DOCKER_BASE_IMAGE}" \
+	--build-arg=PORTS="${DOCKER_CONTAINER_PORTS}" \
+	--build-arg=PROJECT="${APP_NAME}" \
+	--build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
+	--build-arg=SYSTEM_PACKAGES="${SYSTEM_PACKAGES}"
 
 # Define the command line arguments to use in spawning Docker runs.
 # - Defines environment variables (-e)
@@ -114,6 +130,7 @@ DOCKER_BUILD_ARGS = \
 DOCKER_ARGS = \
 	-e "PROJECT=${PROJECT}" \
 	-e "HOME=${DOCKER_CONTAINER_HOME_PATH}" \
+	-p ${DOCKER_HOST_ADDRESS}:${DOCKER_HOST_PORT}:${DOCKER_CONTAINER_PORT} \
 	-u `id -u`:`id -g` \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.config:/etc/opt/${PROJECT} \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.homedir:${DOCKER_CONTAINER_HOME_PATH} \
@@ -121,42 +138,57 @@ DOCKER_ARGS = \
 	-v `realpath ${APP_PATH}`:/tmp/${PROJECT} \
 	-w /tmp/${PROJECT}
 
+# Override an empty DOCKER_STAGE to development
+ifeq ($(strip $(DOCKER_STAGE)),)
+DOCKER_STAGE = development
+endif
 
 # Include the project.mk file if it exists to override defined parameters
 -include project.mk
 
-# Remove temporary files
-clean:
-	@rm -rf .homedir/.cache .venv
-
-# Spawn a Bash shell for the development image
+# Spawn a Bash shell
 bash:
-	@mkdir -p .config .venv ${APP_PATH}
-	@docker run \
+	mkdir -p .config .venv ${APP_PATH}
+ifeq ($(strip $(DOCKER_STAGE)),production)
+	docker run \
 		${DOCKER_ARGS} \
 		--rm -it \
-		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev bash
+		--entrypoint=bash \
+		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+else
+	docker run \
+		${DOCKER_ARGS} \
+		--rm -it \
+		--entrypoint=bash \
+		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-${DOCKER_STAGE}
+endif
 
-# Build production image
-prod-image:
-	@docker build \
-		${DOCKER_CACHE_FLAG} \
+# Clear local cache and venv directories
+clean:
+	rm -rf .homedir/.cache .venv
+
+# Build the Docker image
+image:
+ifeq ($(strip $(DOCKER_STAGE)),production) # production stage
+	docker build \
 		${DOCKER_BUILD_ARGS} \
+		${DOCKER_CACHE_FLAG} \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
-		--target=prod-image \
+		--tag=${DOCKER_IMAGE_NAME} \
+		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+		--target=production \
 		${APP_PATH}
-
-# Build development image
-dev-image:
-	@docker build \
-		${DOCKER_CACHE_FLAG} \
+else # build stage
+	docker build \
 		${DOCKER_BUILD_ARGS} \
+		${DOCKER_CACHE_FLAG} \
 		--file=${DOCKER_FILE} \
 		--rm \
-		--tag="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-dev" \
-		--target=dev-image \
+		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_STAGE} \
+		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-${DOCKER_STAGE} \
+		--target=${DOCKER_STAGE} \
 		${APP_PATH}
+endif
 
-.PHONY: prod-image dev-image bash clean
+.PHONY: bash clean image

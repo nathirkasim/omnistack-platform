@@ -10,21 +10,18 @@
 # to keep things simpler for you and your team.
 
 # Do not provide a default base image in order to make this choice explicit
-ARG DOCKER_BASE_IMAGE
+ARG BASE_IMAGE
 
 
-FROM ${DOCKER_BASE_IMAGE} AS dev-image
+FROM ${BASE_IMAGE} AS build
 
-# Copy install-deps.sh for project-specified installation commands
-COPY ./install-deps.sh /tmp/install-deps.sh
-
-# Install system dependencies and run project-specified installation commands
-# Note that buiild-essential curl and python-dev are installed by default
+# Install system dependencies
+ARG SYSTEM_PACKAGES=""
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     python-dev \
-    && . /tmp/install-deps.sh \
+    ${SYSTEM_PACKAGES} \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry to $POETRY_HOME and allow all users to execute Poetry binaries
@@ -45,16 +42,23 @@ RUN python -m venv /opt/venv
 
 ARG PROJECT=app
 ENV PROJECT=${PROJECT}
+
+# For the build image, application-specific assets are stored into a
+# subdirectory of "/tmp" which is the FHS-designated destination for temporary
+# files.
 WORKDIR /tmp/${PROJECT}
 
-# Copy Python dependency manifests and install listed dependencies
-ARG PYTHON_DEPS_INSTALL_COMMAND="poetry install --no-dev"
+# Copy Python dependency manifests into temporary working directory
 COPY . /tmp/${PROJECT}/
-RUN ${PYTHON_DEPS_INSTALL_COMMAND}
+
+# Install Python packages
+ARG PYTHON_PACKAGE_INSTALLER="poetry install --no-dev"
+RUN ${PYTHON_PACKAGE_INSTALLER}
 
 
-FROM ${DOCKER_BASE_IMAGE} AS prod-image
+FROM ${BASE_IMAGE} AS production
 
+# Provision a non-root user
 ARG GID=20000
 ARG UID=20000
 ARG GECOS=",,,,"
@@ -75,20 +79,25 @@ RUN \
   > /var/log/faillog && > /var/log/lastlog
 USER ${UID}:${GID}
 
+# Copy venv from build image
+COPY --chown=${UID}:${GID} --from=build /opt/venv /opt/venv
+
+# Configure venv paths
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY --chown=${UID}:${GID} --from=dev-image /opt/venv /opt/venv
-
-ARG PROJECT=app
 ENV PROJECT=${PROJECT}
+
+# For the production image, application-specific assets are stored into a
+# subdirectory of "/opt" which is the FHS-designated destination for add-on
+# application software packages.
 WORKDIR /opt/${PROJECT}
 
 # Explicitly listing all files to be copied as opposed to listing non-wanted
 # files in a .dockerignore file makes it easier to examine (e.g.: during
 # code-reviews) which files will be shipped with builds. Relying on
 # .dockerignore as the primary means to manage the assets for build images is
-# arguably less secure as it doesn't explicitly require approval or listing of
+# arguably less robust as it doesn't explicitly require approval or listing of
 # assets prior to them finding their way into a shipped image.
 # As a rule of thumb, use the .dockerignore file to reduce the build context
 # and avoid using it as the primary means to keep files from ending up in
@@ -97,7 +106,7 @@ WORKDIR /opt/${PROJECT}
 COPY --chown=${UID}:${GID} . /opt/${PROJECT}/
 
 # Do not provide default ports in order to make this choice explicit
-ARG DOCKER_PORTS
+ARG PORTS
 
 # Expose the ports for the services
-EXPOSE ${DOCKER_PORTS}
+EXPOSE ${PORTS}
