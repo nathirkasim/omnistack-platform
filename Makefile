@@ -1,3 +1,10 @@
+SHELL = /bin/sh
+
+DOCKER ?= docker
+GIT ?= git
+MKDIR ?= mkdir
+RM ?= rm -f
+
 # The following args have been provided default values but can be overriden
 # from the CLI by specifying those variables with the override values or by
 # declaring those variables in the project.mk file which is conditionally
