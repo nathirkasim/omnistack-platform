@@ -15,7 +15,10 @@ RM ?= rm -f
 # (requirements.txt in case of pip, pyproject.toml and poetry.lock in case of
 # Poetry) and the actual source that you will want to run inside of your
 # container.
-srcdir ?= .
+srcdir = .
+
+# Absolute path to Dockerfile
+Dockerfile = ./Dockerfile
 
 # Version of the application to build
 APP_VERSION ?=
@@ -61,7 +64,7 @@ HOST_PORT ?= 8000
 # does not allow for tags containing build metadata clauses since plus-signs
 # (+) are technically not allowed in Docker tags.
 # https://semver.org/
-VERSION ?= ${APP_VERSION}-python-${PYTHON_VERSION}
+VERSION ?= $(APP_VERSION)-python-$(PYTHON_VERSION)
 
 
 # Docker image registry
@@ -70,7 +73,7 @@ DOCKER_REGISTRY ?= index.docker.io/
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-DOCKER_BASE_IMAGE ?= python:${PYTHON_VERSION}-slim-buster
+DOCKER_BASE_IMAGE ?= python:$(PYTHON_VERSION)-slim-buster
 
 # Caching flag for Docker build process
 # Disable caching to force the docker builder to always rebuild all layers and
@@ -92,43 +95,41 @@ ifeq ($(strip $(DOCKER_STAGE)),)
 DOCKER_STAGE = build
 endif
 
-# Absolute path to Dockerfile
-DOCKER_FILE = ${PWD}/Dockerfile
-
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
 
 # Ports of the container to expose
-DOCKER_CONTAINER_PORTS = ${APP_PORTS}
+DOCKER_CONTAINER_PORTS = $(APP_PORTS)
 
 # IP address or hostname of the host, defaults to the host loopback address
-DOCKER_HOST_ADDRESS = ${HOST_ADDRESS}
+DOCKER_HOST_ADDRESS = $(HOST_ADDRESS)
 
-# Port of the host, defaults to ${PORT}
-DOCKER_HOST_PORT = ${HOST_PORT}
+# Port of the host, defaults to $(PORT)
+DOCKER_HOST_PORT = $(HOST_PORT)
 
 # Path of the project of interest, defaults to the current working directory
-DOCKER_HOST_PROJECT_PATH = ${PWD}
+DOCKER_HOST_PROJECT_PATH = $(srcdir)
 
 # Docker image name
-DOCKER_IMAGE_NAME = ${APP_NAME}
+DOCKER_IMAGE_NAME = $(APP_NAME)
 
 # Docker image tag
-DOCKER_IMAGE_TAG = ${VERSION}
+DOCKER_IMAGE_TAG = $(VERSION)
 
 # Arguments for Docker image builds
-# - DOCKER_BASE_IMAGE defines the Docker image to use in the FROM instruction
-# - DOCKER_PORTS defines the ports to expose on the production image
+# - BASE_IMAGE defines the Docker image to use in the FROM instruction
+# - PORTS defines the ports to expose on the production image
 # - PROJECT defines the name of the project and name of the subdirectory of
 #   /opt where to install the project
 # - PYTHON_DEPS_INSTALL_COMMAND defines the command to install Python
 #   dependencies
+# - SYSTEM_PACKAGES defines the system packages to install
 DOCKER_BUILD_ARGS = \
-	--build-arg=BASE_IMAGE="${DOCKER_REGISTRY}${DOCKER_BASE_IMAGE}" \
-	--build-arg=PORTS="${DOCKER_CONTAINER_PORTS}" \
-	--build-arg=PROJECT="${APP_NAME}" \
-	--build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
-	--build-arg=SYSTEM_PACKAGES="${SYSTEM_PACKAGES}"
+	--build-arg=BASE_IMAGE="$(DOCKER_REGISTRY)$(DOCKER_BASE_IMAGE)" \
+	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
+	--build-arg=PROJECT="$(APP_NAME)" \
+	--build-arg=PYTHON_PACKAGE_INSTALLER="$(PYTHON_PACKAGE_INSTALLER)" \
+	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
 # Define the command line arguments to use in spawning Docker runs.
 # - Defines environment variables (-e)
@@ -138,15 +139,15 @@ DOCKER_BUILD_ARGS = \
 # - Mounts volumes (-v)
 # - Sets working directory (-w)
 DOCKER_ARGS = \
-	-e "PROJECT=${PROJECT}" \
-	-e "HOME=${DOCKER_CONTAINER_HOME_PATH}" \
-	-p ${DOCKER_HOST_ADDRESS}:${DOCKER_HOST_PORT}:${DOCKER_CONTAINER_PORT} \
+	-e "PROJECT=$(PROJECT)" \
+	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
+	-p $(DOCKER_HOST_ADDRESS):$(DOCKER_HOST_PORT):$(DOCKER_CONTAINER_PORT) \
 	-u `id -u`:`id -g` \
-	-v ${DOCKER_HOST_PROJECT_PATH}/.config:/etc/opt/${PROJECT} \
-	-v ${DOCKER_HOST_PROJECT_PATH}/.homedir:${DOCKER_CONTAINER_HOME_PATH} \
-	-v ${DOCKER_HOST_PROJECT_PATH}/.venv:/opt/venv \
-	-v `realpath ${srcdir}`:/tmp/${PROJECT} \
-	-w /tmp/${PROJECT}
+	-v $(DOCKER_HOST_PROJECT_PATH)/.config:/etc/opt/$(PROJECT) \
+	-v $(DOCKER_HOST_PROJECT_PATH)/.homedir:$(DOCKER_CONTAINER_HOME_PATH) \
+	-v $(DOCKER_HOST_PROJECT_PATH)/.venv:/opt/venv \
+	-v `realpath $(srcdir)`:/tmp/$(PROJECT) \
+	-w /tmp/$(PROJECT)
 
 # Override an empty DOCKER_STAGE to development
 ifeq ($(strip $(DOCKER_STAGE)),)
@@ -157,20 +158,20 @@ endif
 -include project.mk
 
 # Spawn a Bash shell
-bash:
-	mkdir -p .config .venv ${srcdir}
+bash: $(srcdir)
+	mkdir -p .config .venv $(srcdir)
 ifeq ($(strip $(DOCKER_STAGE)),production)
 	docker run \
-		${DOCKER_ARGS} \
+		$(DOCKER_ARGS) \
 		--rm -it \
 		--entrypoint=bash \
-		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+		$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 else
 	docker run \
-		${DOCKER_ARGS} \
+		$(DOCKER_ARGS) \
 		--rm -it \
 		--entrypoint=bash \
-		${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-${DOCKER_STAGE}
+		$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(DOCKER_STAGE)
 endif
 
 # Clear local cache and venv directories
@@ -178,27 +179,27 @@ clean:
 	rm -rf .homedir/.cache .venv
 
 # Build the Docker image
-image:
+image: $(srcdir)
 ifeq ($(strip $(DOCKER_STAGE)),production) # production stage
 	docker build \
-		${DOCKER_BUILD_ARGS} \
-		${DOCKER_CACHE_FLAG} \
-		--file=${DOCKER_FILE} \
+		$(DOCKER_BUILD_ARGS) \
+		$(DOCKER_CACHE_FLAG) \
+		--file=$(Dockerfile) \
 		--rm \
-		--tag=${DOCKER_IMAGE_NAME} \
-		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+		--tag=$(DOCKER_IMAGE_NAME) \
+		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG) \
 		--target=production \
-		${srcdir}
+		$(srcdir)
 else # build stage
 	docker build \
-		${DOCKER_BUILD_ARGS} \
-		${DOCKER_CACHE_FLAG} \
-		--file=${DOCKER_FILE} \
+		$(DOCKER_BUILD_ARGS) \
+		$(DOCKER_CACHE_FLAG) \
+		--file=$(Dockerfile) \
 		--rm \
-		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_STAGE} \
-		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-${DOCKER_STAGE} \
-		--target=${DOCKER_STAGE} \
-		${srcdir}
+		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_STAGE) \
+		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(DOCKER_STAGE) \
+		--target=$(DOCKER_STAGE) \
+		$(srcdir)
 endif
 
 .PHONY: bash clean image
