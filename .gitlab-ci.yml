@@ -9,7 +9,7 @@ stages:
   services:
     - docker:19.03.8-dind
 
-example:git-clone:sanic-openapi:
+git-clone:sanic-openapi:
   artifacts:
     paths:
       - /tmp/sanic-openapi/
@@ -23,11 +23,12 @@ example:git-clone:sanic-openapi:
     - echo "---------"
     - ls -la /tmp/sanic-openapi
 
-example:docker-build:ruby-2.6.5:sanic-openai:
+ruby-2.6.5:sanic-openai:
   <<: *docker
   dependencies:
-    - example:git-clone:sanic-openapi
-  needs: example:git-clone:sanic-openapi
+    - git-clone:sanic-openapi
+  needs:
+    - git-clone:sanic-openapi
   stage: test
   variables:
     DOCKER_BASE_IMAGE: ruby:2.6.5-slim-buster
@@ -39,7 +40,7 @@ example:docker-build:ruby-2.6.5:sanic-openai:
         --target=production \
         /tmp/sanic-openapi
 
-example:git-clone:django-realworld-example:
+git-clone:django-realworld-example:
   artifacts:
     paths:
       - /tmp/django-realworld-example/
@@ -53,11 +54,12 @@ example:git-clone:django-realworld-example:
     - echo "---------"
     - ls -la /tmp/django-realworld-example
 
-example:docker-build:python-3.8.0:django-realworld-example:
+python-3.8.0:django-realworld-example:
   <<: *docker
   dependencies:
-    - example:git-clone:django-realworld-example
-  needs: example:git-clone:django-realworld-example
+    - git-clone:django-realworld-example
+  needs:
+    - git-clone:django-realworld-example
   stage: test
   variables:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
