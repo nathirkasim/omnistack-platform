@@ -23,13 +23,21 @@ example:git-clone:sanic-openapi:
     - echo "---------"
     - ls -la /tmp/sanic-openapi
 
-example:docker-build:sanic-openai:
+example:docker-build:ruby-2.6.5:sanic-openai:
   <<: *docker
   dependencies:
     - example:git-clone:sanic-openapi
+  needs: example:git-clone:sanic-openapi
   stage: test
+  variables:
+    DOCKER_BASE_IMAGE: ruby:2.6.5-slim-buster
   script:
-    - make srcdir=/tmp/sanic-openapi stage=production
+    - >
+      docker build \
+        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
+        --build-arg=PORTS=8000 \
+        --target=production \
+        /tmp/sanic-openapi
 
 example:git-clone:django-realworld-example:
   artifacts:
@@ -45,15 +53,23 @@ example:git-clone:django-realworld-example:
     - echo "---------"
     - ls -la /tmp/django-realworld-example
 
-example:docker-build:django-realworld-example:
+example:docker-build:python-3.8.0:django-realworld-example:
   <<: *docker
   dependencies:
     - example:git-clone:django-realworld-example
+  needs: example:git-clone:django-realworld-example
   stage: test
   variables:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
+    DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
-    - make srcdir=/tmp/django-realworld-example stage=production
+    - >
+      docker build \
+        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
+        --build-arg=PORTS=8000 \
+        --build-arg=PYTHON_PACKAGE_INSTALLER=${PYTHON_PACKAGE_INSTALLER} \
+        --target=production \
+        /tmp/django-realworld-example
 
 build:
   stage: deploy
