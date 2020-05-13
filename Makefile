@@ -15,16 +15,16 @@ RM ?= rm -f
 # (requirements.txt in case of pip, pyproject.toml and poetry.lock in case of
 # Poetry) and the actual source that you will want to run inside of your
 # container.
-APP_PATH ?= .
+srcdir ?= .
 
 # Version of the application to build
 APP_VERSION ?= 0.1.0
 
 # Prefix for Docker images
 APP_NAME ?=
-# Override an empty APP_NAME to equal directory name of APP_PATH
+# Override an empty APP_NAME to equal the source directory name
 ifeq ($(strip $(APP_NAME)),)
-APP_NAME = $(notdir $(realpath $(APP_PATH)))
+APP_NAME = $(notdir $(realpath $(srcdir)))
 endif
 
 # Ports of the application to expose
@@ -142,7 +142,7 @@ DOCKER_ARGS = \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.config:/etc/opt/${PROJECT} \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.homedir:${DOCKER_CONTAINER_HOME_PATH} \
 	-v ${DOCKER_HOST_PROJECT_PATH}/.venv:/opt/venv \
-	-v `realpath ${APP_PATH}`:/tmp/${PROJECT} \
+	-v `realpath ${srcdir}`:/tmp/${PROJECT} \
 	-w /tmp/${PROJECT}
 
 # Override an empty DOCKER_STAGE to development
@@ -155,7 +155,7 @@ endif
 
 # Spawn a Bash shell
 bash:
-	mkdir -p .config .venv ${APP_PATH}
+	mkdir -p .config .venv ${srcdir}
 ifeq ($(strip $(DOCKER_STAGE)),production)
 	docker run \
 		${DOCKER_ARGS} \
@@ -185,7 +185,7 @@ ifeq ($(strip $(DOCKER_STAGE)),production) # production stage
 		--tag=${DOCKER_IMAGE_NAME} \
 		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
 		--target=production \
-		${APP_PATH}
+		${srcdir}
 else # build stage
 	docker build \
 		${DOCKER_BUILD_ARGS} \
@@ -195,7 +195,7 @@ else # build stage
 		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_STAGE} \
 		--tag=${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-${DOCKER_STAGE} \
 		--target=${DOCKER_STAGE} \
-		${APP_PATH}
+		${srcdir}
 endif
 
 .PHONY: bash clean image
