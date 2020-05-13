@@ -18,7 +18,10 @@ RM ?= rm -f
 srcdir ?= .
 
 # Version of the application to build
-APP_VERSION ?= 0.1.0
+APP_VERSION ?=
+ifeq ($(strip $(APP_VERSION)),)
+APP_VERSION = $(shell $(GIT) describe --always --dirty)
+endif
 
 # Prefix for Docker images
 APP_NAME ?=
