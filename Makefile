@@ -20,6 +20,18 @@ srcdir = .
 # Absolute path to Dockerfile
 Dockerfile = ./Dockerfile
 
+# Docker stage to build in case of a multi-stage build
+# Defaults to the build stage when undefined as it is fair to assume that
+# manually invoking GNU Make rules is likelier to happen from a software
+# developer's workstation as opposed to a production build environment and
+# therefore the ability to spawn a working build/development environment with
+# minimal manual effort renders this design choice sensible.
+stage =
+# Override an empty stage to equal build
+ifeq ($(strip $(stage)),)
+stage = build
+endif
+
 # Version of the application to build
 APP_VERSION ?=
 ifeq ($(strip $(APP_VERSION)),)
@@ -83,18 +95,6 @@ DOCKER_BASE_IMAGE ?= python:$(PYTHON_VERSION)-slim-buster
 # before hitting production environments.
 DOCKER_CACHE_FLAG ?= --no-cache
 
-# Docker stage to build in case of a multi-stage build
-# Defaults to the build stage when undefined as it is fair to assume that
-# manually invoking GNU Make rules is likelier to happen from a software
-# developer's workstation as opposed to a production build environment and
-# therefore the ability to spawn a working build/development environment with
-# minimal manual effort renders this design choice sensible.
-DOCKER_STAGE ?=
-# Override an empty DOCKER_STAGE to equal build
-ifeq ($(strip $(DOCKER_STAGE)),)
-DOCKER_STAGE = build
-endif
-
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
 
@@ -149,18 +149,13 @@ DOCKER_ARGS = \
 	-v `realpath $(srcdir)`:/tmp/$(PROJECT) \
 	-w /tmp/$(PROJECT)
 
-# Override an empty DOCKER_STAGE to development
-ifeq ($(strip $(DOCKER_STAGE)),)
-DOCKER_STAGE = development
-endif
-
 # Include the project.mk file if it exists to override defined parameters
 -include project.mk
 
 # Spawn a Bash shell
 bash: $(srcdir)
 	mkdir -p .config .venv $(srcdir)
-ifeq ($(strip $(DOCKER_STAGE)),production)
+ifeq ($(strip $(stage)),production)
 	docker run \
 		$(DOCKER_ARGS) \
 		--rm -it \
@@ -171,7 +166,7 @@ else
 		$(DOCKER_ARGS) \
 		--rm -it \
 		--entrypoint=bash \
-		$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(DOCKER_STAGE)
+		$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(stage)
 endif
 
 # Clear local cache and venv directories
@@ -180,7 +175,7 @@ clean:
 
 # Build the Docker image
 image: $(srcdir)
-ifeq ($(strip $(DOCKER_STAGE)),production) # production stage
+ifeq ($(strip $(stage)),production) # production stage
 	docker build \
 		$(DOCKER_BUILD_ARGS) \
 		$(DOCKER_CACHE_FLAG) \
@@ -196,9 +191,9 @@ else # build stage
 		$(DOCKER_CACHE_FLAG) \
 		--file=$(Dockerfile) \
 		--rm \
-		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_STAGE) \
-		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(DOCKER_STAGE) \
-		--target=$(DOCKER_STAGE) \
+		--tag=$(DOCKER_IMAGE_NAME):$(stage) \
+		--tag=$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)-$(stage) \
+		--target=$(stage) \
 		$(srcdir)
 endif
 
