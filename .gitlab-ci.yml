@@ -1,0 +1,41 @@
+stages:
+  - test
+  - deploy
+
+image: docker:19.03.8
+
+services:
+  - docker:19.03.8-dind
+
+before_script:
+  - docker info
+
+example:sanic-openapi:
+  stage: test
+  script:
+    - git clone https://github.com/huge-success/sanic-openapi.git /tmp/sanic-openapi
+    - make srcdir=/tmp/sanic-openapi stage=production
+
+example:django-realworld-example:
+  stage: test
+  variables:
+    PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
+  script:
+    - git clone https://github.com/gothinkster/django-realworld-example-app /tmp/django-realworld-example
+    - make srcdir=/tmp/django-realworld-example stage=production
+
+build:
+  stage: deploy
+  script:
+    - env
+
+# build:
+#   stage: build
+#   image:
+#     name: gcr.io/kaniko-project/executor:debug
+#     entrypoint: [""]
+#   script:
+#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+#   only:
+#     - tags
