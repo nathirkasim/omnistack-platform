@@ -12,18 +12,15 @@ stages:
 git-clone:sanic-openapi:
   artifacts:
     paths:
-      - /tmp/sanic-openapi/
+      - examples/sanic-openapi/
   stage: build
   variables:
     REPO: https://github.com/huge-success/sanic-openapi.git
   script:
-    - pwd
-    - git clone $REPO /tmp/sanic-openapi
-    - ls -la /tmp
-    - echo "---------"
-    - ls -la /tmp/sanic-openapi
+    - mkdir examples
+    - git clone $REPO examples/sanic-openapi
 
-ruby-2.6.5:sanic-openai:
+python-3.8.0:sanic-openai:
   <<: *docker
   dependencies:
     - git-clone:sanic-openapi
@@ -31,28 +28,25 @@ ruby-2.6.5:sanic-openai:
     - git-clone:sanic-openapi
   stage: test
   variables:
-    DOCKER_BASE_IMAGE: ruby:2.6.5-slim-buster
+    DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
     - >
       docker build \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
         --build-arg=PORTS=8000 \
         --target=production \
-        /tmp/sanic-openapi
+        examples/sanic-openapi
 
 git-clone:django-realworld-example:
   artifacts:
     paths:
-      - /tmp/django-realworld-example/
+      - examples/django-realworld-example/
   stage: build
   variables:
     REPO: https://github.com/gothinkster/django-realworld-example-app
   script:
-    - pwd
-    - git clone $REPO /tmp/django-realworld-example
-    - ls -la /tmp
-    - echo "---------"
-    - ls -la /tmp/django-realworld-example
+    - mkdir examples
+    - git clone $REPO examples/django-realworld-example
 
 python-3.8.0:django-realworld-example:
   <<: *docker
@@ -69,9 +63,9 @@ python-3.8.0:django-realworld-example:
       docker build \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
         --build-arg=PORTS=8000 \
-        --build-arg=PYTHON_PACKAGE_INSTALLER=${PYTHON_PACKAGE_INSTALLER} \
+        --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
         --target=production \
-        /tmp/django-realworld-example
+        examples/django-realworld-example
 
 build:
   stage: deploy
