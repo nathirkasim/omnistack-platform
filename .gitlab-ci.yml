@@ -34,6 +34,7 @@ python-3.8.0:sanic-openai:
     - ls -la
     - >
       docker build \
+        --file Dockerfile \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
         --build-arg=PORTS=8000 \
         --target=production \
@@ -65,6 +66,7 @@ python-3.8.0:django-realworld-example:
     - ls -la
     - >
       docker build \
+        --file Dockerfile \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
         --build-arg=PORTS=8000 \
         --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
