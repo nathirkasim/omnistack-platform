@@ -1,0 +1,41 @@
+---
+stages:
+  - build
+  - test
+
+.docker_template: &docker
+  image: docker:19.03.8
+  services:
+    - docker:19.03.8-dind
+
+git-clone:
+  artifacts:
+    paths:
+      - src
+  stage: build
+  variables:
+    REPO: https://github.com/gothinkster/django-realworld-example-app
+  script:
+    - git clone --depth 1 $REPO src
+
+python-3.8.0:django-realworld-example:
+  <<: *docker
+  dependencies:
+    - git-clone
+  needs:
+    - git-clone
+  stage: test
+  variables:
+    PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
+    DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
+  script:
+    - pwd
+    - ls -la
+    - |
+      docker build \
+        --file Dockerfile \
+        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
+        --build-arg=PORTS=8000 \
+        --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
+        --target=production \
+        src
