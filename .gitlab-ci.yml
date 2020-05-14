@@ -30,14 +30,12 @@ python-3.8.0:sanic-openai:
   variables:
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
-    - pwd
-    - ls -la
-    - >
-      docker build \
-        --file Dockerfile \
-        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
-        --build-arg=PORTS=8000 \
-        --target=production \
+    - |
+      docker build
+        --file Dockerfile
+        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE}
+        --build-arg=PORTS=8000
+        --target=production
         examples/sanic-openapi
 
 git-clone:django-realworld-example:
@@ -62,15 +60,13 @@ python-3.8.0:django-realworld-example:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
-    - pwd
-    - ls -la
-    - >
-      docker build \
-        --file Dockerfile \
-        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
-        --build-arg=PORTS=8000 \
-        --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
-        --target=production \
+    - |
+      docker build
+        --file Dockerfile
+        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE}
+        --build-arg=PORTS=8000
+        --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}"
+        --target=production
         examples/django-realworld-example
 
 build:
