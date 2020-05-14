@@ -18,7 +18,7 @@ git-clone:sanic-openapi:
     REPO: https://github.com/huge-success/sanic-openapi.git
   script:
     - mkdir examples
-    - git clone $REPO examples/sanic-openapi
+    - git clone --depth 1 $REPO examples/sanic-openapi
 
 python-3.8.0:sanic-openai:
   <<: *docker
@@ -30,6 +30,8 @@ python-3.8.0:sanic-openai:
   variables:
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
+    - pwd
+    - ls -la
     - >
       docker build \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
@@ -46,7 +48,7 @@ git-clone:django-realworld-example:
     REPO: https://github.com/gothinkster/django-realworld-example-app
   script:
     - mkdir examples
-    - git clone $REPO examples/django-realworld-example
+    - git clone --depth 1 $REPO examples/django-realworld-example
 
 python-3.8.0:django-realworld-example:
   <<: *docker
@@ -59,6 +61,8 @@ python-3.8.0:django-realworld-example:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
   script:
+    - pwd
+    - ls -la
     - >
       docker build \
         --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
