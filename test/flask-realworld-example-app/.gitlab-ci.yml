@@ -15,9 +15,10 @@ git-clone:
   interruptible: true
   stage: build
   variables:
-    REPO: https://github.com/gothinkster/flask-realworld-example-app.git
+    REPO_DIR: src
+    REPO_URL: https://github.com/gothinkster/flask-realworld-example-app.git
   script:
-    - git clone --depth 1 $REPO src
+    - git clone --depth 1 $REPO_URL $REPO_DIR
     - ls -la
 
 python-3.8.0:
@@ -29,16 +30,9 @@ python-3.8.0:
     - git-clone
   stage: test
   variables:
-    PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
+    DOCKERFILE: Dockerfile
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
+    PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
+    REPO_DIR: src
   script:
-    - pwd
-    - ls -la
-    - |
-      docker build \
-        --file Dockerfile \
-        --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
-        --build-arg=PORTS=8000 \
-        --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
-        --target=production \
-        src
+    - ./test/flask-realworld-example-app/test.sh
