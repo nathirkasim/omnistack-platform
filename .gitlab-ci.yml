@@ -3,13 +3,13 @@ stages:
   - test
   - deploy
 
-test:realworld-flask:
+flask-realworld:
   stage: test
   trigger:
     include: test/flask-realworld-example-app/.gitlab-ci.yml
     strategy: depend
 
-test:realworld-django:
+django-realworld:
   stage: test
   trigger:
     include: test/django-realworld-example-app/.gitlab-ci.yml
