@@ -26,7 +26,7 @@ Dockerfile = ./Dockerfile
 # developer's workstation as opposed to a production build environment and
 # therefore the ability to spawn a working build/development environment with
 # minimal manual effort renders this design choice sensible.
-stage =
+stage ?=
 # Override an empty stage to equal build
 ifeq ($(strip $(stage)),)
 stage = build
