@@ -154,7 +154,7 @@ DOCKER_ARGS = \
 
 # Spawn a Bash shell
 bash: $(srcdir)
-	mkdir -p .config .venv $(srcdir)
+	mkdir -p .config .venv
 ifeq ($(strip $(stage)),production)
 	docker run \
 		$(DOCKER_ARGS) \
