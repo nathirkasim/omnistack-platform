@@ -8,6 +8,6 @@ docker build \
   --build-arg=SYSTEM_PACKAGES="libpq-dev" \
   --file ${DOCKERFILE} \
   --no-cache \
-  --tag=stackuno-python:realworld-flask \
+  --tag=${PROJECT}:realworld-flask \
   --target=production \
   ${REPO_DIR}
