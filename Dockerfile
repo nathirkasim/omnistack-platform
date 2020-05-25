@@ -1,14 +1,3 @@
-# The Docker "context" is the working directory for Docker which, for this
-# setup, is set to the value of the APP_PATH variable in the Makefile. In case
-# of a misconfiguration where the needed files are not found at the root of the
-# APP_PATH directory, COPY commands are expected to fail. The files of interest
-# within the Docker context are the Python dependency manifests, which are
-# requirements.txt files when using pip as a package manager or pyproject.toml
-# and poetry.lock when using Poetry as a package manager. It's up to you to
-# ensure that you copy the appropriate dependency manifests for the package
-# manager that you have chosen but we would recommend you stick to Poetry just
-# to keep things simpler for you and your team.
-
 # Do not provide a default base image in order to make this choice explicit
 ARG BASE_IMAGE
 
@@ -43,9 +32,6 @@ RUN python -m venv /opt/venv
 ARG PROJECT=app
 ENV PROJECT=${PROJECT}
 
-# For the build image, application-specific assets are stored into a
-# subdirectory of "/tmp" which is the FHS-designated destination for temporary
-# files.
 WORKDIR /tmp/${PROJECT}
 
 # Copy Python dependency manifests into temporary working directory
@@ -105,8 +91,6 @@ WORKDIR /opt/${PROJECT}
 # Prefer COPY over ADD
 COPY --chown=${UID}:${GID} . /opt/${PROJECT}/
 
-# Do not provide default ports in order to make this choice explicit
+# NOTE: Do not define default to PORTS in order to make this choice explicit
 ARG PORTS
-
-# Expose the ports for the services
 EXPOSE ${PORTS}
