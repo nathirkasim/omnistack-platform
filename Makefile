@@ -33,10 +33,10 @@ stage = build
 endif
 
 # Prefix for Docker images
-PROJECT ?=
-# Override an empty PROJECT to equal the source directory name
-ifeq ($(strip $(PROJECT)),)
-PROJECT = $(notdir $(realpath $(srcdir)))
+PROJECT_NAME ?=
+# Override an empty PROJECT_NAME to equal the source directory name
+ifeq ($(strip $(PROJECT_NAME)),)
+PROJECT_NAME = $(notdir $(realpath $(srcdir)))
 endif
 
 # Version of the application to build
@@ -111,7 +111,7 @@ DOCKER_HOST_PORT = $(HOST_PORT)
 DOCKER_HOST_PROJECT_PATH = $(srcdir)
 
 # Docker image name
-DOCKER_IMAGE_NAME = $(PROJECT)
+DOCKER_IMAGE_NAME = $(PROJECT_NAME)
 
 # Docker image tag
 DOCKER_IMAGE_TAG = $(VERSION)
@@ -127,7 +127,7 @@ DOCKER_IMAGE_TAG = $(VERSION)
 DOCKER_BUILD_ARGS = \
 	--build-arg=BASE_IMAGE="$(DOCKER_REGISTRY)$(DOCKER_BASE_IMAGE)" \
 	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
-	--build-arg=PROJECT="$(PROJECT)" \
+	--build-arg=PROJECT="$(PROJECT_NAME)" \
 	--build-arg=PYTHON_PACKAGE_INSTALLER="$(PYTHON_PACKAGE_INSTALLER)" \
 	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
@@ -139,15 +139,15 @@ DOCKER_BUILD_ARGS = \
 # - Mounts volumes (-v)
 # - Sets working directory (-w)
 DOCKER_ARGS = \
-	-e "PROJECT=$(PROJECT)" \
+	-e "PROJECT=$(PROJECT_NAME)" \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
 	-p $(DOCKER_HOST_ADDRESS):$(DOCKER_HOST_PORT):$(DOCKER_CONTAINER_PORT) \
 	-u `id -u`:`id -g` \
-	-v $(DOCKER_HOST_PROJECT_PATH)/.config:/etc/opt/$(PROJECT) \
+	-v $(DOCKER_HOST_PROJECT_PATH)/.config:/etc/opt/$(PROJECT_NAME) \
 	-v $(DOCKER_HOST_PROJECT_PATH)/.homedir:$(DOCKER_CONTAINER_HOME_PATH) \
 	-v $(DOCKER_HOST_PROJECT_PATH)/.venv:/opt/venv \
-	-v $(realpath $(srcdir)):/tmp/$(PROJECT) \
-	-w /tmp/$(PROJECT)
+	-v $(realpath $(srcdir)):/tmp/$(PROJECT_NAME) \
+	-w /tmp/$(PROJECT_NAME)
 
 # Include the project.mk file if it exists to override defined parameters
 -include project.mk
