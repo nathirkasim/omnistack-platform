@@ -31,6 +31,7 @@ python-3.8.0:
   variables:
     DOCKERFILE: Dockerfile
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
+    PROJECT: stackuno-python
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     REPO_DIR: src
   script:

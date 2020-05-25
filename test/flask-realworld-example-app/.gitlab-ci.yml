@@ -19,7 +19,6 @@ git-clone:
     REPO_URL: https://github.com/gothinkster/flask-realworld-example-app.git
   script:
     - git clone --depth 1 $REPO_URL $REPO_DIR
-    - ls -la
 
 python-3.8.0:
   <<: *docker
@@ -32,6 +31,7 @@ python-3.8.0:
   variables:
     DOCKERFILE: Dockerfile
     DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
+    PROJECT: stackuno-pyton
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     REPO_DIR: src
   script:

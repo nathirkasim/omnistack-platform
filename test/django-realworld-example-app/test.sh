@@ -6,6 +6,7 @@ docker build \
   --build-arg=PORTS=8000 \
   --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
   --file ${DOCKERFILE} \
+  --no-cache \
   --tag=${PROJECT}:realworld-django \
   --target=production \
   ${REPO_DIR}
