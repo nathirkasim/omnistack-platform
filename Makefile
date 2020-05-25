@@ -32,17 +32,17 @@ ifeq ($(strip $(stage)),)
 stage = build
 endif
 
-# Version of the application to build
-APP_VERSION ?=
-ifeq ($(strip $(APP_VERSION)),)
-APP_VERSION = $(shell $(GIT) describe --always --dirty)
+# Prefix for Docker images
+PROJECT ?=
+# Override an empty PROJECT to equal the source directory name
+ifeq ($(strip $(PROJECT)),)
+PROJECT = $(notdir $(realpath $(srcdir)))
 endif
 
-# Prefix for Docker images
-APP_NAME ?=
-# Override an empty APP_NAME to equal the source directory name
-ifeq ($(strip $(APP_NAME)),)
-APP_NAME = $(notdir $(realpath $(srcdir)))
+# Version of the application to build
+PROJECT_VERSION ?=
+ifeq ($(strip $(PROJECT_VERSION)),)
+PROJECT_VERSION = $(shell $(GIT) describe --always --dirty)
 endif
 
 # Ports of the application to expose
@@ -70,13 +70,13 @@ HOST_ADDRESS ?= 127.0.0.1
 HOST_PORT ?= 8000
 
 # Version to use for tagging images
-# By default the APP_VERSION and PYTHON_VERSION are factored into the VERSION
-# variable such that PYTHON_VERSION is part of the pre-release clause. The
-# reason the build metadata was not utilized in this case is because Docker
+# By default the PROJECT_VERSION and PYTHON_VERSION are factored into the
+# VERSION variable such that PYTHON_VERSION is part of the pre-release clause.
+# The reason the build metadata was not utilized in this case is because Docker
 # does not allow for tags containing build metadata clauses since plus-signs
 # (+) are technically not allowed in Docker tags.
 # https://semver.org/
-VERSION ?= $(APP_VERSION)-python-$(PYTHON_VERSION)
+VERSION ?= $(PROJECT_VERSION)-python-$(PYTHON_VERSION)
 
 
 # Docker image registry
@@ -111,7 +111,7 @@ DOCKER_HOST_PORT = $(HOST_PORT)
 DOCKER_HOST_PROJECT_PATH = $(srcdir)
 
 # Docker image name
-DOCKER_IMAGE_NAME = $(APP_NAME)
+DOCKER_IMAGE_NAME = $(PROJECT)
 
 # Docker image tag
 DOCKER_IMAGE_TAG = $(VERSION)
@@ -127,7 +127,7 @@ DOCKER_IMAGE_TAG = $(VERSION)
 DOCKER_BUILD_ARGS = \
 	--build-arg=BASE_IMAGE="$(DOCKER_REGISTRY)$(DOCKER_BASE_IMAGE)" \
 	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
-	--build-arg=PROJECT="$(APP_NAME)" \
+	--build-arg=PROJECT="$(PROJECT)" \
 	--build-arg=PYTHON_PACKAGE_INSTALLER="$(PYTHON_PACKAGE_INSTALLER)" \
 	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
