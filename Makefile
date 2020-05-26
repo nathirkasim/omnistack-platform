@@ -142,7 +142,7 @@ DOCKER_ARGS = \
 	-e "PROJECT=$(PROJECT_NAME)" \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
 	-p $(DOCKER_HOST_ADDRESS):$(DOCKER_HOST_PORT):$(DOCKER_CONTAINER_PORT) \
-	-u `id -u`:`id -g` \
+	-u $(shell id -u):$(shell id -g) \
 	-v $(DOCKER_HOST_PROJECT_PATH)/.config:/etc/opt/$(PROJECT_NAME) \
 	-v $(DOCKER_HOST_PROJECT_PATH)/.homedir:$(DOCKER_CONTAINER_HOME_PATH) \
 	-v $(DOCKER_HOST_PROJECT_PATH)/.venv:/opt/venv \
