@@ -2,7 +2,7 @@ SHELL = /bin/sh
 
 DOCKER ?= docker
 GIT ?= git
-MKDIR ?= mkdir
+MKDIR ?= mkdir -p
 RM ?= rm -f
 
 # The following args have been provided default values but can be overriden
@@ -154,15 +154,15 @@ DOCKER_ARGS = \
 
 # Spawn a Bash shell
 bash: $(srcdir)
-	mkdir -p .config .venv
+	$(MKDIR) .config .venv
 ifeq ($(strip $(stage)),production)
-	docker run \
+	$(DOCKER) run \
 		$(DOCKER_ARGS) \
 		--rm -it \
 		--entrypoint=bash \
 		$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 else
-	docker run \
+	$(DOCKER) run \
 		$(DOCKER_ARGS) \
 		--rm -it \
 		--entrypoint=bash \
@@ -171,12 +171,12 @@ endif
 
 # Clear local cache and venv directories
 clean:
-	rm -rf .homedir/.cache .venv
+	$(RM) -rf .homedir/.cache .venv
 
 # Build the Docker image
 image: $(srcdir)
 ifeq ($(strip $(stage)),production) # production stage
-	docker build \
+	$(DOCKER) build \
 		$(DOCKER_BUILD_ARGS) \
 		$(DOCKER_CACHE_FLAG) \
 		--file=$(Dockerfile) \
@@ -186,7 +186,7 @@ ifeq ($(strip $(stage)),production) # production stage
 		--target=production \
 		$(srcdir)
 else # build stage
-	docker build \
+	$(DOCKER) build \
 		$(DOCKER_BUILD_ARGS) \
 		$(DOCKER_CACHE_FLAG) \
 		--file=$(Dockerfile) \
