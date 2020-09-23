@@ -17,6 +17,12 @@ RM ?= rm -f
 # container.
 srcdir = .
 
+# Path to the working directory on the host
+# The working directory will contain the home directory that is mounted into
+# the Docker container, package caches and other artifacts that may be be used
+# to aid in development.
+workdir = .
+
 # Absolute path to Dockerfile
 Dockerfile = ./Dockerfile
 
@@ -107,9 +113,6 @@ DOCKER_HOST_ADDRESS = $(HOST_ADDRESS)
 # Port of the host, defaults to $(PORT)
 DOCKER_HOST_PORT = $(HOST_PORT)
 
-# Path of the project of interest, defaults to the current working directory
-DOCKER_HOST_PROJECT_PATH = $(srcdir)
-
 # Docker image name
 DOCKER_IMAGE_NAME = $(PROJECT_NAME)
 
@@ -143,9 +146,9 @@ DOCKER_ARGS = \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
 	-p $(DOCKER_HOST_ADDRESS):$(DOCKER_HOST_PORT):$(DOCKER_CONTAINER_PORT) \
 	-u $(shell id -u):$(shell id -g) \
-	-v $(DOCKER_HOST_PROJECT_PATH)/.config:/etc/opt/$(PROJECT_NAME) \
-	-v $(DOCKER_HOST_PROJECT_PATH)/.homedir:$(DOCKER_CONTAINER_HOME_PATH) \
-	-v $(DOCKER_HOST_PROJECT_PATH)/.venv:/opt/venv \
+	-v $(realpath $(workdir)/.config):/etc/opt/$(PROJECT_NAME) \
+	-v $(realpath $(workdir)/.homedir):$(DOCKER_CONTAINER_HOME_PATH) \
+	-v $(realpath $(workdir)/.venv):/opt/venv \
 	-v $(realpath $(srcdir)):/tmp/$(PROJECT_NAME) \
 	-w /tmp/$(PROJECT_NAME)
 
@@ -153,8 +156,11 @@ DOCKER_ARGS = \
 -include project.mk
 
 # Spawn a Bash shell
-bash: $(srcdir)
-	$(MKDIR) .config .venv
+bash: $(srcdir) $(workdir)
+	$(MKDIR) \
+		$(workdir)/.config \
+		$(workdir)/.homedir \
+		$(workdir)/.venv
 ifeq ($(strip $(stage)),production)
 	$(DOCKER) run \
 		$(DOCKER_ARGS) \
@@ -170,8 +176,10 @@ else
 endif
 
 # Clear local cache and venv directories
-clean:
-	$(RM) -rf .homedir/.cache .venv
+clean: $(workdir)
+	$(RM) -rf \
+		$(workdir)/.homedir/.cache \
+		$(workdir)/.venv
 
 # Build the Docker image
 image: $(srcdir)
