@@ -2,7 +2,13 @@
 ARG BASE_IMAGE
 
 
-FROM ${BASE_IMAGE} AS build
+# Stage an image without manifested project dependencies
+# Produces an image which contains the wanted package managers but has not
+# attempted to read any package manifests let alone install the dependencies
+# listed within those manifest. An image in the prebuild stage will allow for
+# the generation of template manifest files if the package manager exposes this
+# feature.
+FROM ${BASE_IMAGE} AS prebuild
 
 # Install system dependencies
 ARG SYSTEM_PACKAGES=""
@@ -34,6 +40,12 @@ ENV PROJECT=${PROJECT}
 
 WORKDIR /tmp/${PROJECT}
 
+
+# Stage an image with manifested project dependencies
+# Produces an image which has the packages listed within a package manifest
+# installed such that it is equiped to build the application of interest.
+FROM prebuild as build
+
 # Copy Python dependency manifests into temporary working directory
 COPY . /tmp/${PROJECT}/
 
@@ -42,6 +54,10 @@ ARG PYTHON_PACKAGE_INSTALLER="poetry install --no-dev"
 RUN ${PYTHON_PACKAGE_INSTALLER}
 
 
+# Stage an image for production use
+# Produces an image which only copies binaries and other package resources from
+# the build stages and sets up a sufficiently-restricted user such that the
+# drop-in shell is safe for production use.
 FROM ${BASE_IMAGE} AS production
 
 # Provision a non-root user
