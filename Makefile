@@ -15,16 +15,16 @@ RM ?= rm -f
 # (requirements.txt in case of pip, pyproject.toml and poetry.lock in case of
 # Poetry) and the actual source that you will want to run inside of your
 # container.
-srcdir = .
+srcdir ?= .
 
 # Path to the working directory on the host
 # The working directory will contain the home directory that is mounted into
 # the Docker container, package caches and other artifacts that may be be used
 # to aid in development.
-workdir = .
+workdir ?= .
 
 # Absolute path to Dockerfile
-Dockerfile = ./Dockerfile
+Dockerfile ?= ./Dockerfile
 
 # Docker stage to build in case of a multi-stage build
 # Defaults to the build stage when undefined as it is fair to assume that
@@ -32,7 +32,7 @@ Dockerfile = ./Dockerfile
 # developer's workstation as opposed to a production build environment and
 # therefore the ability to spawn a working build/development environment with
 # minimal manual effort renders this design choice sensible.
-stage =
+stage ?=
 # Override an empty stage to equal build
 ifeq ($(strip $(stage)),)
 override stage = build
