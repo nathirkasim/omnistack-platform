@@ -50,8 +50,8 @@ FROM prebuild as build
 COPY . /tmp/${PROJECT}/
 
 # Install Python packages
-ARG PYTHON_PACKAGE_INSTALLER="poetry install --no-dev"
-RUN ${PYTHON_PACKAGE_INSTALLER}
+ARG PACKAGE_INSTALLER="poetry install --no-dev"
+RUN ${PACKAGE_INSTALLER}
 
 
 # Stage an image for production use

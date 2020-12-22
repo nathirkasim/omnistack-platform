@@ -60,13 +60,13 @@ SYSTEM_PACKAGES ?=
 # The notation of the version should match the semver notation for which there
 # are official Docker images available, otherwise the DOCKER_BASE_IMAGE
 # variable will have to be modified to pull the appropriate Docker base image.
-PYTHON_VERSION ?= 3.8.0
+RUNTIME_VERSION ?= 3.8.0
 
 # Python dependency installation command
 # The following example installation commands should work:
 # -	for projects that use Pip: `pip install -r requirements.txt`
 # - for projects that use Poetry: `poetry install --no-dev`
-PYTHON_PACKAGE_INSTALLER ?= poetry install --no-dev
+PACKAGE_INSTALLER ?= poetry install --no-dev
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
@@ -76,13 +76,13 @@ HOST_ADDRESS ?= 127.0.0.1
 HOST_PORT ?= 8000
 
 # Version to use for tagging images
-# By default the PROJECT_VERSION and PYTHON_VERSION are factored into the
-# VERSION variable such that PYTHON_VERSION is part of the pre-release clause.
+# By default the PROJECT_VERSION and RUNTIME_VERSION are factored into the
+# VERSION variable such that RUNTIME_VERSION is part of the pre-release clause.
 # The reason the build metadata was not utilized in this case is because Docker
 # does not allow for tags containing build metadata clauses since plus-signs
 # (+) are technically not allowed in Docker tags.
 # https://semver.org/
-VERSION ?= $(PROJECT_VERSION)-python-$(PYTHON_VERSION)
+VERSION ?= $(PROJECT_VERSION)-python-$(RUNTIME_VERSION)
 
 
 # Docker image registry
@@ -91,7 +91,7 @@ DOCKER_REGISTRY ?= index.docker.io/
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
-DOCKER_BASE_IMAGE ?= python:$(PYTHON_VERSION)-slim-buster
+DOCKER_BASE_IMAGE ?= python:$(RUNTIME_VERSION)-slim-buster
 
 # Caching flag for Docker build process
 # Disable caching to force the docker builder to always rebuild all layers and
@@ -124,14 +124,12 @@ DOCKER_IMAGE_TAG = $(VERSION)
 # - PORTS defines the ports to expose on the production image
 # - PROJECT defines the name of the project and name of the subdirectory of
 #   /opt where to install the project
-# - PYTHON_DEPS_INSTALL_COMMAND defines the command to install Python
-#   dependencies
 # - SYSTEM_PACKAGES defines the system packages to install
 DOCKER_BUILD_ARGS = \
 	--build-arg=BASE_IMAGE="$(DOCKER_REGISTRY)$(DOCKER_BASE_IMAGE)" \
 	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
 	--build-arg=PROJECT="$(PROJECT_NAME)" \
-	--build-arg=PYTHON_PACKAGE_INSTALLER="$(PYTHON_PACKAGE_INSTALLER)" \
+	--build-arg=PACKAGE_INSTALLER="$(PACKAGE_INSTALLER)" \
 	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
 # Define the command line arguments to use in spawning Docker runs.
