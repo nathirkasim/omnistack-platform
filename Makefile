@@ -60,7 +60,7 @@ SYSTEM_PACKAGES ?=
 # The notation of the version should match the semver notation for which there
 # are official Docker images available, otherwise the DOCKER_BASE_IMAGE
 # variable will have to be modified to pull the appropriate Docker base image.
-RUNTIME_VERSION ?= 3.8.0
+RUNTIME_VERSION ?= 3.10.0a3
 
 # Python dependency installation command
 # The following example installation commands should work:
@@ -91,6 +91,7 @@ DOCKER_REGISTRY ?= index.docker.io/
 # Base image (as FROM) for all project images
 # Try to use official images as much as possible.
 # https://docs.docker.com/docker-hub/official_images/
+# https://hub.docker.com/_/python/
 DOCKER_BASE_IMAGE ?= python:$(RUNTIME_VERSION)-slim-buster
 
 # Caching flag for Docker build process
