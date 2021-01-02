@@ -67,6 +67,7 @@ RUNTIME_VERSION ?= 3.10.0a3
 # -	for projects that use Pip: `pip install -r requirements.txt`
 # - for projects that use Poetry: `poetry install --no-dev`
 PACKAGE_INSTALLER ?= poetry install --no-dev
+PACKAGE_INSTALLER_VERSION ?= 1.1.4
 
 # Host address for port mapping
 # Don't use 0.0.0.0 as this opens up your machine,
@@ -131,6 +132,7 @@ DOCKER_BUILD_ARGS = \
 	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
 	--build-arg=PROJECT="$(PROJECT_NAME)" \
 	--build-arg=PACKAGE_INSTALLER="$(PACKAGE_INSTALLER)" \
+	--build-arg=PACKAGE_INSTALLER_VERSION="$(PACKAGE_INSTALLER_VERSION)" \
 	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
 # Define the command line arguments to use in spawning Docker runs.
