@@ -32,24 +32,13 @@ Dockerfile ?= ./Dockerfile
 # developer's workstation as opposed to a production build environment and
 # therefore the ability to spawn a working build/development environment with
 # minimal manual effort renders this design choice sensible.
-stage ?=
-# Override an empty stage to equal build
-ifeq ($(strip $(stage)),)
-override stage = build
-endif
+stage ?= build
 
 # Prefix for Docker images
-PROJECT_NAME ?=
-# Override an empty PROJECT_NAME to equal the source directory name
-ifeq ($(strip $(PROJECT_NAME)),)
-PROJECT_NAME = $(notdir $(realpath $(srcdir)))
-endif
+PROJECT_NAME ?= $(notdir $(realpath $(srcdir)))
 
 # Version of the application to build
-PROJECT_VERSION ?=
-ifeq ($(strip $(PROJECT_VERSION)),)
-PROJECT_VERSION = $(shell $(GIT) describe --always --dirty)
-endif
+PROJECT_VERSION ?= $(shell $(GIT) describe --always --dirty)
 
 # Ports of the application to expose
 APP_PORTS ?= 8000/tcp
