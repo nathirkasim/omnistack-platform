@@ -110,6 +110,6 @@ WORKDIR /opt/${PROJECT}
 # Prefer COPY over ADD
 COPY --chown=${UID}:${GID} . /opt/${PROJECT}/
 
-# NOTE: Do not define default to PORTS in order to make this choice explicit
+# NOTE: Do not define default PORTS in order to make configuration explicit
 ARG PORTS
 EXPOSE ${PORTS}

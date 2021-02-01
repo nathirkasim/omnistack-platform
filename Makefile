@@ -8,7 +8,7 @@ RM ?= rm -f
 # The following args have been provided default values but can be overriden
 # from the CLI by specifying those variables with the override values or by
 # declaring those variables in the project.mk file which is conditionally
-# included after variable declaration in this Makefile.
+# included after variable declarations in this Makefile.
 
 # Path to the shippable part of your application
 # The shippable part of your application should contain manifest files
