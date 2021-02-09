@@ -127,8 +127,8 @@ DOCKER_BUILD_ARGS = \
 # - Mounts volumes (-v)
 # - Sets working directory (-w)
 DOCKER_ARGS = \
-	-e "PROJECT=$(PROJECT_NAME)" \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
+	-e "PROJECT=$(PROJECT_NAME)" \
 	-p $(DOCKER_CONTAINER_PORT_MAPPING) \
 	-u $(shell id -u):$(shell id -g) \
 	-v $(realpath $(workdir)/.config):/etc/opt/$(PROJECT_NAME) \
@@ -162,7 +162,7 @@ endif
 
 # Clear local cache and venv directories
 clean: $(workdir)
-	$(RM) -rf \
+	$(RM) \
 		$(workdir)/.homedir/.cache \
 		$(workdir)/.venv
 
