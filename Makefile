@@ -40,9 +40,6 @@ PROJECT_NAME ?= $(notdir $(realpath $(srcdir)))
 # Version of the application to build
 PROJECT_VERSION ?= $(shell $(GIT) describe --always --dirty)
 
-# Ports of the application to expose
-APP_PORTS ?= 8000/tcp
-
 SYSTEM_PACKAGES ?=
 
 # Python version for the base Docker image
@@ -57,13 +54,6 @@ RUNTIME_VERSION ?= 3.10.0a3
 # - for projects that use Poetry: `poetry install --no-dev`
 PACKAGE_INSTALLER ?= poetry install --no-dev
 PACKAGE_INSTALLER_VERSION ?= 1.1.4
-
-# Host address for port mapping
-# Don't use 0.0.0.0 as this opens up your machine,
-HOST_ADDRESS ?= 127.0.0.1
-
-# Port on host to be mapped into the container
-HOST_PORT ?= 8000
 
 # Version to use for tagging images
 # By default the PROJECT_VERSION and RUNTIME_VERSION are factored into the
@@ -95,14 +85,19 @@ DOCKER_CACHE_FLAG ?= --no-cache
 # Home path of the container in order to adequately mount .homedir
 DOCKER_CONTAINER_HOME_PATH = /home/appuser
 
+# Host address for port mapping, defaults to the host loopback address
+# Don't use 0.0.0.0 as this opens up your machine,
+DOCKER_HOST_ADDRESS = 127.0.0.1
+
 # Ports of the container to expose
-DOCKER_CONTAINER_PORTS = $(APP_PORTS)
+DOCKER_CONTAINER_EXPOSE_PORTS = 8000
 
-# IP address or hostname of the host, defaults to the host loopback address
-DOCKER_HOST_ADDRESS = $(HOST_ADDRESS)
+# Ports of the container to map
+DOCKER_CONTAINER_PORTS = 8000/tcp
+DOCKER_CONTAINER_PORT_MAPPING = $(addprefix \
+	$(DOCKER_HOST_ADDRESS):, \
+	$(DOCKER_CONTAINER_PORTS))
 
-# Port of the host, defaults to $(PORT)
-DOCKER_HOST_PORT = $(HOST_PORT)
 
 # Docker image name
 DOCKER_IMAGE_NAME = $(PROJECT_NAME)
@@ -118,7 +113,7 @@ DOCKER_IMAGE_TAG = $(VERSION)
 # - SYSTEM_PACKAGES defines the system packages to install
 DOCKER_BUILD_ARGS = \
 	--build-arg=BASE_IMAGE="$(DOCKER_REGISTRY)$(DOCKER_BASE_IMAGE)" \
-	--build-arg=PORTS="$(DOCKER_CONTAINER_PORTS)" \
+	--build-arg=PORTS="$(DOCKER_CONTAINER_EXPOSE_PORTS)" \
 	--build-arg=PROJECT="$(PROJECT_NAME)" \
 	--build-arg=PACKAGE_INSTALLER="$(PACKAGE_INSTALLER)" \
 	--build-arg=PACKAGE_INSTALLER_VERSION="$(PACKAGE_INSTALLER_VERSION)" \
@@ -134,7 +129,7 @@ DOCKER_BUILD_ARGS = \
 DOCKER_ARGS = \
 	-e "PROJECT=$(PROJECT_NAME)" \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
-	-p $(DOCKER_HOST_ADDRESS):$(DOCKER_HOST_PORT):$(DOCKER_CONTAINER_PORT) \
+	-p $(DOCKER_CONTAINER_PORT_MAPPING) \
 	-u $(shell id -u):$(shell id -g) \
 	-v $(realpath $(workdir)/.config):/etc/opt/$(PROJECT_NAME) \
 	-v $(realpath $(workdir)/.homedir):$(DOCKER_CONTAINER_HOME_PATH) \
