@@ -1,32 +1,114 @@
-# Docker Python Application Template
+# Docker Setup for Python Application
 This template for a Python application packaged into a Docker container follows
-several best practices in order to result to production containers that:
-- uses non-root users
-- contains only compilation output (and not development tooling)
+several best practices in order to result to production images that
+- use non-root users
+- use build-stages to minimize image size
 
 ## Usage
-This repository uses Docker images to simplify development and deployment of
-your application.
+The [Makefile][] defines the following rules:
+- `bash`
+- `clean`
+- `image`
 
-Prior to starting development, you will need to [build the development
-image](#build-images) which contains all the system dependencies that are
-common between all your environments.
+The Makefile extracts its configurations from variables for which it contains
+definitions. When available, the Makefile imports the project.mk file at a
+stage when most variables are already defined in order to offer an opportunity
+for overrides. Some of the available variables and some descriptions are listed
+below and are further documented in the [Makefile][]:
+- `srcdir`
+- `workdir`
+- `Dockerfile`
+- `stage`
+- `PROJECT_NAME`, the name of the project and the name of the Docker image
+- `PROJECT_VERSION`, the version of the project which defaults to the result of
+  `git describe --always --dirty` and is used to tag Docker images
+- `SYSTEM_PACKAGES`
+- `RUNTIME_VERSION`
+- `PACKAGE_INSTALLER`
+- `PACKAGE_INSTALLER_VERSION`
+- `DOCKER_REGISTRY`
+- `DOCKER_CONTAINER_EXPOSE_PORTS`, which ports are exposed using the `EXPOSE`
+  instruction when building the production image
+- `DOCKER_CONTAINER_PORTS`, which ports to map when starting a container 
+- `DOCKER_CONTAINER_PORT_MAPPING`, which port mapping arguments to pass along
+  to `docker run` based on `DOCKER_CONTAINER_PORTS`, by mapping every listed
+  `PORT` to `--publish $(HOST):$(PORT)`
 
-After your development image is built, you can develop your application by
-dropping into a shell and [running the needed commands](#run-commands) that
-install packages and run your application, tests and other tools.
+> :bulb: Do not commit the project.mk file as it allows developers to define
+> workspace-specific configurations. Project-wise configuration changes should
+> be made by updating the variable definitions in the [Makefile][].
+
+The following steps roughly outline how to use this configuration:
+
+```plantuml
+@startuml
+(*) --> "Configure"
+note right: Update variables in Makefile
+
+if "has manifest?" then
+  -->[true] "Build `build`"
+else
+  -->[false] "Build `prebuild`"
+  --> "Setup project"
+  note right: Generate dependency manifest, etc.
+  --> "Build `build`"
+endif
+
+--> "Develop"
+--> "Build `production`"
+--> (*)
+
+@enduml
+```
+
+1. Update the variables in Makefile in to reflect the desired configuration
+
+2. Run `make image stage=prebuild` to [build](#build-images) the "prebuild"
+   image which will contain the OS, the system packages and the Python package
+   manager.
+
+   > :warning: The prebuild stage is designed to be used when a configuration
+   > lacks some of the needed assets to complete the installation of Python
+   > packages. When starting a brand new project, for example, there is no
+   > manifest to inform a package installer about what to install.
+
+3. Once the `prebuild` image is build, enter it through `make bash
+   stage=prebuild` in order to [run commands](#run-commands) to generate a
+   dependency manifest by running `poetry new`, for example.
+
+4. With the dependency manifest available, run `make image stage=build` to
+   start a Docker environment that can be used as a development environment.
+
+5. Enter the `build` image through `make bash stage=build` in order to install
+   Python packages and run the application, tests or other tools.
+
+6. Run `make image stage=production` to build a "production" image
+
+   > :bulb: This stage is typically built in a CI/CD pipeline.
 
 ### Build images
-In Dockerfile, targets are defined for a `dev-image` (development image) and a
-`prod-image` (production image). The development image is used to compile all
-system packages and needed Python dependencies and the `app-image` is basically
-composed by copying the needed build outputs from the `dev-image`.
+In [Dockerfile][], the following stages are defined:
 
-Run `make dev-image` to produce the development image and run `make prod-image`
-to produce the production image. Since these different environments are defined
-as targets, one does not need to worry about running `make dev-image` before
-`make image` as any image rule will suffice on its own to produce the needed
-output.
+- `prebuild`, the base image with system packages and Python package manager
+  installed
+
+- `build`, the `prebuild` image with the Python packages installed
+
+- `production`, the base image with a production-safe user account configured
+  and the system packages and virtual environment copied into it
+
+  > Since build images can contain "noise" such as cache files that may not be
+  > needed in production images, the "production" image is not based on the
+  > "build" image but rather on the base image. This design requires one to be
+  > explicit[^explicit] about what is copied into the target image.
+
+  [^explicit]: By basing target images on build images using the `FROM`
+  instruction , we risk including numerous noisy artefacts to find their way
+  into the production image. Build images contain cache files, among other
+  artefacts, that are non-productive side effects of installation and may
+  therefore not add any value to a target image. Being explicit about copying
+  files from the build images reduces the opportunity for non-wanted files to
+  silently get included into build.
 
 
 #### Base Image
@@ -39,84 +121,31 @@ BASE_IMAGE=python:3.8.0-slim make prod-image
 ```
 
 #### Caching
-In case you want to avoid rebuilding all your images from scratch, prefix image
-makerule calls with `DOCKER_CACHE_FLAG=""` in order to clear the default
-`--no-cache` flag and thus allow caching in the docker build process.
+To avoid rebuilding all images from scratch, ensure that `DOCKER_CACHE_FLAG=""`
+is empty before calling `make image`.
 
 ```bash
 DOCKER_CACHE_FLAG="" make image
 ```
 
+> `DOCKER_CACHE_FLAG`, by default, is set to `--no-cache` (the argument to
+> disable caching when calling `docker build `).
+
 #### Application Path
-In case the shippable part of your application is not equal to the root
-directory of this repository you may use `APP_PATH` which defaults to `.` (the
-project root directory) to specify the path of your application.
-
-
-Note that a directory tree for a project structured as:
-
-```
-.
-├── Dockerfile
-├── install.sh
-├── LICENSE
-├── Makefile
-├── NOTES.md
-├── poetry-demo
-│   ├── poetry_demo
-│   ├── poetry_demo.egg-info
-│   ├── poetry.lock
-│   ├── pyproject.toml
-│   ├── README.rst
-│   └── tests
-└── README.md
-```
-
-could be built by running `APP_PATH=poetry-demo make prod-image`.
-
-> For the sake of cleanliness, we would recommend to keep application source
-> and the relevant dependecies manifests within a subdirectory of the project
-> root directory as this design keeps mounting of directories into the Docker
-> container relatively easy to reason about.
-
-A project structured as:
-
-```
-.
-├── Dockerfile
-├── install.sh
-├── LICENSE
-├── Makefile
-├── mysite
-│   ├── db.sqlite3
-│   ├── manage.py
-│   ├── mysite
-│   ├── polls
-│   └── templates
-├── NOTES.md
-└── requirements.txt
-```
-
-could be built by running `make prod-image` since the `APP_PATH` defaults to
-the project root directory and we would need the dependencies manifest, being
-requirements.txt in this case which is located at the project root, to be
-included for a build to succeed.
-
+Use `APP_PATH`, which defaults to `.`, to specify the application path. With the
+application and the package manifest located in subdirectory `subdir`, run
+`APP_PATH=subdir make image` to produce a Docker image.
 
 ### Run commands
-In order to produce a Bash shell in which you can run arbitrary commands, run
+In order to produce a Bash shell from which to run arbitrary commands, run
 `make bash`.
 
 ### Clean environment
-Run `make clean` to remove the venv directory and the caches in order in case
-you want to start from a clean slate. The clean makerule is only helpful to
-clean the state of the bash shells that one can spawn through `make bash`. Any
-image makerules will remain unaffected by the the caches or venv states on the
-host.
+Run `make clean` to remove the venv directory and the caches in order to start
+from a clean slate.
 
-> If you're using pip, it is recommended to reset the environment before
-> running a pip install based on a requirements.txt file to avoid situations
-> where setups seem to be running locally because of lingering packages that
-> may no longer be captured within the requirements.txt file. This would result
-> to builds failing with colleagues or on different systems such as your CI/CD
-> pipelines.
+> When using pip, it may help to clean the environment before running `pip
+> install` in development shell in order to avoid situations where setups seem
+> to be running locally because of the state of the cache that may not be
+> captured by the requirements.txt file. This could help in detecting failing
+> builds before they become the problem of colleagues or CI/CD pipelines.
