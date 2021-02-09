@@ -97,10 +97,11 @@ In [Dockerfile](Dockerfile), the following stages are defined:
 - `production`, the base image with a production-safe user account configured
   and the system packages and virtual environment copied into it
 
-  > Since build images can contain "noise" such as cache files that may not be
-  > needed in production images, the "production" image is not based on the
-  > "build" image but rather on the base image. This design requires one to be
-  > explicit[^explicit] about what is copied into the target image.
+  > Build images can contain "noise" such as cache files that may not be needed
+  > in production images. The "production" image is therefore not based on the
+  > "build" image but rather on the cleaner "base" image. This design allows
+  > one to be more explicit[^explicit] about that which is copied into a
+  > production image.
 
   [^explicit]: By basing target images on build images using the `FROM`
   instruction , we risk including numerous noisy artefacts to find their way
