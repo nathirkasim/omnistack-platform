@@ -141,6 +141,7 @@ DOCKER_ARGS = \
 -include project.mk
 
 # Spawn a Bash shell
+.PHONY: bash
 bash: $(srcdir) $(workdir)
 	$(MKDIR) \
 		$(workdir)/.config \
@@ -161,12 +162,14 @@ else
 endif
 
 # Clear local cache and venv directories
+.PHONY: clean
 clean: $(workdir)
 	$(RM) \
 		$(workdir)/.homedir/.cache \
 		$(workdir)/.venv
 
 # Build the Docker image
+.PHONY: image
 image: $(srcdir)
 ifeq ($(strip $(stage)),production) # production stage
 	$(DOCKER) build \
@@ -189,5 +192,3 @@ else # build stage
 		--target=$(stage) \
 		$(srcdir)
 endif
-
-.PHONY: bash clean image
