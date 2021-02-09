@@ -98,15 +98,10 @@ ENV PROJECT=${PROJECT}
 # application software packages.
 WORKDIR /opt/${PROJECT}
 
-# Explicitly listing all files to be copied as opposed to listing non-wanted
-# files in a .dockerignore file makes it easier to examine (e.g.: during
-# code-reviews) which files will be shipped with builds. Relying on
-# .dockerignore as the primary means to manage the assets for build images is
-# arguably less robust as it doesn't explicitly require approval or listing of
-# assets prior to them finding their way into a shipped image.
-# As a rule of thumb, use the .dockerignore file to reduce the build context
-# and avoid using it as the primary means to keep files from ending up in
-# images mean for deployment.
+# Explicitly listing all files to be copied into an image instead of listing
+# not-wanted files in a .dockerignore. This make it more explicit what will be
+# shipped with builds.
+# Use the .dockerignore file to reduce the build context
 # Prefer COPY over ADD
 COPY --chown=${UID}:${GID} . /opt/${PROJECT}/
 
