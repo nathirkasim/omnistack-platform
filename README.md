@@ -5,7 +5,7 @@ several best practices in order to result to production images that
 - use build-stages to minimize image size
 
 ## Usage
-The [Makefile][] defines the following rules:
+The [Makefile](Makefile) defines the following rules:
 - `bash`
 - `clean`
 - `image`
@@ -14,7 +14,7 @@ The Makefile extracts its configurations from variables for which it contains
 definitions. When available, the Makefile imports the project.mk file at a
 stage when most variables are already defined in order to offer an opportunity
 for overrides. Some of the available variables and some descriptions are listed
-below and are further documented in the [Makefile][]:
+below and are further documented in the [Makefile](Makefile):
 - `srcdir`
 - `workdir`
 - `Dockerfile`
@@ -36,7 +36,7 @@ below and are further documented in the [Makefile][]:
 
 > :bulb: Do not commit the project.mk file as it allows developers to define
 > workspace-specific configurations. Project-wise configuration changes should
-> be made by updating the variable definitions in the [Makefile][].
+> be made by updating the variable definitions in the [Makefile](Makefile).
 
 The following steps roughly outline how to use this configuration:
 
@@ -87,7 +87,7 @@ endif
    > :bulb: This stage is typically built in a CI/CD pipeline.
 
 ### Build images
-In [Dockerfile][], the following stages are defined:
+In [Dockerfile](Dockerfile), the following stages are defined:
 
 - `prebuild`, the base image with system packages and Python package manager
   installed
