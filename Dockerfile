@@ -29,7 +29,7 @@ RUN curl -sSL \
   ${POETRY_BASE_URL}/${PACKAGE_INSTALLER_VERSION}/get-poetry.py \
   > /tmp/get-poetry.py && \
   python /tmp/get-poetry.py --version ${PACKAGE_INSTALLER_VERSION} && \
-  chmod -R a+x ${POETRY_HOME}/bin
+  chmod -R a+x /opt/poetry/bin
 
 # TODO: Clean /var/cache /var/log var/*log /var/log/(fail,last)log
 
