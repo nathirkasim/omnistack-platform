@@ -34,8 +34,7 @@ RUN curl -sSL \
 # TODO: Clean /var/cache /var/log var/*log /var/log/(fail,last)log
 
 # Define environment vars for venv and initialize a venv
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin/:$PATH"
+ENV PATH="/opt/venv/bin:/opt/poetry/bin/:$PATH"
 RUN python -m venv /opt/venv
 
 ARG PROJECT=app
@@ -88,8 +87,7 @@ USER ${UID}:${GID}
 COPY --chown=${UID}:${GID} --from=build /opt/venv /opt/venv
 
 # Configure venv paths
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 ENV PROJECT=${PROJECT}
 
