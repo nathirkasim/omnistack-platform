@@ -38,7 +38,7 @@ ENV PATH="/opt/venv/bin:/opt/poetry/bin/:$PATH"
 RUN python -m venv /opt/venv
 
 ARG PROJECT=app
-ENV PROJECT="$PROJECT"
+ENV PROJECT $PROJECT
 
 WORKDIR /tmp/${PROJECT}
 
@@ -89,7 +89,8 @@ COPY --chown=${UID}:${GID} --from=build /opt/venv /opt/venv
 # Configure venv paths
 ENV PATH="/opt/venv/bin:$PATH"
 
-ENV PROJECT=${PROJECT}
+ARG PROJECT=app
+ENV PROJECT $PROJECT
 
 # For the production image, application-specific assets are stored into a
 # subdirectory of "/opt" which is the FHS-designated destination for add-on
