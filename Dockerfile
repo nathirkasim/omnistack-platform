@@ -38,7 +38,7 @@ ENV PATH="/opt/venv/bin:/opt/poetry/bin/:$PATH"
 RUN python -m venv /opt/venv
 
 ARG PROJECT=app
-ENV PROJECT=${PROJECT}
+ENV PROJECT="$PROJECT"
 
 WORKDIR /tmp/${PROJECT}
 
