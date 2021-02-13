@@ -26,7 +26,7 @@ test:build-docker-image:
   <<: *docker
   interruptible: true
   needs:
-    - git-clone
+    - setup:clone-repo
   stage: test
   variables:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
