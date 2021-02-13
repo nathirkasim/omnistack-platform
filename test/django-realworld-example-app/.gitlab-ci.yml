@@ -34,6 +34,7 @@ test:build-docker-image:
     REPO_DIR: src
   script:
     - cd test/django-realworld-example-app
+    - apk add --no-cache make
     - make test
   parallel:
     matrix:
