@@ -16,6 +16,6 @@ src:
 test: src
 	${TEST_ARGS} ./test.sh
 
-.PHONY: clean
-clean:
+.PHONY: clean-src
+clean-src:
 	${RM} -r src
