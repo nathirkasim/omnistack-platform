@@ -13,12 +13,13 @@ stages:
 setup:clone-repo:
   artifacts:
     paths:
-      - src
+      - test/django-realworld-example-app/src
   interruptible: true
   stage: setup
   variables:
     REPO_URL: https://github.com/gothinkster/django-realworld-example-app
   script:
+    - cd test/django-realworld-example-app
     - make src
 
 # Build Docker image as test
@@ -32,6 +33,7 @@ test:build-docker-image:
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     REPO_DIR: src
   script:
+    - cd test/django-realworld-example-app
     - make test
   parallel:
     matrix:
