@@ -1,38 +1,38 @@
 ---
 stages:
-  - build
+  - setup
   - test
 
+# Provide a template named &docker for dind jobs
 .docker_template: &docker
   image: docker:19.03.8
   services:
     - docker:19.03.8-dind
 
-git-clone:
+# Clone git repo during setup
+setup:clone-repo:
   artifacts:
     paths:
       - src
   interruptible: true
-  stage: build
+  stage: setup
   variables:
-    REPO_DIR: src
     REPO_URL: https://github.com/gothinkster/django-realworld-example-app
   script:
-    - git clone --depth 1 $REPO_URL $REPO_DIR
+    - make src
 
-python-3.8.0:
+# Build Docker image as test
+test:build-docker-image:
   <<: *docker
-  dependencies:
-    - git-clone
   interruptible: true
   needs:
     - git-clone
   stage: test
   variables:
-    DOCKERFILE: Dockerfile
-    DOCKER_BASE_IMAGE: python:3.8.0-slim-buster
-    PROJECT: stackuno-python
     PYTHON_PACKAGE_INSTALLER: pip install -r requirements.txt
     REPO_DIR: src
   script:
-    - ./test/django-realworld-example-app/test.sh
+    - make test
+  parallel:
+    matrix:
+      - RUNTIME_VERSION: 3.8.0
