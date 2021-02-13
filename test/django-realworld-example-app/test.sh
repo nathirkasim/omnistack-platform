@@ -1,12 +1,4 @@
 #! /usr/bin/env sh
 set -eux
 
-docker build \
-  --build-arg=BASE_IMAGE=${DOCKER_BASE_IMAGE} \
-  --build-arg=PORTS=8000 \
-  --build-arg=PYTHON_PACKAGE_INSTALLER="${PYTHON_PACKAGE_INSTALLER}" \
-  --file ${DOCKERFILE} \
-  --no-cache \
-  --tag=${PROJECT}:realworld-django \
-  --target=production \
-  ${REPO_DIR}
+make image stage=build
