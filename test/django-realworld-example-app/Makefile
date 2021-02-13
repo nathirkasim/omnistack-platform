@@ -1,4 +1,4 @@
-RUNTIME_VERSION = 3.8.0
+RUNTIME_VERSION ?= 3.8.0
 
 srcdir = ./src
 Dockerfile = ../../Dockerfile
