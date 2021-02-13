@@ -29,7 +29,6 @@ below and are further documented in the [Makefile](Makefile):
 - `DOCKER_REGISTRY`
 - `DOCKER_CONTAINER_EXPOSE_PORTS`, which ports are exposed using the `EXPOSE`
   instruction when building the production image
-- `DOCKER_CONTAINER_PORTS`, which ports to map when starting a container 
 - `DOCKER_CONTAINER_PORT_MAPPING`, which port mapping arguments to pass along
   to `docker run` based on `DOCKER_CONTAINER_PORTS`, by mapping every listed
   `PORT` to `--publish $(HOST):$(PORT)`

@@ -90,13 +90,11 @@ DOCKER_CONTAINER_HOME_PATH = /home/appuser
 DOCKER_HOST_ADDRESS = 127.0.0.1
 
 # Ports of the container to expose
-DOCKER_CONTAINER_EXPOSE_PORTS = 8000
+DOCKER_CONTAINER_EXPOSE_PORTS = 8000/tcp 8080/udp
 
 # Ports of the container to map
-DOCKER_CONTAINER_PORTS = 8000/tcp
-DOCKER_CONTAINER_PORT_MAPPING = $(addprefix \
-	--publish $(DOCKER_HOST_ADDRESS):, \
-	$(DOCKER_CONTAINER_PORTS))
+DOCKER_CONTAINER_PORT_MAPPING = \
+	-p $(DOCKER_HOST_ADDRESS):8000:8000/tcp
 
 
 # Docker image name
@@ -127,9 +125,9 @@ DOCKER_BUILD_ARGS = \
 # - Mounts volumes (-v)
 # - Sets working directory (-w)
 DOCKER_ARGS = \
+	$(DOCKER_CONTAINER_PORT_MAPPING) \
 	-e "HOME=$(DOCKER_CONTAINER_HOME_PATH)" \
 	-e "PROJECT=$(PROJECT_NAME)" \
-	-p $(DOCKER_CONTAINER_PORT_MAPPING) \
 	-u $(shell id -u):$(shell id -g) \
 	-v $(realpath $(workdir)/.config):/etc/opt/$(PROJECT_NAME) \
 	-v $(realpath $(workdir)/.homedir):$(DOCKER_CONTAINER_HOME_PATH) \
