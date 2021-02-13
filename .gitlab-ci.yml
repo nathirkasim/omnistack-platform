@@ -1,7 +1,6 @@
 ---
 stages:
   - test
-  - deploy
 
 flask-realworld:
   stage: test
@@ -14,10 +13,3 @@ django-realworld:
   trigger:
     include: test/django-realworld-example-app/.gitlab-ci.yml
     strategy: depend
-
-build:
-  stage: deploy
-  script:
-    - env
-  rules:
-    - when: manual
