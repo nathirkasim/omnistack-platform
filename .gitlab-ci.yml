@@ -2,13 +2,37 @@
 stages:
   - test
 
+.rule-source-change: &on-source-changes
+  if: '$CI_PIPELINE_SOURCE == "push"'
+  changes:
+    - ".gitlab-ci.yml"
+    - "Dockerfile"
+    - "Makefile"
+    - "test/*.mk"
+
+.except-doc-commits: &skip-on-documentation-changes
+  if: '$CI_COMMIT_MESSAGE =~ /^doc:/'
+  when: never
+
 flask-realworld:
+  rules:
+    - *on-source-changes
+    - *skip-on-documentation-changes
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "test/flask-realworld-example-app/**"
   stage: test
   trigger:
     include: test/flask-realworld-example-app/.gitlab-ci.yml
     strategy: depend
 
 django-realworld:
+  rules:
+    - *on-source-changes
+    - *skip-on-documentation-changes
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "test/django-realworld-example-app/**"
   stage: test
   trigger:
     include: test/django-realworld-example-app/.gitlab-ci.yml
