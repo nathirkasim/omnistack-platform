@@ -12,7 +12,7 @@ stages:
     - "test/*.mk"
 
 .except-doc-commits: &skip-on-documentation-changes
-  if: '$CI_COMMIT_MESSAGE =~ /^doc:/'
+  if: '$CI_COMMIT_MESSAGE =~ /^docs?:/'
   when: never
 
 flask-realworld:
