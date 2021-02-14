@@ -17,7 +17,8 @@ executed to test the configuration:
 - `make clean-src`, to clean up the cloned sourced from the `make src` step
 
 The `src`, `test` and `clean-src` rules are defined in the
-[test/case.mk](case.mk) file and included by the Makefile within a.
+[test/case.mk](case.mk) file and included by the Makefile within a test
+directory.
 
 Note how the Makefile inside the test case directory simply imports the project
 root Makefile along with the case.mk.
@@ -37,41 +38,20 @@ to the test where test-specific variables are defined.
 
 rectangle makefile as "Makefile"
 
-folder test as "test/" {
-  rectangle case as "test/case.mk"
+folder test as "test" {
+  rectangle case as "case.mk"
 
-  folder test_x as "test/X/" {
-    rectangle test_x_testsh as "ROOT/test/X/test.sh" #hotpink
+  folder test_x as "X" {
+    rectangle test_x_testsh as "test.sh" #hotpink
 
-    rectangle test_x_Makefile as "ROOT/test/X/Makefile" #hotpink {
-
-      rectangle rootvars as "define vars needed for ROOT/Makefile"
-
-      rectangle rootimport as "included from ROOT/Makefile" {
-        rectangle casebash as "bash"
-        rectangle caseclean as "clean"
-        rectangle caseimage as "image"
-      }
-
-      rectangle casevars as "define vars needed for ROOT/test/case.mk"
-
-      rectangle caseimport as "included from ROOT/test/case.mk" {
-        rectangle casecleansrc as "clean-src"
-        rectangle casesrc as "src"
-        rectangle casetest as "test"
-      }
-
-      rootvars --> rootimport
-      rootimport --> casevars
-      casevars --> caseimport
-    }
+    rectangle test_x_Makefile as "Makefile" #hotpink
   }
 }
 
-makefile -> rootimport : include
-case -> caseimport : include
-
-casetest ..> test_x_testsh : run
+makefile -right-> test_x_Makefile : include ../../Makefile
+case --> test_x_Makefile : include ../case.mk
+test_x_Makefile --> test_x_testsh : trigger
+case ..> test_x_testsh : run ./test.sh
 
 @enduml
 ```
