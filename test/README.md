@@ -69,8 +69,8 @@ the configuration for the given test.
 
 > :warning: GNU Make handles paths from the perspective of the directory where
 > the `make` command is invoked. In order for some path-defining variables
-> (such as `srcdir` and `Dockerfile`) to hold valid values, they will need to
-> be redefined.
+> (such as `srcdir` and `Dockerfile`) to hold valid values when make is called
+> from a different directory, they will need to be redefined.
 
 Observe how, in the snippet below, `Dockerfile` and `srcdir` have been
 configured to point GNU Make towards the correct Dockerfile in the repository
@@ -102,3 +102,10 @@ REPO_URL = https://github.com/gothinkster/django-realworld-example-app.git
 
 The test.sh is used to specify the `make image` command that is used to build
 the wanted Docker image.
+
+```sh
+#! /usr/bin/env sh
+set -eux
+
+make image stage=build
+```
