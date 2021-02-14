@@ -11,3 +11,6 @@
 .venv
 
 project.mk
+
+test/*/.homedir
+test/*/src
