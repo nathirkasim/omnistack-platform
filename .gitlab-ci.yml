@@ -8,6 +8,7 @@ stages:
     - ".gitlab-ci.yml"
     - "Dockerfile"
     - "Makefile"
+    - "test/Makefile"
     - "test/*.mk"
 
 .except-doc-commits: &skip-on-documentation-changes
