@@ -8,7 +8,14 @@ for its intended use-cases.
 
 ## Usage
 
-Within every folder inside the `test` directory, the following makerules can be
+Run all the tests by running entering the `test` directory and executing the
+following command:
+
+```sh
+make tests
+```
+
+From every subdirectory of the `test` directory, the following makerules can be
 executed to test the configuration:
 
 - `make src`, to clone the test project
@@ -22,6 +29,30 @@ directory.
 
 Note how the Makefile inside the test case directory simply imports the project
 root Makefile along with the case.mk.
+
+
+## Add New Test
+
+Complete the following steps to add a new project to the tests:
+
+1. Create an appropriately named subdirectory in `test`, where we assume `X` as
+   the name of the created subdirectory
+
+2. Populate `test/X/Makefile` to
+   1. include `Makefile` and the `image` rule contained therein
+
+      > :warn: Including `Makefile` requires that the variables, for which
+      > default values are not appropriate, are set.
+
+   2. include `test/case.mk` and the `src`, `test` and `clean-src` rules
+      defined therein
+
+      > :warn: Including `test/case.mk` requires that the variables `REPO_URL`
+      > and `REPO_BRANCH_NAME` are appropriately set.
+
+3. Populate `test/X/test.sh` to appropriately call `make image` which has
+   been imported in step 2.1.
+
 
 ## Anatomy of a Test Setup
 
