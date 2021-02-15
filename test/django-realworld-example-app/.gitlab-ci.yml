@@ -16,8 +16,6 @@ setup:clone-repo:
       - test/django-realworld-example-app/src
   interruptible: true
   stage: setup
-  variables:
-    REPO_URL: https://github.com/gothinkster/django-realworld-example-app
   script:
     - cd test/django-realworld-example-app
     - make src
