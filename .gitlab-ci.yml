@@ -19,7 +19,7 @@ django-realworld:
   rules:
     - *on-source-changes
     - *skip-on-documentation-changes
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
       changes:
         - "test/django-realworld-example-app/**"
   stage: test
@@ -31,7 +31,7 @@ flask-realworld:
   rules:
     - *on-source-changes
     - *skip-on-documentation-changes
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
       changes:
         - "test/flask-realworld-example-app/**"
   stage: test
@@ -43,7 +43,7 @@ fastapi-realworld:
   rules:
     - *on-source-changes
     - *skip-on-documentation-changes
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
       changes:
         - "test/fastapi-realworld-example-app/**"
   stage: test
