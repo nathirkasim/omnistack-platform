@@ -15,18 +15,6 @@ stages:
   if: '$CI_COMMIT_MESSAGE =~ /^docs?:/'
   when: never
 
-flask-realworld:
-  rules:
-    - *on-source-changes
-    - *skip-on-documentation-changes
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      changes:
-        - "test/flask-realworld-example-app/**"
-  stage: test
-  trigger:
-    include: test/flask-realworld-example-app/.gitlab-ci.yml
-    strategy: depend
-
 django-realworld:
   rules:
     - *on-source-changes
@@ -37,4 +25,16 @@ django-realworld:
   stage: test
   trigger:
     include: test/django-realworld-example-app/.gitlab-ci.yml
+    strategy: depend
+
+flask-realworld:
+  rules:
+    - *on-source-changes
+    - *skip-on-documentation-changes
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "test/flask-realworld-example-app/**"
+  stage: test
+  trigger:
+    include: test/flask-realworld-example-app/.gitlab-ci.yml
     strategy: depend
