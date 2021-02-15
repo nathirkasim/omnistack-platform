@@ -27,18 +27,6 @@ django-realworld:
     include: test/django-realworld-example-app/.gitlab-ci.yml
     strategy: depend
 
-flask-realworld:
-  rules:
-    - *on-source-changes
-    - *skip-on-documentation-changes
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      changes:
-        - "test/flask-realworld-example-app/**"
-  stage: test
-  trigger:
-    include: test/flask-realworld-example-app/.gitlab-ci.yml
-    strategy: depend
-
 fastapi-realworld:
   rules:
     - *on-source-changes
@@ -49,4 +37,16 @@ fastapi-realworld:
   stage: test
   trigger:
     include: test/fastapi-realworld-example-app/.gitlab-ci.yml
+    strategy: depend
+
+flask-realworld:
+  rules:
+    - *on-source-changes
+    - *skip-on-documentation-changes
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes:
+        - "test/flask-realworld-example-app/**"
+  stage: test
+  trigger:
+    include: test/flask-realworld-example-app/.gitlab-ci.yml
     strategy: depend
