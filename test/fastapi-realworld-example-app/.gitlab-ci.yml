@@ -1,0 +1,41 @@
+---
+stages:
+  - setup
+  - test
+
+# Provide a template named &docker for dind jobs
+.docker_template: &docker
+  image: docker:19.03.8
+  services:
+    - docker:19.03.8-dind
+
+# Clone git repo during setup
+setup:clone-repo:
+  artifacts:
+    paths:
+      - test/fastapi-realworld-example-app/src
+  interruptible: true
+  stage: setup
+  variables:
+    # REPO_URL: https://github.com/nsidnev/fastapi-realworld-example-app
+  script:
+    - cd test/fastapi-realworld-example-app
+    - make src
+
+# Build Docker image as test
+test:build-docker-image:
+  <<: *docker
+  interruptible: true
+  needs:
+    - setup:clone-repo
+  stage: test
+  variables:
+    PROJECT_VERSION: $CI_COMMIT_SHORT_SHA
+    REPO_DIR: src
+  script:
+    - cd test/fastapi-realworld-example-app
+    - apk add --no-cache make
+    - make test
+  parallel:
+    matrix:
+      - RUNTIME_VERSION: 3.8.0

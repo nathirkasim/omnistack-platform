@@ -38,3 +38,15 @@ flask-realworld:
   trigger:
     include: test/flask-realworld-example-app/.gitlab-ci.yml
     strategy: depend
+
+fastapi-realworld:
+  rules:
+    - *on-source-changes
+    - *skip-on-documentation-changes
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "test/fastapi-realworld-example-app/**"
+  stage: test
+  trigger:
+    include: test/fastapi-realworld-example-app/.gitlab-ci.yml
+    strategy: depend
