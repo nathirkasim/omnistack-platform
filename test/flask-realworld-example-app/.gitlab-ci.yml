@@ -16,8 +16,6 @@ setup:clone-repo:
       - test/flask-realworld-example-app/src
   interruptible: true
   stage: setup
-  variables:
-    REPO_URL: https://github.com/gothinkster/flask-realworld-example-app.git
   script:
     - cd test/flask-realworld-example-app
     - make src
