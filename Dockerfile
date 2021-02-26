@@ -35,7 +35,7 @@ RUN curl -sSL \
 
 # Define environment vars for venv and initialize a venv
 ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin/:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin:$PATH"
 RUN python -m venv $VIRTUAL_ENV
 
 ARG PROJECT=app
