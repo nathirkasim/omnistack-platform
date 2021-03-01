@@ -19,14 +19,14 @@ RUN set -x; apt-get update && apt-get install -y --no-install-recommends \
     ${SYSTEM_PACKAGES} \
     && rm -rf /var/lib/apt/lists/*
 
-ARG POETRY_VERSION
 
 # Install Poetry to $POETRY_HOME and allow all users to execute Poetry binaries
 # https://python-poetry.org/docs/#introduction
 ENV POETRY_HOME=/opt/poetry
-ENV POETRY_BASE_URL=https://raw.githubusercontent.com/python-poetry/poetry
+ARG POETRY_ORIGIN=https://raw.githubusercontent.com/python-poetry/poetry
+ARG POETRY_VERSION
 RUN set -x; curl -sSL \
-  ${POETRY_BASE_URL}/${POETRY_VERSION}/get-poetry.py \
+  ${POETRY_ORIGIN}/${POETRY_VERSION}/get-poetry.py \
   > /tmp/get-poetry.py && \
   python /tmp/get-poetry.py --version ${POETRY_VERSION} && \
   chmod -R a+x /opt/poetry/bin
