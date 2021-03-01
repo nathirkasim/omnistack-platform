@@ -17,7 +17,6 @@ setup:clone-repo:
   interruptible: true
   stage: setup
   variables:
-    # REPO_URL: https://github.com/nsidnev/fastapi-realworld-example-app
   script:
     - cd test/fastapi-realworld-example-app
     - make src
