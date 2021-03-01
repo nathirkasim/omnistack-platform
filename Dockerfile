@@ -39,7 +39,7 @@ ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin:$PATH"
 RUN set -x; python -m venv $VIRTUAL_ENV
 
 ARG PIP_ORIGIN=https://pypi.org/simple
-ARG PIP_VERSION=21.0.1
+ARG PIP_VERSION
 RUN set -x; pip install \
   --index-url ${PIP_ORIGIN} \
   --upgrade pip==${PIP_VERSION}

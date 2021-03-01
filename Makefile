@@ -58,6 +58,8 @@ PACKAGE_INSTALLER ?= poetry install --no-dev
 # The configuration installs Poetry by default.
 POETRY_VERSION ?= 1.1.4
 
+PIP_VERSION ?= 21.0.1
+
 # Version to use for tagging images
 # By default the PROJECT_VERSION and RUNTIME_VERSION are factored into the
 # VERSION variable such that RUNTIME_VERSION is part of the pre-release clause.
@@ -117,6 +119,7 @@ DOCKER_BUILD_ARGS = \
 	--build-arg=PORTS="$(DOCKER_CONTAINER_EXPOSE_PORTS)" \
 	--build-arg=PROJECT="$(PROJECT_NAME)" \
 	--build-arg=PACKAGE_INSTALLER="$(PACKAGE_INSTALLER)" \
+	--build-arg=PIP_VERSION="$(PIP_VERSION)" \
 	--build-arg=POETRY_VERSION="$(POETRY_VERSION)" \
 	--build-arg=SYSTEM_PACKAGES="$(SYSTEM_PACKAGES)"
 
