@@ -12,7 +12,7 @@ FROM ${BASE_IMAGE} AS prebuild
 
 # Install system dependencies
 ARG SYSTEM_PACKAGES=""
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN set -x; apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     python-dev \
@@ -25,7 +25,7 @@ ARG POETRY_VERSION
 # https://python-poetry.org/docs/#introduction
 ENV POETRY_HOME=/opt/poetry
 ENV POETRY_BASE_URL=https://raw.githubusercontent.com/python-poetry/poetry
-RUN curl -sSL \
+RUN set -x; curl -sSL \
   ${POETRY_BASE_URL}/${POETRY_VERSION}/get-poetry.py \
   > /tmp/get-poetry.py && \
   python /tmp/get-poetry.py --version ${POETRY_VERSION} && \
@@ -36,7 +36,7 @@ RUN curl -sSL \
 # Define environment vars for venv and initialize a venv
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:/opt/poetry/bin:$PATH"
-RUN python -m venv $VIRTUAL_ENV
+RUN set -x; python -m venv $VIRTUAL_ENV
 
 ARG PROJECT=app
 ENV PROJECT $PROJECT
@@ -54,7 +54,7 @@ COPY . /tmp/${PROJECT}/
 
 # Install Python packages
 ARG PACKAGE_INSTALLER="poetry install --no-dev"
-RUN ${PACKAGE_INSTALLER}
+RUN set -x; ${PACKAGE_INSTALLER}
 
 
 # Stage an image for production use
