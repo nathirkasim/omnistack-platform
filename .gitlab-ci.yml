@@ -10,10 +10,8 @@ stages:
 variables:
   SAST_EXCLUDED_ANALYZERS: ""
   SECRET_DETECTION_HISTORIC_SCAN: "false"
-  SECURE_LOG_LEVEL: "debug"
-  SCAN_KUBERNETES_MANIFESTS: "true"
 
-# Include local ci.yaml and official GitLab Security Scanning Templates
+# Official GitLab Security Scanning Templates and Local Config
 include:
   - local: 'ci.yaml'
   - template: Security/SAST.gitlab-ci.yml

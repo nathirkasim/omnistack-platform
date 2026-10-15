@@ -1,4 +1,74 @@
+# ==============================================================================
+# GitLab SAST (Static Application Security Testing) & TigerGate CI Configuration
+# File: ci.yaml
+# ==============================================================================
+
+stages:
+  - test
+  - security
+
+variables:
+  # GitLab SAST Configuration Options
+  SECURE_LOG_LEVEL: "debug"
+  SAST_EXCLUDED_ANALYZERS: ""
+  SCAN_KUBERNETES_MANIFESTS: "true"
+  SAST_EXPERIMENTAL_FEATURES: "true"
+  SEARCH_MAX_DEPTH: 10
+  SAST_EXCLUDED_PATHS: "node_modules, vendor, dist"
+
+# Include official GitLab Security Templates
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+# ------------------------------------------------------------------------------
+# GitLab Official Semgrep SAST Analyzer
+# Scans PHP, JavaScript, Dockerfile, and IaC for security vulnerabilities
+# ------------------------------------------------------------------------------
+semgrep-sast:
+  stage: test
+  artifacts:
+    name: "gl-sast-report-$CI_COMMIT_REF_SLUG"
+    when: always
+    reports:
+      sast: gl-sast-report.json
+    paths:
+      - gl-sast-report.json
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "main"
+    - when: on_success
+
+# ------------------------------------------------------------------------------
+# Standalone GitLab SAST Analyzer Runner
+# Directly invokes registry.gitlab.com/security-products/semgrep to guarantee
+# gl-sast-report.json generation even without template inheritance dependencies
+# ------------------------------------------------------------------------------
+gitlab-sast-scan:
+  stage: test
+  image: registry.gitlab.com/security-products/semgrep:5
+  variables:
+    SEARCH_MAX_DEPTH: 10
+    SAST_EXCLUDED_PATHS: "node_modules, vendor, dist"
+  script:
+    - /analyzer run
+  artifacts:
+    name: "gl-sast-standalone-report"
+    when: always
+    reports:
+      sast: gl-sast-report.json
+    paths:
+      - gl-sast-report.json
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "main"
+    - when: on_success
+
+# ------------------------------------------------------------------------------
 # TigerGate SAST Security Scanning Configuration
+# ------------------------------------------------------------------------------
 tigergate-sast-scan:
   stage: test
   image: tigergate/tigergate-cli:latest
