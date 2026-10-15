@@ -1,0 +1,19 @@
+# TigerGate SAST Security Scanning Configuration
+tigergate-sast-scan:
+  stage: test
+  image: tigergate/tigergate-cli:latest
+  variables:
+    TIGERGATE_API_KEY: $TIGERGATE_API_KEY
+    GIT_DEPTH: 0
+  script:
+    - >
+      scan --api-url https://api.staging.tigergate.dev/api/ci --type sast --scan-scope auto
+      --fail-on critical,high --max-critical 0 --max-high 10
+      --quality-gate --exclude "node_modules,dist,vendor"
+      --coverage-report coverage/lcov.info
+      --compliance-local --upload
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "main"
