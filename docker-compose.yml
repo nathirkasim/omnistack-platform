@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: omniflow-app
+    restart: unless-stopped
+    ports:
+      - "8000:8080"
+    environment:
+      APP_ENV: production
+      APP_SECRET: "sec_sample_key_9941_change_in_cloud_deployment"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: omniflow_crm
+      DB_USER: omniflow_user
+      DB_PASSWORD: "omniflow_secure_db_pass_2026"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - omniflow-net
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: omniflow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: omniflow_crm
+      POSTGRES_USER: omniflow_user
+      POSTGRES_PASSWORD: "omniflow_secure_db_pass_2026"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/migrations/20261015_init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U omniflow_user -d omniflow_crm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - omniflow-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: omniflow-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - omniflow-net
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  omniflow-net:
+    name: omniflow-net
+    driver: bridge

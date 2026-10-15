@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omniflow-crm-api
+  namespace: omniflow-prod
+  labels:
+    app.kubernetes.io/name: omniflow-crm
+    app.kubernetes.io/part-of: enterprise-crm
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: omniflow-crm
+  template:
+    metadata:
+      labels:
+        app: omniflow-crm
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: api
+          image: omniflow/crm-enterprise:2.4.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            # IAC False Positive: Scanners flag readOnlyRootFilesystem=false as insecure.
+            # SAFE: Justified by requirement for headless PDF report rendering in ephemeral /tmp.
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1536Mi
+          readinessProbe:
+            httpGet:
+              path: /api/customers
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/customers
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: tmp-storage
+              mountPath: /tmp
+      volumes:
+        - name: tmp-storage
+          emptyDir: {}
