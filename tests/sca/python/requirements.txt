@@ -1,0 +1,5 @@
+# SCA Test Fixture: Python requirements.txt
+# TP-SCA-001: urllib3 1.26.4 has ReDoS vulnerability CVE-2021-33503
+urllib3==1.26.4
+certifi==2021.5.30
+idna==3.2

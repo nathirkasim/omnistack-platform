@@ -1,0 +1,14 @@
+{
+  "name": "cpp-sca-fixture",
+  "version-string": "1.0.0",
+  "dependencies": [
+    {
+      "name": "openssl",
+      "version>=": "1.1.1k"
+    },
+    {
+      "name": "zlib",
+      "version>=": "1.2.11"
+    }
+  ]
+}

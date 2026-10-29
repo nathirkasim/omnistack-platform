@@ -1,0 +1,8 @@
+{
+  "name": "sbom-transitive-dependency-test",
+  "version": "1.0.0",
+  "description": "Tests deeply nested transitive dependency discovery and graph edge accuracy",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

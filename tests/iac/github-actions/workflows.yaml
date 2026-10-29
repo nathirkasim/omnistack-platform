@@ -1,0 +1,50 @@
+# Infrastructure as Code Fixture: GitHub Actions CI Workflows
+# Covers paired True Positives and False Positives.
+
+# ==============================================================================
+# TP-IAC-008: Insecure GitHub Actions Workflow (Overly Permissive & Unpinned)
+# Medium Severity | Supply Chain / Workflow Abuse
+# ==============================================================================
+name: Insecure Workflow Sample
+on: [push]
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout unpinned branch
+        uses: actions/checkout@main
+
+      - name: Arbitrary action unpinned
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18'
+
+---
+# ==============================================================================
+# FP-IAC-008: Hardened GitHub Actions Workflow (Pinned SHA & Minimal Permissions)
+# Expected: Compliant / Safe
+# ==============================================================================
+name: Secure Hardened Workflow Sample
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pinned to full commit SHA
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node pinned
+        uses: actions/setup-node@60edb5dd545a775178f5252478332d7967d224c0 # v4.0.2
+        with:
+          node-version: '20'

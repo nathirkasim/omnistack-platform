@@ -1,0 +1,9 @@
+{
+  "name": "sbom-direct-dependency-test",
+  "version": "1.0.0",
+  "description": "Validates direct dependency attribution and purl generation in SBOM",
+  "dependencies": {
+    "chalk": "4.1.2",
+    "debug": "4.3.4"
+  }
+}

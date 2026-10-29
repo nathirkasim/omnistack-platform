@@ -1,0 +1,6 @@
+{
+  "name": "vendored-fast-uuid",
+  "version": "1.0.4",
+  "description": "Vendored micro-library committed directly into repository",
+  "license": "MIT"
+}

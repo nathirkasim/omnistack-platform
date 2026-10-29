@@ -1,0 +1,7 @@
+[requires]
+# TP-SCA-011: openssl 1.1.1k (CVE-2021-3711 | Critical Buffer Overflow)
+openssl/1.1.1k
+zlib/1.2.11
+
+[generators]
+cmake_find_package

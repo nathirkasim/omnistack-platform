@@ -1,0 +1,38 @@
+name: TigerGate Code Security Scan
+
+on:
+  push:
+    branches: [ master, main, fix/security-vulnerabilities ]
+  pull_request:
+    branches: [ master, main ]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  tigergate-security:
+    name: TigerGate Security & SBOM Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Run TigerGate Security Scanner
+        uses: docker://tigergate/tigergate-cli:latest
+        env:
+          TIGERGATE_API_KEY: ${{ secrets.TIGERGATE_API_KEY }}
+          TIGERGATE_API_URL: ${{ vars.TIGERGATE_API_URL || 'https://api.tigergate.dev/api/ci' }}
+        with:
+          args: >-
+            scan
+            --type all
+            --scan-scope auto
+            --fail-on critical,high
+            --max-critical -1
+            --max-high -1
+            --quality-gate
+            --compliance-local
+            --upload

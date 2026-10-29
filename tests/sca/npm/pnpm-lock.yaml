@@ -1,0 +1,33 @@
+lockfileVersion: '6.0'
+
+dependencies:
+  axios:
+    specifier: 0.21.0
+    version: 0.21.0
+  lodash:
+    specifier: 4.17.15
+    version: 4.17.15
+
+devDependencies:
+  mocha:
+    specifier: 9.1.0
+    version: 9.1.0
+
+packages:
+  /axios@0.21.0:
+    resolution: {integrity: sha512-f0nwWBGiURVACfX18TD3nj80SkLJvdZ15io09e3oPOjNmBoT3Y++30U565554f6760a5e8e895781a7b46944e==}
+    dependencies:
+      follow-redirects: 1.14.0
+    dev: false
+
+  /follow-redirects@1.14.0:
+    resolution: {integrity: sha512-0vRlu0JnSGyauHQVjJ0iA15kK97m8q5z31114532890==}
+    dev: false
+
+  /lodash@4.17.15:
+    resolution: {integrity: sha512-8xOcRHvCjnocdS5cpwXQXVzcnhFIeTQUSXCcqNYMtCC8EGvqQ2VNdnmv5P83OLkbmmOL8v44RV1NeQCn524g==}
+    dev: false
+
+  /mocha@9.1.0:
+    resolution: {integrity: sha512-xXW412234059==}
+    dev: true

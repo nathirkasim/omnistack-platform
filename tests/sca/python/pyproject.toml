@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "python-security-fixture"
+version = "0.1.0"
+description = "SCA and SBOM test fixture for Python Poetry"
+authors = ["Security Test Suite <security@example.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "2.19.1" # CVE-2018-18074 (Credential leak on HTTP redirect)
+urllib3 = "1.26.4"  # CVE-2021-33503
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

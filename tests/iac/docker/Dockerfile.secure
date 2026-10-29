@@ -1,0 +1,21 @@
+# ==============================================================================
+# FP-IAC-007: Hardened Secure Multi-Stage Dockerfile
+# Expected: Compliant / Safe (Digest pinned, non-root user, minimal runtime)
+# ==============================================================================
+# Build stage with pinned digest
+FROM golang:1.22.2-alpine3.19@sha256:0466223b8544fb7d4ff330b3583a72296903239b19137d1151802a4c861f034f AS builder
+
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /bin/server .
+
+# Runtime stage: minimal non-root image
+FROM cgr.dev/chainguard/static:latest
+
+WORKDIR /app
+COPY --from=builder /bin/server /app/server
+
+USER 65532:65532
+ENTRYPOINT ["/app/server"]
