@@ -1,6 +1,0 @@
-golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad h1:DN0cpnWLLOHQe6pn091idkmZttnb9LkzpUtjip8BTu8=
-golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad/go.mod h1:jdW1ป/8WSS71W//r256IlHNj1hSzb/0px4CU/lNBecU=
-golang.org/x/net v0.7.0 h1:rJrUqqJYX0NWO20bU2R4URt25qu451+R9RKelY+IVT8=
-golang.org/x/net v0.7.0/go.mod h1:2z+DvvYLO8RJWzKq79S301dK1w8G45iSZnPR4b4K0TY=
-golang.org/x/sys v0.5.0 h1:M0rd1tV5T889j9m+Nf9K0GqN9bQ92w5q78S8+xSgJ6Q=
-golang.org/x/sys v0.5.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

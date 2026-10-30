@@ -1,0 +1,14 @@
+name: Insecure CI Pipeline
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # VULNERABLE: Action referenced by mutable branch/major tag instead of full commit SHA
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # VULNERABLE: Unpinned 3rd party community action using master branch
+      - name: Third Party Tool
+        uses: pre-commit/action@v3.0.0

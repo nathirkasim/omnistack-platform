@@ -1,0 +1,8 @@
+lockfileVersion: '6.0'
+dependencies:
+  semver:
+    specifier: 5.7.0
+    version: 5.7.0
+packages:
+  /semver@5.7.0:
+    resolution: {integrity: sha512-fakehash==}

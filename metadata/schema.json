@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TigerGateTruePositiveBenchmarkSchema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "test_id",
+      "category",
+      "subcategory",
+      "language_or_ecosystem",
+      "file_path",
+      "line_number",
+      "vulnerability_description",
+      "expected_detection",
+      "expected_severity",
+      "cwe_or_cve",
+      "authoritative_reference",
+      "why_vulnerable"
+    ],
+    "properties": {
+      "test_id": {
+        "type": "string"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "SAST",
+          "SCA",
+          "IaC",
+          "Secrets"
+        ]
+      },
+      "subcategory": {
+        "type": "string"
+      },
+      "language_or_ecosystem": {
+        "type": "string"
+      },
+      "file_path": {
+        "type": "string"
+      },
+      "line_number": {
+        "type": "integer"
+      },
+      "vulnerability_description": {
+        "type": "string"
+      },
+      "expected_detection": {
+        "type": "string"
+      },
+      "expected_severity": {
+        "type": "string",
+        "enum": [
+          "CRITICAL",
+          "HIGH",
+          "MEDIUM",
+          "LOW"
+        ]
+      },
+      "cwe_or_cve": {
+        "type": "string"
+      },
+      "authoritative_reference": {
+        "type": "string"
+      },
+      "preconditions": {
+        "type": "string"
+      },
+      "why_vulnerable": {
+        "type": "string"
+      },
+      "reproduction_instructions": {
+        "type": "string"
+      },
+      "known_scanner_limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

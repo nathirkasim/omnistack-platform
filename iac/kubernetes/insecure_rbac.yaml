@@ -1,0 +1,9 @@
+# VULNERABLE: ClusterRole granting wildcard verbs across all API groups and resources (CKV_K8S_49)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dangerous-wildcard-role
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]

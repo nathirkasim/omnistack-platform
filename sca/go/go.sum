@@ -1,0 +1,6 @@
+github.com/gin-gonic/gin v1.7.0 h1:e46iYn0h61NqKukvec5+s87kYtflmI3EWBbF74L0O7Q=
+github.com/gin-gonic/gin v1.7.0/go.mod h1:OW2EZn3DO8Ln9tPKAqA58ufnWsk954sAmDBSuipURmI=
+golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad h1:cWbeo9pLNCnbBkuWXsOUOOZZBSRD2ng/e1twnv/ZqTI=
+golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad/go.mod h1:jdW1auT60khpkBlO00lRy804X7GKuHD96YfZ4/WnZqo=
+golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 h1:4nGaVu0QrbnLQavTLxwjwVCzQUWQU4Q4488wglflp2k=
+golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4/go.mod h1:pNX+4KJE+VVv3+kY99ae3z45465kkikpGwaUZW01crw=

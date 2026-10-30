@@ -1,0 +1,12 @@
+{
+    "_meta": {
+        "hash": {"sha256": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"},
+        "pipfile-spec": 6,
+        "requires": {"python_version": "3.9"},
+        "sources": [{"name": "pypi", "url": "https://pypi.org/simple", "verify_ssl": true}]
+    },
+    "default": {
+        "werkzeug": {"hashes": ["sha256:11223344556677889900aabbccddeeff"], "version": "==2.2.2"},
+        "certifi": {"hashes": ["sha256:aabbccddeeff00112233445566778899"], "version": "==2022.9.24"}
+    }
+}

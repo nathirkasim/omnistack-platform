@@ -1,0 +1,23 @@
+[[package]]
+name = "fastapi"
+version = "0.88.0"
+description = "FastAPI framework"
+optional = false
+python-versions = ">=3.7"
+files = []
+
+[package.dependencies]
+starlette = "0.22.0"
+
+[[package]]
+name = "starlette"
+version = "0.22.0"
+description = "The little ASGI framework that shines."
+optional = false
+python-versions = ">=3.7"
+files = []
+
+[metadata]
+lock-version = "2.0"
+python-versions = "^3.9"
+content-hash = "c1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f80"

@@ -1,0 +1,13 @@
+name: Issue Response Workflow
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  echo-issue:
+    runs-on: ubuntu-latest
+    steps:
+      # VULNERABLE: Untrusted GitHub event context directly interpolated into inline bash script creates Script Injection
+      - name: Print Issue Title
+        run: |
+          echo "Title of the issue is: ${{ github.event.issue.title }}"

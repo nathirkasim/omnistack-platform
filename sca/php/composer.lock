@@ -1,0 +1,16 @@
+{
+    "_readme": ["Locks vulnerable dependencies"],
+    "content-hash": "11223344556677889900aabbccddeeff",
+    "packages": [
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.3.3",
+            "license": ["MIT"]
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.24.0",
+            "license": ["MIT"]
+        }
+    ]
+}

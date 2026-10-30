@@ -1,0 +1,3 @@
+[requires]
+openssl/1.1.1k
+zlib/1.2.11

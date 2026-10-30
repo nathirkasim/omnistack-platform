@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Insecure CloudFormation Unencrypted RDS Database Fixture
+Resources:
+  # VULNERABLE: RDS database without encryption at rest (CKV_AWS_16) and publicly accessible (CKV_AWS_17)
+  InsecureDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 20
+      Engine: mysql
+      PubliclyAccessible: true
+      StorageEncrypted: false
+      MasterUsername: root
+      MasterUserPassword: benchmark_safe_password_2026

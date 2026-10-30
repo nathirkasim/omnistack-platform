@@ -1,0 +1,19 @@
+version = 3
+
+[[package]]
+name = "smallvec"
+version = "1.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f450ea65030a522edfe89f619cba86f1031b30320e42532e054861a04f6dba82"
+
+[[package]]
+name = "time"
+version = "0.1.43"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ca8a50ef2360fbd1eeb0ecd46795a87a19024eb4b53c5dc916ca1fd95fe62438"
+
+[[package]]
+name = "tokio"
+version = "1.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5486b66955318ed3242b86bb0cb3571ee41e844111a40fe973765dfd1236904f"

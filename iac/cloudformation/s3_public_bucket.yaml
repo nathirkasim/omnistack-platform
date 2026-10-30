@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Insecure CloudFormation Public S3 Bucket Fixture
+Resources:
+  # VULNERABLE: Public S3 bucket policy allowing wildcard access to Principal * (CKV_AWS_53)
+  PublicBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: tigergate-benchmark-cf-public-bucket
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref PublicBucket
+      PolicyDocument:
+        Statement:
+          - Action: "s3:GetObject"
+            Effect: Allow
+            Principal: "*"
+            Resource: !Sub "${PublicBucket.Arn}/*"

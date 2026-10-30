@@ -1,0 +1,10 @@
+{
+ "version": "0.5",
+ "graph_lock": {
+  "nodes": {
+   "0": { "ref": "conanfile.txt", "requires": ["1", "2"] },
+   "1": { "ref": "openssl/1.1.1k#" },
+   "2": { "ref": "zlib/1.2.11#" }
+  }
+ }
+}

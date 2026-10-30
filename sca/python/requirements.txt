@@ -1,0 +1,6 @@
+# Verified vulnerable Python packages
+requests==2.25.0
+urllib3==1.26.4
+flask==0.12.2
+jinja2==2.10
+pyyaml==5.3

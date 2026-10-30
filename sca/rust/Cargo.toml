@@ -1,0 +1,9 @@
+[package]
+name = "vulnerable-rust-fixture"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = "1.8.0"
+time = "0.1.43"
+smallvec = "1.6.0"

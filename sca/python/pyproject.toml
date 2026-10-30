@@ -1,0 +1,10 @@
+[tool.poetry]
+name = "vulnerable-python-fixture"
+version = "1.0.0"
+description = "Vulnerable Python Poetry fixture"
+authors = ["Benchmark <test@internal>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "0.88.0"
+starlette = "0.22.0"

@@ -1,0 +1,12 @@
+# VULNERABLE: Pod running in privileged mode (CKV_K8S_16, CIS Kubernetes 5.2.1)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: privileged-diagnostics-pod
+spec:
+  containers:
+  - name: diag
+    image: alpine:3.19
+    securityContext:
+      privileged: true
+      allowPrivilegeEscalation: true

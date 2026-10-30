@@ -1,0 +1,5 @@
+# VULNERABLE: Hardcoding sensitive credentials inside Dockerfile ENV directive (CKV_DOCKER_4)
+FROM alpine:3.19
+ENV AWS_ACCESS_KEY_ID="AKIAIOSFODNN7EXAMPLE"
+ENV AWS_SECRET_ACCESS_KEY="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+CMD ["sh"]

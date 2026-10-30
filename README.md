@@ -1,97 +1,89 @@
-# TigerGate Adversarial Code Security, False-Positive & SBOM Detection Suite
+# TigerGate True Positive Vulnerability Detection Benchmark
 
-A realistic, multi-language adversarial test suite for validating **TigerGate Code Security** against genuine vulnerabilities (True Positives), safe implementations (False Positives), scanner misses (False Negatives), reachability nuance, and Software Bill of Materials (SBOM) fidelity.
+A comprehensive, realistic, and independently verified **True Positive** security benchmark designed specifically to test the detection coverage and depth of **TigerGate Code Security**.
+
+## 1. Benchmark Scope & Purpose
+
+Unlike false-positive test suites, this repository contains **only genuine, independently exploitable security vulnerabilities** across four core testing pillars:
+
+1. **SAST (Static Application Security Testing):**
+   - 21 vulnerability classes across 9 languages: Python, JavaScript, TypeScript, Java, Go, PHP, Ruby, .NET (C#), and C/C++.
+   - Real, authentic vulnerable code patterns with data flow, framework integrations, and precise line markers.
+2. **SCA (Software Composition Analysis):**
+   - 9 package ecosystems: Python (pip, poetry, pipenv), npm (npm, yarn, pnpm), Java (Maven, Gradle), Go, Rust (Cargo), Ruby (Bundler), PHP (Composer), .NET (NuGet), and C/C++ (Conan, vcpkg).
+   - Exact pinned versions matched against confirmed NVD, OSV, and GitHub Security Advisories.
+   - Direct, transitive, dev, workspace, and git dependencies.
+3. **IaC (Infrastructure as Code Security):**
+   - Terraform, Kubernetes manifests, Dockerfiles, AWS CloudFormation, and GitHub Actions CI/CD workflows.
+   - Critical misconfigurations: unrestricted network ingress, public storage, container privilege escalation, root containers, script injection.
+4. **Secrets Detection:**
+   - Realistic synthetic credentials: AWS keys, GitHub/GitLab PATs, SSH/TLS private keys, database connection strings, JWT signing keys, OAuth secrets, API tokens across code, config, `.env`, and certificates.
 
 ---
 
-## 1. Repository Structure
+## 2. Repository Layout
 
-```text
-code-security-testing/
-├── .github/
-│   └── workflows/
-│       └── TIGERGATE.YML           # CI pipeline configuration for TigerGate scans
-├── tests/
-│   ├── sast/                       # SAST paired true-positive & false-positive cases
-│   │   ├── python/                 # Python SQLi, XSS, CmdInj, Path Traversal, SSRF, Crypto
-│   │   ├── javascript-typescript/  # TS/JS pg, react XSS, child_process, path traversal
-│   │   ├── java/                   # Java JDBC, JPA, Runtime.exec, ObjectInputStream
-│   │   ├── go/                     # Go database/sql, exec.Command, path traversal
-│   │   ├── ruby/                   # Ruby ActiveRecord SQLi, system CmdInj, Marshal
-│   │   ├── php/                    # PHP PDO SQLi, echo XSS, shell_exec, unserialize
-│   │   ├── dotnet/                 # C# SqlCommand, Process.Start, Path.Combine
-│   │   └── rust/                   # Rust Command::new, path canonicalize, unsafe ptr
-│   ├── sca/                        # Package manager manifests with verified CVEs
-│   │   ├── python/                 # requirements.txt, pyproject.toml, poetry.lock
-│   │   ├── npm/                    # package.json, package-lock.json, yarn.lock, pnpm
-│   │   ├── java/                   # pom.xml (Log4Shell), build.gradle, build.gradle.kts
-│   │   ├── go/                     # go.mod, go.sum
-│   │   ├── rust/                   # Cargo.toml, Cargo.lock
-│   │   ├── ruby/                   # Gemfile, Gemfile.lock
-│   │   ├── php/                    # composer.json, composer.lock
-│   │   ├── dotnet/                 # .csproj, packages.lock.json, Directory.Packages.props
-│   │   └── cpp/                    # conanfile.txt, vcpkg.json
-│   ├── sbom/                       # Dependency acquisition and inventory edge cases
-│   │   ├── direct/                 # Direct pinned dependencies
-│   │   ├── transitive/             # Deeply nested transitive dependencies
-│   │   ├── workspaces/             # Monorepo with conflicting version resolutions
-│   │   ├── git-dependencies/       # VCS commit-pinned dependencies
-│   │   ├── vendored/               # In-tree committed third-party packages
-│   │   └── containers/             # Multi-stage Dockerfile OS package layers
-│   ├── secrets/                    # False-positive placeholders & synthetic secrets
-│   ├── iac/                        # Terraform, Kubernetes, Dockerfile, GitHub Actions
-│   └── reachability/               # Real CVE reachable vs unreachable call graph cases
-├── test-metadata/
-│   ├── expected-findings.json      # Machine-readable ground truth manifest
-│   └── dependency-source-matrix.json # Ecosystem & package manager coverage matrix
-├── scripts/
-│   ├── run-scanner.sh              # Local scanner execution harness
-│   └── evaluate-results.py         # Automated comparison & evaluation report generator
-├── reports/
-│   ├── README.md                   # Reporting guide
-│   └── evaluation-report.md        # Comprehensive evaluation matrix & metrics
-└── docs/
-    ├── adversarial-test-plan.md    # Methodology, objectives & taxonomy
-    ├── sbom-coverage-matrix.md     # Package manager & PURL attribution specifications
-    └── known-limitations.md        # Architectural scanner gaps & recommendations
+```
+nathir-fptest/
+├── sast/                               # SAST True Positive Fixtures
+│   ├── python/                         # SQLi, Cmdi, SSRF, Path Traversal, SSTI, Deserialization, Insecure TLS
+│   ├── javascript/                     # XSS, NoSQLi, Cmdi, Path Traversal, Open Redirect, IDOR, Unsafe Upload
+│   ├── typescript/                     # Type-safe SQLi bypass, JWT algorithm confusion
+│   ├── java/                           # SQLi, XXE, Deserialization, Cmdi, LDAP Injection, XPath Injection
+│   ├── go/                             # SQLi, Cmdi, SSRF, Path Traversal, Insecure TLS
+│   ├── php/                            # SQLi, Cmdi, Local File Inclusion (LFI), Insecure Deserialization
+│   ├── ruby/                           # SQLi, Cmdi, Insecure YAML Deserialization
+│   ├── dotnet/                         # SQLi, Path Traversal, BinaryFormatter Deserialization
+│   └── cpp/                            # Buffer Overflow, Format String, Command Injection
+│
+├── sca/                                # SCA True Positive Fixtures
+│   ├── python/                         # requests, urllib3, flask, jinja2, pyyaml, fastapi, starlette
+│   ├── npm/                            # lodash, express, axios, minimist, json5, moment, semver
+│   ├── java/                           # Log4j (Log4Shell), Jackson, Spring4Shell, Commons-Collections
+│   ├── go/                             # crypto, gin, net
+│   ├── rust/                           # tokio, time, smallvec
+│   ├── ruby/                           # rails, rack, nokogiri
+│   ├── php/                            # guzzle, monolog
+│   ├── dotnet/                         # Newtonsoft.Json, System.Text.Encodings.Web
+│   └── cpp/                            # openssl, zlib, libxml2
+│
+├── iac/                                # IaC True Positive Fixtures
+│   ├── terraform/                      # Public S3, 0.0.0.0/0 SG ingress, wildcard IAM, unencrypted RDS
+│   ├── kubernetes/                     # Privileged container, hostPID/hostNetwork, hostPath mount, root user
+│   ├── docker/                         # Root user, unpinned tags, hardcoded ENV secret, exposed SSH
+│   ├── cloudformation/                 # Public S3 bucket policy, unencrypted DB, wildcard role
+│   └── github-actions/                 # Context expression script injection, unpinned 3rd-party actions
+│
+├── secrets/                            # Secrets True Positive Fixtures
+│   ├── source-code/                    # AWS keys, GitHub PAT, Stripe secret, DB credentials in code
+│   ├── configuration/                  # .env, config.json, application.properties
+│   ├── infrastructure/                 # terraform.tfvars, k8s Secret manifest
+│   ├── certificates/                   # RSA private key, EC private key, PGP private key
+│   └── git-history/                    # Historical synthetic commit secrets
+│
+├── metadata/
+│   ├── expected-findings.json          # Machine-readable ground truth (100+ true positive findings)
+│   └── schema.json                     # JSON Schema validating expected finding records
+│
+├── docs/                               # Detailed methodology and testing guides
+├── references/                         # Vulnerability research notes & CVE advisories
+├── reports/                            # Evaluation reports & gap analysis templates
+└── scripts/                            # Verification and comparison engines
 ```
 
 ---
 
-## 2. Test Taxonomy
+## 3. Evaluation Methodology
 
-- **`TP-SAST-xxx`**: Intentionally vulnerable code (genuine true positive).
-- **`FP-SAST-xxx`**: Safe, defended implementation syntactically resembling a vulnerability.
-- **`FN-SAST-xxx`**: Genuine vulnerability designed with complex data flow to identify scanner misses.
-- **`TP-SCA-xxx`**: Verified CVE in pinned dependency manifest or lockfile.
-- **`SBOM-xxx`**: Component inventory, PURL generation, and graph edge validation.
-- **`FP-SECRET-xxx`**: Safe placeholder, documentation example, or high-entropy non-secret.
-- **`TP-SECRET-xxx`**: Controlled synthetic test secret matching regex detection patterns.
-- **`TP-IAC-xxx` / `FP-IAC-xxx`**: Paired insecure and compliant infrastructure configurations.
-- **`TP-REACH-xxx` / `TN-REACH-xxx`**: Reachable vs unreachable / sanitized vulnerable dependency call paths.
-
----
-
-## 3. Running the Test Suite
-
-### Local Offline Ground Truth Evaluation
-```bash
-python3 scripts/evaluate-results.py
-```
-
-### Running TigerGate Scans (with API credentials)
-```bash
-export TIGERGATE_API_KEY="<your-api-key>"
-export TIGERGATE_API_URL="https://api.tigergate.dev/api/ci"
-
-./scripts/run-scanner.sh
-```
-
----
-
-## 4. Documentation Links
-
-- [Adversarial Test Plan](docs/adversarial-test-plan.md)
-- [SBOM Coverage Matrix](docs/sbom-coverage-matrix.md)
-- [Known Limitations & Recommendations](docs/known-limitations.md)
-- [Evaluation Report](reports/evaluation-report.md)
+1. Run TigerGate Code Security across this repository.
+2. Compare scan findings against `metadata/expected-findings.json` using:
+   ```bash
+   python3 scripts/evaluate-tigergate-benchmark.py \
+     --expected metadata/expected-findings.json \
+     --actual /path/to/tigergate-report.json \
+     --output reports/tigergate-detection-gap-report.md
+   ```
+3. Generate metric scorecards:
+   - **True Positive Detection Rate (%):** Overall and broken down by category (SAST, SCA, IaC, Secrets).
+   - **False Negative Rate (%):** Critical security flaws completely missed by the engine.
+   - **Metadata Accuracy (%):** Accuracy of rule identification, CWE, CVSS score, and affected line numbers.

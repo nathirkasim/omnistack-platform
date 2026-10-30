@@ -1,0 +1,6 @@
+plugins { id 'java' }
+repositories { mavenCentral() }
+dependencies {
+    // Commons Collections RCE (CVE-2015-7501)
+    implementation 'commons-collections:commons-collections:3.2.1'
+}

@@ -1,0 +1,7 @@
+{
+  "name": "vulnerable-vcpkg-fixture",
+  "version": "1.0.0",
+  "dependencies": [
+    { "name": "libxml2", "version>=": "2.9.10" }
+  ]
+}

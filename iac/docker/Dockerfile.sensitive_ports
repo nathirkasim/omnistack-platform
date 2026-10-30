@@ -1,0 +1,5 @@
+# VULNERABLE: Exposing sensitive SSH port 22 and Docker daemon port 2375 (CKV_DOCKER_1)
+FROM alpine:3.19
+EXPOSE 22
+EXPOSE 2375
+CMD ["sh"]
