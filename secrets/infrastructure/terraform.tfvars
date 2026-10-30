@@ -1,4 +1,4 @@
-# VULNERABLE: Committed Terraform variables file containing sensitive administrative password
-db_username = "admin"
-db_password = "P@ssw0rdInTerraformVars2026!"
-api_secret  = "infra_api_token_1234567890abcdef"
+# VULNERABLE: Committed Terraform variables file containing sensitive administrative credentials
+db_username = "cluster_admin"
+db_password = "hK9#vL2$xQ5!zR8*mP4_db_root"
+api_secret  = "sec_token_9f8e7d6c5b4a31029384756102938475"
