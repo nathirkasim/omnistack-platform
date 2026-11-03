@@ -4,16 +4,16 @@ Contains targets for git history commit scanning and false positive traps.
 """
 
 # GT: id=SEC-HIST-001 type=TP rule=git-history-committed-then-deleted
-GIT_HISTORY_DELETED_AWS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+GIT_HISTORY_DELETED_AWS_KEY = "4fB8qW2mN9kL5pT7vX1yZ3aC6eH0jR8uI4oP2sT1"
 
 # GT: id=SEC-HIST-002 type=TP rule=git-history-deleted-branch-secret
-GIT_HISTORY_BRANCH_PAT = "ghp_HistorySecretToken012345678901234567"
+GIT_HISTORY_BRANCH_PAT = "ghp_8uK2mP5qR8tU1vW4xY7zA0bC3dE6fG8hI0jK"
 
 # GT: id=SEC-HIST-003 type=TP rule=git-history-rotated-stale-secret
-GIT_HISTORY_ROTATED_STRIPE_KEY = "sk_live_old_rotated_key_9876543210123456789"
+GIT_HISTORY_ROTATED_STRIPE_KEY = "sk_live_51AbCdEfGhIjKlMnOpQrStUvWxYz0123456789AbCdEfGhIj"
 
 # GT: id=SEC-HIST-004 type=TP rule=git-history-secret-moved-files
-GIT_HISTORY_MOVED_SECRET = "db_password_migrated_between_modules_987654"
+GIT_HISTORY_MOVED_SECRET = "postgres://db_admin:K9%23mP2%24vW8%21xZ4%5EqL7@db.internal:5432/main"
 
 # --- False Positive Traps ---
 

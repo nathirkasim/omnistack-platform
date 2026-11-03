@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Deploy with hardcoded token
         # GT: id=SEC-HIST-005 type=TP rule=github-actions-hardcoded-secret
-        run: echo "token=ghp_AbCdEfGhIjKlMnOpQrStUvWxYz0123456789"
+        run: echo "token=ghp_9kL2mP5qR8tU1vW4xY7zA0bC3dE6fG8hI0jK"
 
       - name: Deploy with GitHub secrets reference
         # GT: id=SEC-HIST-016 type=FP reason=github-actions-secret-variable-reference

@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     // GT: id=SEC-HIST-007 type=TP rule=jenkins-hardcoded-api-key
-                    def apiKey = "AIzaSyJenkinsHardcodedGoogleKey012345"
+                    def apiKey = "AIzaSyB8uK2mP5qR8tU1vW4xY7zA0bC3dE6fG8h"
 
                     // GT: id=SEC-HIST-018 type=FP reason=jenkins-with-credentials-binding
                     withCredentials([string(credentialsId: 'my-token', variable: 'TOKEN')]) {

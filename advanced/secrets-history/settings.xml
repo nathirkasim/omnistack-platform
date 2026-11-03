@@ -4,7 +4,7 @@
       <id>deployment-repo</id>
       <username>deployer</username>
       <!-- GT: id=SEC-HIST-014 type=TP rule=maven-settings-plaintext-password -->
-      <password>MavenServerSecretPassword999!</password>
+      <password>K9#mP2$vW8!xZ4^qL7</password>
     </server>
     <server>
       <id>safe-repo</id>
