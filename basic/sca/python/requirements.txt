@@ -1,0 +1,48 @@
+# Production Requirements with pinned dependencies
+
+# GT: id=SCA-PY-001 type=TP cwe=CVE-2018-18074 rule=cve-requests-credentials-leak
+requests==2.19.1
+
+# GT: id=SCA-PY-002 type=TP cwe=CVE-2020-26137 rule=cve-urllib3-crlf-injection
+urllib3==1.25.8
+
+# GT: id=SCA-PY-003 type=TP cwe=CVE-2018-1000656 rule=cve-flask-dos
+flask==0.12.2
+
+# GT: id=SCA-PY-004 type=TP cwe=CVE-2019-10906 rule=cve-jinja2-sandbox-escape
+jinja2==2.10
+
+# GT: id=SCA-PY-005 type=TP cwe=CVE-2020-1747 rule=cve-pyyaml-arbitrary-code-execution
+pyyaml==5.2
+
+# GT: id=SCA-PY-006 type=TP cwe=CVE-2019-14232 rule=cve-django-sqli-jsonfield
+django==2.2
+
+# GT: id=SCA-PY-007 type=TP cwe=CVE-2021-25290 rule=cve-pillow-buffer-overflow
+pillow==8.1.0
+
+# GT: id=SCA-PY-008 type=TP cwe=CVE-2020-36242 rule=cve-cryptography-buffer-overflow
+cryptography==3.3.1
+
+# --- Patched or Safe Dependencies (False Positives) ---
+
+# GT: id=SCA-PY-009 type=FP reason=already-patched-version
+requests-oauthlib==2.0.0
+
+# GT: id=SCA-PY-010 type=FP reason=already-patched-version
+certifi==2023.7.22
+
+# GT: id=SCA-PY-012 type=FP reason=outside-advisory-version-range
+sqlparse==0.4.4
+
+# GT: id=SCA-PY-013 type=FP reason=safe-utility-package-no-cve
+colorama==0.4.6
+
+# GT: id=SCA-PY-014 type=FP reason=build-tooling-only
+wheel==0.41.2
+
+# GT: id=SCA-PY-015 type=FP reason=already-patched-version
+werkzeug==3.0.1
+
+# GT: id=SCA-PY-016 type=FP reason=already-patched-version
+markupsafe==2.1.3

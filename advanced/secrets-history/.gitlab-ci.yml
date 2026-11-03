@@ -1,0 +1,12 @@
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  variables:
+    # GT: id=HIST-SEC-006 type=TP rule=gitlab-ci-hardcoded-secret
+    DEPLOY_KEY: "xoxb-gitlab-ci-slack-token-0123456789"
+    # GT: id=HIST-SEC-017 type=FP reason=gitlab-ci-env-var-reference
+    SAFE_CI_TOKEN: "$CI_JOB_TOKEN"
+  script:
+    - echo "Deploying via GitLab CI"

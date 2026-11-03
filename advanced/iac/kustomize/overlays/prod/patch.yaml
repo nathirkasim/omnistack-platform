@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload
+spec:
+  template:
+    spec:
+      # GT: id=IAC-KUST-0002 type=TP rule=kustomize-overlay-host-network technique=kustomize-overlay-resolution
+      hostNetwork: true
+      containers:
+        - name: app
+          securityContext:
+            # GT: id=IAC-KUST-0001 type=TP rule=kustomize-overlay-privileged technique=kustomize-overlay-resolution
+            privileged: true
+      volumes:
+        - name: shadow-vol
+          hostPath:
+            # GT: id=IAC-KUST-0003 type=TP rule=kustomize-overlay-sensitive-hostpath technique=kustomize-overlay-resolution
+            path: /etc/shadow

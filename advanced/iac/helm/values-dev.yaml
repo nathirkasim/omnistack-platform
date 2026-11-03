@@ -1,0 +1,10 @@
+image: "app:1.0.0"
+debug:
+  enabled: false
+security:
+  readOnly: true
+hostMount:
+  enabled: false
+  path: ""
+tls:
+  enabled: true

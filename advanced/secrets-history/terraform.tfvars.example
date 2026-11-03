@@ -1,0 +1,4 @@
+# Example variable definitions for Terraform
+
+# GT: id=SEC-HIST-020 type=FP reason=tfvars-example-placeholder
+db_password = "replace_with_strong_password"

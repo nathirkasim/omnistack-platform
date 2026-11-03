@@ -1,0 +1,10 @@
+image: "app:1.0.0"
+debug:
+  enabled: true
+security:
+  readOnly: false
+hostMount:
+  enabled: true
+  path: "/var/run/docker.sock"
+tls:
+  enabled: false

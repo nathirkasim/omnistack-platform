@@ -1,0 +1,15 @@
+name: CI Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy with hardcoded token
+        # GT: id=SEC-HIST-005 type=TP rule=github-actions-hardcoded-secret
+        run: echo "token=ghp_AbCdEfGhIjKlMnOpQrStUvWxYz0123456789"
+
+      - name: Deploy with GitHub secrets reference
+        # GT: id=SEC-HIST-016 type=FP reason=github-actions-secret-variable-reference
+        run: echo "token=${{ secrets.AWS_ACCESS_KEY_ID }}"

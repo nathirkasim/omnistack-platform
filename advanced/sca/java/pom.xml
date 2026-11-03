@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.benchmark</groupId>
+    <artifactId>advanced-sca-java</artifactId>
+    <version>2.0.0</version>
+
+    <dependencies>
+        <!-- GT: id=SCA-JAVA-1001 type=TP cwe=CVE-2021-44228 rule=cve-log4j-transitive technique=transitive-dep-depth-2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1002 type=TP cwe=CVE-2022-22965 rule=cve-spring-beans-diamond technique=diamond-dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.3.17</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1003 type=TP cwe=CVE-2022-22965 rule=cve-spring-mvc-range technique=version-range-inequality -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.17</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1004 type=TP cwe=CVE-2022-42889 rule=cve-commons-text-interpolator technique=vulnerable-function-called -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1005 type=TP cwe=CVE-2018-19362 rule=cve-shaded-jackson technique=shaded-fat-jar -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack -->
+        <dependency>
+            <groupId>com.fakecorp.internal</groupId>
+            <artifactId>security-vault</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1007 type=TP cwe=CVE-2021-44228 rule=cve-typosquatting technique=typosquat-package -->
+        <dependency>
+            <groupId>org.apache.log4jj</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1008 type=TP cwe=CVE-2022-25857 rule=cve-snakeyaml-transitive technique=transitive-dep-depth-4 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.30</version>
+        </dependency>
+
+        <!-- === False Positives === -->
+
+        <!-- GT: id=SCA-JAVA-1009 type=FP reason=vulnerable-function-never-called technique=unreachable-api-surface -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1010 type=FP reason=test-scope-dependency technique=dev-test-scope -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1011 type=FP reason=already-patched-version technique=pinned-patched-version -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>6.0.11</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1013 type=FP reason=monorepo-internal-module technique=monorepo-local-subproject -->
+        <dependency>
+            <groupId>com.example.benchmark</groupId>
+            <artifactId>internal-module</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1014 type=FP reason=provided-scope-container technique=provided-container-scope -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1015 type=FP reason=different-ecosystem-package-name technique=cross-ecosystem-homonym -->
+        <dependency>
+            <groupId>io.github.fake</groupId>
+            <artifactId>requests-java</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-1016 type=FP reason=dependency-management-override technique=lockfile-resolutions-override -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+    </dependencies>
+</project>

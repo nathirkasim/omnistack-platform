@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secretpassword
+    ports:
+      # GT: id=IAC-COMPOSE-003 type=TP rule=compose-exposed-db-port-internet
+      - "0.0.0.0:5432:5432"
+
+  system-agent:
+    image: agent:latest
+    # GT: id=IAC-COMPOSE-001 type=TP rule=compose-privileged-service
+    privileged: true
+    volumes:
+      # GT: id=IAC-COMPOSE-002 type=TP rule=compose-mounted-docker-socket
+      - /var/run/docker.sock:/var/run/docker.sock
+      # GT: id=IAC-COMPOSE-005 type=FP reason=read-only-volume-mount
+      - /etc/config:/etc/config:ro
+
+  internal-worker:
+    image: worker:1.0.0
+    # GT: id=IAC-COMPOSE-004 type=FP reason=internal-isolated-network
+    networks:
+      - internal_net
+
+networks:
+  internal_net:
+    internal: true

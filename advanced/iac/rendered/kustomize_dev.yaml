@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: app
+          image: app:1.0.0
+          securityContext:
+            runAsNonRoot: true
+            privileged: false
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: safe-cfg
+          configMap:
+            name: app-config

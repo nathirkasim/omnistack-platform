@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-release-service
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: app
+          image: app:1.0.0
+          securityContext:
+            privileged: true
+            readOnlyRootFilesystem: false
+      volumes:
+        - name: host-sock
+          hostPath:
+            path: /var/run/docker.sock
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-release-ingress
+spec:
+  rules:
+    - host: api.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-svc
+                port:
+                  number: 80

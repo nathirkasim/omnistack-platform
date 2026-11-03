@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostNetwork: true
+      containers:
+        - name: app
+          image: app:1.0.0
+          securityContext:
+            privileged: true
+            runAsNonRoot: false
+      volumes:
+        - name: shadow-vol
+          hostPath:
+            path: /etc/shadow

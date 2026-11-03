@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: Payment Gateway API
+  version: 1.0.0
+paths:
+  /v1/charge:
+    post:
+      summary: Charge credit card
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          # GT: id=SEC-HIST-015 type=TP rule=openapi-example-hardcoded-api-key
+          example: "Bearer sk_live_openapi_example_key_0123456789"
+        - name: SafeAuth
+          in: header
+          schema:
+            type: string
+          # GT: id=SEC-HIST-026 type=FP reason=openapi-example-placeholder-token
+          example: "Bearer <YOUR_BEARER_TOKEN>"

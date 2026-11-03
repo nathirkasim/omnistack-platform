@@ -1,0 +1,8 @@
+# Helm chart configuration values
+
+auth:
+  # GT: id=SEC-HIST-010 type=TP rule=helm-values-plaintext-secret
+  secretKey: "HelmValuesSecretKey9876543210"
+
+  # GT: id=SEC-HIST-021 type=FP reason=helm-values-placeholder-token
+  fallbackKey: "<CHANGEME_SECRET_KEY>"

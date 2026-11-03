@@ -1,0 +1,51 @@
+# Advanced Reachability and Transitive SCA (Python)
+
+# GT: id=SCA-PY-1001 type=TP cwe=CVE-2019-11324 rule=cve-urllib3-ssl-handling technique=transitive-dep-depth-2
+urllib3==1.24.1
+
+# GT: id=SCA-PY-1002 type=TP cwe=CVE-2020-28493 rule=cve-jinja2-redos technique=diamond-dependency
+jinja2==2.10.1
+
+# GT: id=SCA-PY-1003 type=TP cwe=CVE-2019-14806 rule=cve-werkzeug-debugger-rce technique=version-range-inequality
+werkzeug==0.14.1
+
+# GT: id=SCA-PY-1004 type=TP cwe=CVE-2019-20477 rule=cve-pyyaml-full-load-rce technique=vulnerable-function-called
+pyyaml==5.1
+
+# GT: id=SCA-PY-1005 type=TP cwe=CVE-2020-13757 rule=cve-rsa-signature-timing technique=manifest-lockfile-mismatch
+rsa==4.0
+
+# GT: id=SCA-PY-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack
+fakecorp-internal-auth==0.0.1
+
+# GT: id=SCA-PY-1007 type=TP cwe=CVE-2020-36242 rule=cve-typosquatting-lookalike technique=typosquat-package
+reqeusts==2.19.1
+
+# GT: id=SCA-PY-1008 type=TP cwe=CVE-2022-23491 rule=cve-certifi-root-cert technique=transitive-dep-depth-3
+certifi==2020.12.5
+
+# --- False Positive Traps ---
+
+# GT: id=SCA-PY-1009 type=FP reason=vulnerable-function-never-called technique=unreachable-api-surface
+pyyaml-env-tag==0.1
+
+# GT: id=SCA-PY-1010 type=FP reason=test-only-dependency technique=dev-test-scope
+pytest-runner==5.2
+
+# GT: id=SCA-PY-1011 type=FP reason=already-patched-version technique=pinned-patched-version
+requests==2.31.0
+
+# GT: id=SCA-PY-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch
+django==4.2.16
+
+# GT: id=SCA-PY-1013 type=FP reason=monorepo-internal-workspace-package technique=monorepo-local-subproject
+internal-common-util==1.0.0
+
+# GT: id=SCA-PY-1014 type=FP reason=vendored-ignored-directory technique=vendored-code
+vendored-dep==1.0.0
+
+# GT: id=SCA-PY-1015 type=FP reason=different-ecosystem-package-name technique=cross-ecosystem-homonym
+express-python==0.1.0
+
+# GT: id=SCA-PY-1016 type=FP reason=lockfile-override-fixed technique=lockfile-resolutions-override
+certifi-resolved==2023.7.22

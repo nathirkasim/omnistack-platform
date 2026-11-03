@@ -1,0 +1,9 @@
+// UI assets and lockfile integrity constants
+
+// GT: id=SEC-GEN-022 type=FP reason=base64-image-data-uri
+const TRANSPARENT_1PX_PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+
+// GT: id=SEC-GEN-023 type=FP reason=package-lock-integrity-hash
+const PACKAGE_LOCK_INTEGRITY = "sha512-4yPzFqK5G9v3J1p7r8s9t0u1v2w3x4y5z6A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6==";
+
+module.exports = { TRANSPARENT_1PX_PNG, PACKAGE_LOCK_INTEGRITY };

@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage('Deploy') {
+            steps {
+                script {
+                    // GT: id=SEC-HIST-007 type=TP rule=jenkins-hardcoded-api-key
+                    def apiKey = "AIzaSyJenkinsHardcodedGoogleKey012345"
+
+                    // GT: id=SEC-HIST-018 type=FP reason=jenkins-with-credentials-binding
+                    withCredentials([string(credentialsId: 'my-token', variable: 'TOKEN')]) {
+                        sh 'echo Safe credentials lookup'
+                    }
+                }
+            }
+        }
+    }
+}

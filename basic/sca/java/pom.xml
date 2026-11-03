@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.benchmark</groupId>
+    <artifactId>basic-sca-java</artifactId>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <!-- GT: id=SCA-JAVA-001 type=TP cwe=CVE-2021-44228 rule=cve-log4shell-rce -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-002 type=TP cwe=CVE-2022-22965 rule=cve-spring4shell-rce -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.17</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-003 type=TP cwe=CVE-2022-42889 rule=cve-text4shell-rce -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-004 type=TP cwe=CVE-2018-19362 rule=cve-jackson-deserialization -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-005 type=TP cwe=CVE-2022-25857 rule=cve-snakeyaml-dos -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.30</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-006 type=TP cwe=CVE-2020-17530 rule=cve-struts-ognl-rce -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+            <version>2.5.25</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-007 type=TP cwe=CVE-2022-25845 rule=cve-fastjson-autotype-rce -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.80</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-008 type=TP cwe=CVE-2020-17523 rule=cve-shiro-auth-bypass -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <!-- === False Positive Traps === -->
+
+        <!-- GT: id=SCA-JAVA-009 type=FP reason=test-scope-dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-010 type=FP reason=already-patched-version -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-011 type=FP reason=already-patched-version -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.3.26</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-012 type=FP reason=already-patched-version -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-013 type=FP reason=safe-utility-no-cve -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-014 type=FP reason=test-scope-dependency -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-015 type=FP reason=safe-logging-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+
+        <!-- GT: id=SCA-JAVA-016 type=FP reason=already-patched-version -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+    </dependencies>
+</project>

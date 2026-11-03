@@ -1,0 +1,6 @@
+# Development and test dependencies only
+
+# GT: id=SCA-PY-011 type=FP reason=dev-test-dependency-only
+pytest==7.4.0
+pytest-cov==4.1.0
+flake8==6.1.0

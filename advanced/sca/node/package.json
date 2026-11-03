@@ -1,0 +1,41 @@
+{
+  "name": "advanced-sca-node",
+  "version": "2.0.0",
+  "description": "Advanced Reachability and Transitive SCA Fixtures (Node.js)",
+  "dependencies": {
+    "_comment_s1": "GT: id=SCA-NODE-1001 type=TP cwe=CVE-2019-10744 rule=cve-lodash-template-rce technique=transitive-dep-depth-2",
+    "lodash.template": "4.4.0",
+    "_comment_s2": "GT: id=SCA-NODE-1002 type=TP cwe=CVE-2020-7598 rule=cve-minimist-diamond technique=diamond-dependency",
+    "minimist": "1.2.0",
+    "_comment_s3": "GT: id=SCA-NODE-1003 type=TP cwe=CVE-2020-8203 rule=cve-lodash-range-resolution technique=version-range-inequality",
+    "lodash": "^4.17.0",
+    "_comment_s4": "GT: id=SCA-NODE-1004 type=TP cwe=CVE-2020-8203 rule=cve-lodash-defaults-deep technique=vulnerable-function-called",
+    "async": "2.6.2",
+    "_comment_s5": "GT: id=SCA-NODE-1005 type=TP cwe=CVE-2020-28168 rule=cve-axios-overrides technique=package-json-overrides-vulnerable",
+    "axios": "0.21.0",
+    "_comment_s6": "GT: id=SCA-NODE-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack",
+    "@fakecorp/auth-sdk": "0.0.1",
+    "_comment_s7": "GT: id=SCA-NODE-1007 type=TP cwe=CVE-2020-28168 rule=cve-typosquatting technique=typosquat-package",
+    "axioos": "0.21.0",
+    "_comment_s8": "GT: id=SCA-NODE-1008 type=TP cwe=CVE-2020-7788 rule=cve-node-fetch-transitive technique=transitive-dep-depth-3",
+    "node-fetch": "2.6.0",
+    "_comment_f9": "GT: id=SCA-NODE-1009 type=FP reason=vulnerable-function-never-called technique=unreachable-api-surface",
+    "validator": "13.5.2",
+    "_comment_f11": "GT: id=SCA-NODE-1011 type=FP reason=already-patched-version technique=pinned-patched-version",
+    "semver": "7.5.4",
+    "_comment_f12": "GT: id=SCA-NODE-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch",
+    "express": "4.19.2",
+    "_comment_f13": "GT: id=SCA-NODE-1013 type=FP reason=monorepo-internal-workspace-package technique=monorepo-local-subproject",
+    "@codesec/core-internal": "1.0.0",
+    "_comment_f14": "GT: id=SCA-NODE-1014 type=FP reason=vendored-ignored-directory technique=vendored-code",
+    "vendored-js-lib": "1.0.0",
+    "_comment_f15": "GT: id=SCA-NODE-1015 type=FP reason=different-ecosystem-package-name technique=cross-ecosystem-homonym",
+    "flask-js": "1.0.0",
+    "_comment_f16": "GT: id=SCA-NODE-1016 type=FP reason=package-overrides-fixed technique=lockfile-resolutions-override",
+    "debug": "4.3.4"
+  },
+  "devDependencies": {
+    "_comment_f10": "GT: id=SCA-NODE-1010 type=FP reason=devDependencies-only-scope technique=dev-test-scope",
+    "jest": "29.5.0"
+  }
+}

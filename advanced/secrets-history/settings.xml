@@ -1,0 +1,16 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
+  <servers>
+    <server>
+      <id>deployment-repo</id>
+      <username>deployer</username>
+      <!-- GT: id=SEC-HIST-014 type=TP rule=maven-settings-plaintext-password -->
+      <password>MavenServerSecretPassword999!</password>
+    </server>
+    <server>
+      <id>safe-repo</id>
+      <username>ci-user</username>
+      <!-- GT: id=SEC-HIST-025 type=FP reason=maven-settings-env-var-reference -->
+      <password>${env.MAVEN_REPO_PASSWORD}</password>
+    </server>
+  </servers>
+</settings>
