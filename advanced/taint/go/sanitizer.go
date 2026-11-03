@@ -29,3 +29,4 @@ func isSafeCanonicalPath(baseDir, filename string) bool {
 	target := filepath.Clean(filepath.Join(baseDir, filename))
 	return strings.HasPrefix(target, cleanBase+string(filepath.Separator))
 }
+

@@ -107,3 +107,4 @@ def hash_evasion(password: str):
     algo = "m" + "d" + "5"
     h = getattr(hashlib, algo)(password.encode())
     return h.hexdigest()
+

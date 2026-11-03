@@ -64,3 +64,4 @@ HIGH_ENTROPY_API_KEY = "live_sec_7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a"
 
 # GT: id=EVASION-SEC-020 type=FP reason=high-entropy-sha256-checksum technique=high-entropy-non-secret pair_id=EVASION-SEC-019
 HIGH_ENTROPY_HASH_FP = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+

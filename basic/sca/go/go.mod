@@ -53,3 +53,4 @@ require (
 	// GT: id=SCA-GO-016 type=FP reason=safe-utility-no-cve
 	github.com/google/uuid v1.4.0
 )
+

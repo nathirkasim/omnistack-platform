@@ -131,3 +131,4 @@ def idor_transfer():
     # Missing session ownership validation
     taint_service.repo.update_account_balance(target_account, amount)
     return jsonify(status="transferred")
+

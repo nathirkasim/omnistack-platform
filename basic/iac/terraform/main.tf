@@ -90,3 +90,4 @@ resource "aws_cloudtrail" "insecure_trail" {
   # GT: id=IAC-TF-005 type=TP rule=cloudtrail-logging-disabled
   enable_logging = false
 }
+

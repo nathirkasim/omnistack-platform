@@ -18,3 +18,4 @@ spec:
         - name: shadow-vol
           hostPath:
             path: /etc/shadow
+

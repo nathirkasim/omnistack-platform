@@ -96,3 +96,4 @@ class DeepTaintService:
         # GT: id=TAINT-PY-018 type=FP reason=canonical-validator-path-traversal
         with open(os.path.join(base_dir, filename), "r") as f:
             return f.read()
+

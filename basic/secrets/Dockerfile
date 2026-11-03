@@ -5,3 +5,4 @@ WORKDIR /app
 ENV PROD_DATABASE_PASSWORD=ProdDbPasswordSecretVal987654321
 
 CMD ["sh"]
+

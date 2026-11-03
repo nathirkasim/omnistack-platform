@@ -20,3 +20,4 @@ spec:
         - name: safe-cfg
           configMap:
             name: app-config
+

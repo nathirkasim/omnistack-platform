@@ -48,3 +48,4 @@ git add app.py
 git commit -m "refactor: relocate database password from config to app"
 
 echo "[OK] Created synthetic git repository with history in $TARGET_DIR"
+

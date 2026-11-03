@@ -27,3 +27,4 @@ resource "aws_instance" "exposed_web_instance" {
   subnet_id                   = "subnet-public-123"
   vpc_security_group_ids      = ["sg-12345"]
 }
+

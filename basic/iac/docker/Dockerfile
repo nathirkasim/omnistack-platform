@@ -32,3 +32,4 @@ COPY --from=builder /bin/app /app/app
 USER appuser
 
 ENTRYPOINT ["/app/app"]
+

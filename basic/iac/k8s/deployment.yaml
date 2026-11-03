@@ -37,3 +37,4 @@ spec:
           hostPath:
             # GT: id=IAC-K8S-004 type=TP rule=k8s-hostpath-docker-socket
             path: /var/run/docker.sock
+

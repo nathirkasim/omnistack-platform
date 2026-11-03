@@ -33,3 +33,4 @@ spec:
                 name: app-svc
                 port:
                   number: 80
+

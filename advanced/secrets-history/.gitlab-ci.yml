@@ -10,3 +10,4 @@ deploy_job:
     SAFE_CI_TOKEN: "$CI_JOB_TOKEN"
   script:
     - echo "Deploying via GitLab CI"
+

@@ -14,3 +14,4 @@ spec:
             # Base configuration (safe default overridden in prod overlay)
             privileged: false
             runAsNonRoot: false
+

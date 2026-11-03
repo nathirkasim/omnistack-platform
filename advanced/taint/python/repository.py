@@ -37,3 +37,4 @@ class OrderRepository:
         # GT: id=TAINT-PY-010 type=TP cwe=CWE-639 rule=idor-unauthorized-update
         cursor.execute("UPDATE accounts SET balance = balance + ? WHERE account_id = ?", (amount, target_account_id))
         self.conn.commit()
+

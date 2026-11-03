@@ -178,3 +178,4 @@ Generate synthetic monorepos at scale (e.g., 10,000 files with embedded findings
 ```bash
 python3 advanced/harness/gen_scale.py --count 10000 --out /tmp/monorepo_10k --embed-ratio 0.02
 ```
+

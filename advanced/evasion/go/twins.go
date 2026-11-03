@@ -127,3 +127,4 @@ func randEvasion() int64 {
 func main() {
 	fmt.Println("Evasion test suite loaded")
 }
+

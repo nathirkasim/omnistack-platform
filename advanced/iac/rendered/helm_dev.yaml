@@ -32,3 +32,4 @@ spec:
   tls:
     - hosts: [api.example.com]
       secretName: tls-secret
+

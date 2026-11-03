@@ -122,3 +122,4 @@ module.exports = {
     hashPlain, hashEvasion,
     redirectPlain, redirectEvasion
 };
+

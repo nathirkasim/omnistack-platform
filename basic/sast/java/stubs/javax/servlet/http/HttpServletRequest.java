@@ -5,3 +5,4 @@ public interface HttpServletRequest {
     String getHeader(String name);
     InputStream getInputStream() throws IOException;
 }
+

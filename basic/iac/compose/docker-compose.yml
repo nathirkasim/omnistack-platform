@@ -30,3 +30,4 @@ services:
 networks:
   internal_net:
     internal: true
+

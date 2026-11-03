@@ -89,3 +89,4 @@ func (s *OrderService) ReadWithCanonicalCheck(baseDir, filename string) ([]byte,
 	// GT: id=TAINT-GO-018 type=FP reason=canonical-validator-path-traversal
 	return os.ReadFile(baseDir + "/" + filename)
 }
+

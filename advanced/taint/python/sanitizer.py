@@ -26,3 +26,4 @@ def is_safe_canonical_path(base_dir: str, target_filename: str) -> bool:
     """Safe validator: Validates canonical base directory prefix."""
     full_path = os.path.realpath(os.path.join(base_dir, target_filename))
     return full_path.startswith(os.path.realpath(base_dir) + os.sep)
+

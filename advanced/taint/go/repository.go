@@ -38,3 +38,4 @@ func (r *OrderRepository) UpdateAccountBalance(targetID string, amount float64) 
 	_, err := r.db.Exec("UPDATE accounts SET balance = balance + ? WHERE id = ?", amount, targetID)
 	return err
 }
+

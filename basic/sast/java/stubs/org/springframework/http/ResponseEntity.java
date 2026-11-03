@@ -6,3 +6,4 @@ public class ResponseEntity<T> {
     public static <T> ResponseEntity<T> status(int code) { return new ResponseEntity<>(null); }
     public T getBody() { return body; }
 }
+

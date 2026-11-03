@@ -41,3 +41,4 @@ CONTENT_CHECKSUM = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852
 
 # GT: id=SEC-GEN-018 type=FP reason=explicit-mock-test-fixture
 MOCK_TEST_CREDENTIAL = "mock_fake_test_fixture_only_key_00000000000000"
+

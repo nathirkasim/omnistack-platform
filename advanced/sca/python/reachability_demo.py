@@ -12,3 +12,4 @@ def parse_with_vulnerable_call(untrusted_yaml: str):
 def parse_with_safe_call(untrusted_yaml: str):
     # Unreachable / safe API call: safe_load does not trigger arbitrary code execution
     return yaml.safe_load(untrusted_yaml)
+
