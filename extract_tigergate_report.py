@@ -1,140 +1,148 @@
 #!/usr/bin/env python3
 """
-extract_tigergate_report.py - Extracts structured security findings from TigerGate PDF report.
-Output: tigergate_findings.json formatted for score.py and check_new_coverage.py.
+extract_tigergate_report.py - Ingests TigerGate security report JSON and CycloneDX SBOM
+into normalized findings formatted for score.py and check_new_coverage.py.
+
+Handles:
+- SAST, SECRETS, and IAC from TigerGate Report JSON (or PDF fallback)
+- SCA vulnerabilities (all 657) from CycloneDX SBOM with accurate file/line mapping
 """
 
-import re
+import os
+import sys
 import json
+import argparse
 from pathlib import Path
-import pypdf
 
-PDF_PATH = "/home/namlabsthinkpad/.gemini/antigravity/brain/2d550782-f2df-46b6-9ea9-19bef3c12043/.user_uploaded/media_1793706275874_fc6972df.pdf"
-GT_PATH = "/home/namlabsthinkpad/.gemini/antigravity/scratch/codesec-benchmark/ground_truth.json"
+DEFAULT_REPORT_JSON = "/home/namlabsthinkpad/.gemini/antigravity/brain/2d550782-f2df-46b6-9ea9-19bef3c12043/.user_uploaded/media_1793710459324_a83d836a.json"
+DEFAULT_SBOM_JSON = "/home/namlabsthinkpad/.gemini/antigravity/brain/2d550782-f2df-46b6-9ea9-19bef3c12043/.user_uploaded/media_1793710508345_0b360df8.json"
+DEFAULT_OUTPUT = "tigergate_findings.json"
 
-def main():
-    reader = pypdf.PdfReader(PDF_PATH)
-    print(f"Reading PDF with {len(reader.pages)} pages...")
+def parse_tigergate(report_path, sbom_path, output_path):
+    print(f"Loading TigerGate report from: {report_path}")
+    print(f"Loading CycloneDX SBOM from: {sbom_path}")
 
-    with open(GT_PATH, "r", encoding="utf-8") as f:
-        gt_data = json.load(f)
+    with open(report_path, "r", encoding="utf-8") as f:
+        report = json.load(f)
 
-    # Build CVE to GT location lookup
-    cve_to_gt = {}
-    for item in gt_data:
-        cve = item.get("cwe_or_cve")
-        if cve and cve.startswith("CVE-"):
-            cve_to_gt[cve] = item
+    with open(sbom_path, "r", encoding="utf-8") as f:
+        sbom = json.load(f)
 
     findings = []
 
-    # Helper to parse block-based sections (SAST, SECRETS, IAC)
-    def parse_blocks(start_page, end_page, section_name):
-        text = ""
-        for p in range(start_page, end_page):
-            text += reader.pages[p].extract_text() + "\n"
+    # 1. SAST
+    sast_items = report.get("sast", {}).get("top", [])
+    for item in sast_items:
+        l = item.get("line")
+        findings.append({
+            "category": "SAST",
+            "severity": item.get("severity", "").upper(),
+            "rule_id": item.get("rule_id", ""),
+            "cwe_or_cve": item.get("rule_id", ""),
+            "file": item.get("file_path", ""),
+            "line": int(l) if l is not None else 1,
+            "description": item.get("message", "")
+        })
+    print(f"Extracted {len(sast_items)} SAST findings.")
 
-        pattern = re.compile(r'(CRITICAL|HIGH|MEDIUM|LOW)\s+OPEN\s+(\S+)\s+main')
-        splits = list(pattern.finditer(text))
-        sec_findings = []
+    # 2. SECRETS
+    secrets_items = report.get("secrets", {}).get("top", [])
+    for item in secrets_items:
+        l = item.get("line")
+        findings.append({
+            "category": "SECRETS",
+            "severity": item.get("severity", "").upper(),
+            "rule_id": item.get("rule_id", ""),
+            "cwe_or_cve": item.get("rule_id", ""),
+            "file": item.get("file_path", ""),
+            "line": int(l) if l is not None else 1,
+            "description": item.get("message", "")
+        })
+    print(f"Extracted {len(secrets_items)} SECRETS findings.")
 
-        for idx, match in enumerate(splits):
-            sev = match.group(1)
-            rule = match.group(2)
-            start_idx = match.end()
-            end_idx = splits[idx+1].start() if idx + 1 < len(splits) else len(text)
-            block = text[start_idx:end_idx]
+    # 3. IAC
+    iac_items = report.get("iac", {}).get("top", [])
+    for item in iac_items:
+        l = item.get("line")
+        findings.append({
+            "category": "IAC",
+            "severity": item.get("severity", "").upper(),
+            "rule_id": item.get("rule_id", ""),
+            "cwe_or_cve": item.get("rule_id", ""),
+            "file": item.get("file_path", ""),
+            "line": int(l) if l is not None else 1,
+            "description": item.get("message", "")
+        })
+    print(f"Extracted {len(iac_items)} IAC findings.")
 
-            # Clean header/footer artifacts
-            block_clean = re.sub(r'TigerGate - Secure\. Detect\. Respond\. Page \d+ of \d+ - \d+ findings', '', block)
-            block_clean = re.sub(r'TIGERGATE - CODE SECURITY REPORT [^\n]+', '', block_clean)
+    # 4. SCA from CycloneDX SBOM
+    comp_map = {}
+    for c in sbom.get("components", []):
+        ref = c.get("bom-ref") or c.get("purl")
+        fpath = None
+        for p in c.get("properties", []):
+            if p.get("name") == "tigergate:file_path":
+                raw = p.get("value", "")
+                fpath = raw.split(" (")[0].strip()
+        comp_map[ref] = {
+            "name": c.get("name", ""),
+            "version": c.get("version", ""),
+            "purl": c.get("purl", ""),
+            "file": fpath
+        }
 
-            # Find file and line
-            loc_match = re.search(r'((?:basic|advanced)/[a-zA-Z0-9_\-\./]+)(?::(\d+))?', block_clean)
-            if not loc_match:
-                loc_match = re.search(r'([a-zA-Z0-9_\-\.]+\.(?:py|java|go|js|tf|yaml|yml|json|xml|pem|conf|properties|gradle|mod))(?::(\d+))?', block_clean)
+    sca_count = 0
+    for v in sbom.get("vulnerabilities", []):
+        cve = v.get("id", "")
+        sev = "HIGH"
+        if v.get("ratings"):
+            sev = v["ratings"][0].get("severity", "HIGH").upper()
+        affects = v.get("affects", [])
+        for a in affects:
+            ref = a.get("ref")
+            comp = comp_map.get(ref, {})
+            fpath = comp.get("file")
+            pname = comp.get("name", "")
+            pver = comp.get("version", "")
 
-            file_path = loc_match.group(1) if loc_match else ""
-            line_no = int(loc_match.group(2)) if (loc_match and loc_match.group(2)) else 1
+            line_no = 1
+            if fpath and Path(fpath).is_file():
+                try:
+                    with open(fpath, "r", errors="ignore") as mf:
+                        lines = mf.readlines()
+                    base_name = pname.split("/")[-1].split(":")[-1]
+                    for idx, line in enumerate(lines, 1):
+                        if base_name in line or pname in line:
+                            line_no = idx
+                            break
+                except Exception:
+                    pass
 
-            finding = {
-                "category": section_name,
+            findings.append({
+                "category": "SCA",
                 "severity": sev,
-                "rule_id": rule,
-                "cwe_or_cve": rule,
-                "file": file_path,
+                "rule_id": cve,
+                "cwe_or_cve": cve,
+                "file": fpath or "unknown",
                 "line": line_no,
-                "description": block_clean.strip()[:200]
-            }
-            sec_findings.append(finding)
-        return sec_findings
+                "package": pname,
+                "version": pver,
+                "description": f"Vulnerability {cve} in {pname}@{pver}"
+            })
+            sca_count += 1
 
-    # 1. SAST (Pages 4 to 37)
-    sast_findings = parse_blocks(3, 37, "SAST")
-    print(f"Extracted SAST: {len(sast_findings)}")
-    findings.extend(sast_findings)
+    print(f"Extracted {sca_count} SCA findings from SBOM.")
+    print(f"Total unified findings: {len(findings)}")
 
-    # 2. SCA (Pages 38 to 45)
-    sca_findings = []
-    for p in range(37, 45):
-        text = reader.pages[p].extract_text()
-        for line in text.split("\n"):
-            line = line.strip()
-            # Handle lines with or without CVSS score
-            m = re.match(r'^(CRITICAL|HIGH|MEDIUM|LOW)\s+(.*?)\s+(CVE-\d{4}-\d+|GHSA-[a-z0-9\-]+)(?:\s+([0-9\.]+))?\s+(.*?)\s+main$', line)
-            if m:
-                sev = m.group(1)
-                pkg = m.group(2)
-                cve = m.group(3)
-                cvss = m.group(4) or ""
-                fix = m.group(5)
-
-                # Locate file/line from GT if known, else default to ecosystem manifest
-                gt_loc = cve_to_gt.get(cve)
-                if gt_loc:
-                    fpath = gt_loc["file"]
-                    fline = gt_loc["line_start"]
-                else:
-                    # Guess manifest by package name pattern
-                    if ":" in pkg or "org." in pkg or "com." in pkg:
-                        fpath = "basic/sca/java/pom.xml"
-                    elif "github.com/" in pkg or "golang.org/" in pkg:
-                        fpath = "basic/sca/go/go.mod"
-                    elif "@" in pkg and any(k in pkg for k in ["minimist", "axios", "lodash", "express", "proxy-addr"]):
-                        fpath = "basic/sca/node/package.json"
-                    else:
-                        fpath = "basic/sca/python/requirements.txt"
-                    fline = 1
-
-                sca_findings.append({
-                    "category": "SCA",
-                    "severity": sev,
-                    "rule_id": cve,
-                    "cwe_or_cve": cve,
-                    "file": fpath,
-                    "line": fline,
-                    "package": pkg,
-                    "cvss": cvss,
-                    "fix": fix
-                })
-    print(f"Extracted SCA: {len(sca_findings)}")
-    findings.extend(sca_findings)
-
-    # 3. SECRETS (Pages 46 to 48)
-    secrets_findings = parse_blocks(45, 48, "SECRETS")
-    print(f"Extracted SECRETS: {len(secrets_findings)}")
-    findings.extend(secrets_findings)
-
-    # 4. IAC (Pages 49 to 77)
-    iac_findings = parse_blocks(48, 77, "IAC")
-    print(f"Extracted IAC: {len(iac_findings)}")
-    findings.extend(iac_findings)
-
-    out_file = Path("/home/namlabsthinkpad/.gemini/antigravity/scratch/codesec-benchmark/tigergate_findings.json")
-    with open(out_file, "w", encoding="utf-8") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(findings, f, indent=2)
-
-    print(f"Successfully wrote {len(findings)} findings to {out_file}")
+    print(f"Written findings to {output_path}")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Extract TigerGate scan findings into benchmark JSON format.")
+    parser.add_argument("--report", default=DEFAULT_REPORT_JSON, help="Path to TigerGate security report JSON")
+    parser.add_argument("--sbom", default=DEFAULT_SBOM_JSON, help="Path to TigerGate CycloneDX SBOM JSON")
+    parser.add_argument("--output", default=DEFAULT_OUTPUT, help="Output JSON path")
+    args = parser.parse_args()
+
+    parse_tigergate(args.report, args.sbom, args.output)

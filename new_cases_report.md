@@ -1,8 +1,8 @@
 # Advanced Security Cases Coverage Report
 
-**Total Advanced TPs**: 194 | **Detected**: 84 | **Coverage**: 43.30%
+**Total Advanced TPs**: 194 | **Detected**: 103 | **Coverage**: 53.09%
 
-**Missed TPs**: 110 | **Flagged FPs**: 13
+**Missed TPs**: 91 | **Flagged FPs**: 20
 
 **Twin Evasion Delta**: +44.72% (Plain: 66.7% vs Evasion: 22.0%)
 
@@ -16,7 +16,7 @@
 | mutants | 8 | 12 | 66.7% |
 | rendered-iac | 6 | 12 | 50.0% |
 | secrets-history | 9 | 15 | 60.0% |
-| transitive-sca | 3 | 32 | 9.4% |
+| transitive-sca | 22 | 32 | 68.8% |
 
 ## Detected TPs
 
@@ -75,9 +75,28 @@
 | MUTANT-NODE-003 | mutants | node | command-injection | medium | `advanced/mutants/mutants.js:19` |
 | MUTANT-PY-002 | mutants | python | sql-injection | medium | `advanced/mutants/mutants.py:21` |
 | MUTANT-PY-003 | mutants | python | command-injection | medium | `advanced/mutants/mutants.py:26` |
+| SCA-GO-1001 | transitive-sca | go | transitive-dep-depth-2 | medium | `advanced/sca/go/go.mod:7` |
+| SCA-GO-1002 | transitive-sca | go | diamond-dependency | medium | `advanced/sca/go/go.mod:10` |
+| SCA-GO-1003 | transitive-sca | go | version-range-inequality | medium | `advanced/sca/go/go.mod:13` |
+| SCA-GO-1004 | transitive-sca | go | vulnerable-function-called | medium | `advanced/sca/go/go.mod:16` |
+| SCA-GO-1005 | transitive-sca | go | go-mod-replace-vulnerable | medium | `advanced/sca/go/go.mod:19` |
+| SCA-GO-1008 | transitive-sca | go | transitive-dep-depth-3 | medium | `advanced/sca/go/go.mod:28` |
+| SCA-JAVA-1001 | transitive-sca | java | transitive-dep-depth-2 | medium | `advanced/sca/java/pom.xml:12` |
+| SCA-JAVA-1002 | transitive-sca | java | diamond-dependency | medium | `advanced/sca/java/pom.xml:19` |
+| SCA-JAVA-1003 | transitive-sca | java | version-range-inequality | medium | `advanced/sca/java/pom.xml:26` |
+| SCA-JAVA-1004 | transitive-sca | java | vulnerable-function-called | medium | `advanced/sca/java/pom.xml:33` |
+| SCA-JAVA-1005 | transitive-sca | java | shaded-fat-jar | medium | `advanced/sca/java/pom.xml:40` |
+| SCA-JAVA-1007 | transitive-sca | java | typosquat-package | medium | `advanced/sca/java/pom.xml:54` |
+| SCA-JAVA-1008 | transitive-sca | java | transitive-dep-depth-4 | medium | `advanced/sca/java/pom.xml:61` |
+| SCA-NODE-1001 | transitive-sca | node | transitive-dep-depth-2 | medium | `advanced/sca/node/package.json:7` |
+| SCA-NODE-1004 | transitive-sca | node | vulnerable-function-called | medium | `advanced/sca/node/package.json:13` |
+| SCA-NODE-1007 | transitive-sca | node | typosquat-package | medium | `advanced/sca/node/package.json:19` |
 | SCA-PY-1001 | transitive-sca | python | transitive-dep-depth-2 | medium | `advanced/sca/python/requirements.txt:4` |
+| SCA-PY-1002 | transitive-sca | python | diamond-dependency | medium | `advanced/sca/python/requirements.txt:7` |
 | SCA-PY-1003 | transitive-sca | python | version-range-inequality | medium | `advanced/sca/python/requirements.txt:10` |
 | SCA-PY-1004 | transitive-sca | python | vulnerable-function-called | medium | `advanced/sca/python/requirements.txt:13` |
+| SCA-PY-1005 | transitive-sca | python | manifest-lockfile-mismatch | medium | `advanced/sca/python/requirements.txt:16` |
+| SCA-PY-1008 | transitive-sca | python | transitive-dep-depth-3 | medium | `advanced/sca/python/requirements.txt:25` |
 | SEC-HIST-002 | secrets-history | python | git-history-deleted-branch-secret | medium | `advanced/secrets-history/history_fixtures.py:10` |
 | SEC-HIST-004 | secrets-history | python | git-history-secret-moved-files | medium | `advanced/secrets-history/history_fixtures.py:16` |
 | SEC-HIST-005 | secrets-history | yaml | github-actions-hardcoded-secret | medium | `advanced/secrets-history/github-workflow.yml:11` |
@@ -168,35 +187,16 @@
 | MUTANT-JAVA-003 | mutants | java | command-injection | medium | exploitable-command-injection | `advanced/mutants/Mutants.java:22` |
 | MUTANT-PY-001 | mutants | python | sql-injection | medium | exploitable-sql-injection | `advanced/mutants/mutants.py:9` |
 | MUTANT-PY-004 | mutants | python | reflected-xss | medium | exploitable-reflected-xss | `advanced/mutants/mutants.py:32` |
-| SCA-GO-1001 | transitive-sca | go | transitive-dep-depth-2 | medium | exploitable-cve-fasthttp-transitive | `advanced/sca/go/go.mod:7` |
-| SCA-GO-1002 | transitive-sca | go | diamond-dependency | medium | exploitable-cve-golang-crypto-diamond | `advanced/sca/go/go.mod:10` |
-| SCA-GO-1003 | transitive-sca | go | version-range-inequality | medium | exploitable-cve-gin-version-range | `advanced/sca/go/go.mod:13` |
-| SCA-GO-1004 | transitive-sca | go | vulnerable-function-called | medium | exploitable-cve-jwt-vulnerable-call | `advanced/sca/go/go.mod:16` |
-| SCA-GO-1005 | transitive-sca | go | go-mod-replace-vulnerable | medium | exploitable-cve-runc-replace-directive | `advanced/sca/go/go.mod:19` |
 | SCA-GO-1006 | transitive-sca | go | internal-pkg-name-hijack | medium | exploitable-cve-dependency-confusion | `advanced/sca/go/go.mod:22` |
 | SCA-GO-1007 | transitive-sca | go | typosquat-package | medium | exploitable-cve-typosquatting | `advanced/sca/go/go.mod:25` |
-| SCA-GO-1008 | transitive-sca | go | transitive-dep-depth-3 | medium | exploitable-cve-gjson-transitive | `advanced/sca/go/go.mod:28` |
-| SCA-JAVA-1001 | transitive-sca | java | transitive-dep-depth-2 | medium | exploitable-cve-log4j-transitive | `advanced/sca/java/pom.xml:12` |
-| SCA-JAVA-1002 | transitive-sca | java | diamond-dependency | medium | exploitable-cve-spring-beans-diamond | `advanced/sca/java/pom.xml:19` |
-| SCA-JAVA-1003 | transitive-sca | java | version-range-inequality | medium | exploitable-cve-spring-mvc-range | `advanced/sca/java/pom.xml:26` |
-| SCA-JAVA-1004 | transitive-sca | java | vulnerable-function-called | medium | exploitable-cve-commons-text-interpolator | `advanced/sca/java/pom.xml:33` |
-| SCA-JAVA-1005 | transitive-sca | java | shaded-fat-jar | medium | exploitable-cve-shaded-jackson | `advanced/sca/java/pom.xml:40` |
 | SCA-JAVA-1006 | transitive-sca | java | internal-pkg-name-hijack | medium | exploitable-cve-dependency-confusion | `advanced/sca/java/pom.xml:47` |
-| SCA-JAVA-1007 | transitive-sca | java | typosquat-package | medium | exploitable-cve-typosquatting | `advanced/sca/java/pom.xml:54` |
-| SCA-JAVA-1008 | transitive-sca | java | transitive-dep-depth-4 | medium | exploitable-cve-snakeyaml-transitive | `advanced/sca/java/pom.xml:61` |
-| SCA-NODE-1001 | transitive-sca | node | transitive-dep-depth-2 | medium | exploitable-cve-lodash-template-rce | `advanced/sca/node/package.json:7` |
 | SCA-NODE-1002 | transitive-sca | node | diamond-dependency | medium | exploitable-cve-minimist-diamond | `advanced/sca/node/package.json:9` |
 | SCA-NODE-1003 | transitive-sca | node | version-range-inequality | medium | exploitable-cve-lodash-range-resolution | `advanced/sca/node/package.json:11` |
-| SCA-NODE-1004 | transitive-sca | node | vulnerable-function-called | medium | exploitable-cve-lodash-defaults-deep | `advanced/sca/node/package.json:13` |
 | SCA-NODE-1005 | transitive-sca | node | package-json-overrides-vulnerable | medium | exploitable-cve-axios-overrides | `advanced/sca/node/package.json:15` |
 | SCA-NODE-1006 | transitive-sca | node | internal-pkg-name-hijack | medium | exploitable-cve-dependency-confusion | `advanced/sca/node/package.json:17` |
-| SCA-NODE-1007 | transitive-sca | node | typosquat-package | medium | exploitable-cve-typosquatting | `advanced/sca/node/package.json:19` |
 | SCA-NODE-1008 | transitive-sca | node | transitive-dep-depth-3 | medium | exploitable-cve-node-fetch-transitive | `advanced/sca/node/package.json:21` |
-| SCA-PY-1002 | transitive-sca | python | diamond-dependency | medium | exploitable-cve-jinja2-redos | `advanced/sca/python/requirements.txt:7` |
-| SCA-PY-1005 | transitive-sca | python | manifest-lockfile-mismatch | medium | exploitable-cve-rsa-signature-timing | `advanced/sca/python/requirements.txt:16` |
 | SCA-PY-1006 | transitive-sca | python | internal-pkg-name-hijack | medium | exploitable-cve-dependency-confusion | `advanced/sca/python/requirements.txt:19` |
 | SCA-PY-1007 | transitive-sca | python | typosquat-package | medium | exploitable-cve-typosquatting-lookalike | `advanced/sca/python/requirements.txt:22` |
-| SCA-PY-1008 | transitive-sca | python | transitive-dep-depth-3 | medium | exploitable-cve-certifi-root-cert | `advanced/sca/python/requirements.txt:25` |
 | SEC-HIST-001 | secrets-history | python | git-history-committed-then-deleted | medium | exploitable-git-history-committed-then-deleted | `advanced/secrets-history/history_fixtures.py:7` |
 | SEC-HIST-003 | secrets-history | python | git-history-rotated-stale-secret | medium | exploitable-git-history-rotated-stale-secret | `advanced/secrets-history/history_fixtures.py:13` |
 | SEC-HIST-009 | secrets-history | generic | tfvars-committed-password | medium | exploitable-tfvars-committed-password | `advanced/secrets-history/terraform.tfvars:4` |
@@ -229,6 +229,13 @@
 | IAC-KUST-0004 | rendered-iac | kubernetes | unsafe-base-fixed-by-safe-overlay | `advanced/iac/kustomize/overlays/dev/patch.yaml:12` |
 | IAC-TF-1007 | rendered-iac | terraform | dev-environment-resolves-private-acl | `advanced/iac/terraform/main.tf:32` |
 | IAC-TF-1012 | rendered-iac | terraform | count-zero-resource-not-created | `advanced/iac/terraform/main.tf:101` |
+| SCA-GO-1012 | transitive-sca | go | outside-advisory-version-range | `advanced/sca/go/go.mod:42` |
+| SCA-GO-1015 | transitive-sca | go | different-ecosystem-package-name | `advanced/sca/go/go.mod:51` |
+| SCA-JAVA-1012 | transitive-sca | java | outside-advisory-version-range | `advanced/sca/java/pom.xml:92` |
+| SCA-NODE-1009 | transitive-sca | node | vulnerable-function-never-called | `advanced/sca/node/package.json:23` |
+| SCA-NODE-1012 | transitive-sca | node | outside-advisory-version-range | `advanced/sca/node/package.json:27` |
+| SCA-PY-1011 | transitive-sca | python | already-patched-version | `advanced/sca/python/requirements.txt:36` |
+| SCA-PY-1012 | transitive-sca | python | outside-advisory-version-range | `advanced/sca/python/requirements.txt:39` |
 | SEC-HIST-019 | secrets-history | dockerfile | dockerfile-arg-standard-env-placeholder | `advanced/secrets-history/Dockerfile:7` |
 | TAINT-GO-016 | deep-taint | go | correct-html-escape | `advanced/taint/go/main.go:87` |
 | TAINT-GO-020 | deep-taint | go | role-based-auth-guard | `advanced/taint/go/main.go:107` |
