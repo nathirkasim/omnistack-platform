@@ -4,7 +4,7 @@
 requests==2.19.1
 
 # GT: id=SCA-PY-002 type=TP cwe=CVE-2020-26137 rule=cve-urllib3-crlf-injection
-urllib3==1.25.8
+urllib3==2.8.0
 
 # GT: id=SCA-PY-003 type=TP cwe=CVE-2018-1000656 rule=cve-flask-dos
 flask==0.12.2
