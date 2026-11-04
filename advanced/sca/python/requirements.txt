@@ -4,7 +4,7 @@
 urllib3==1.26.18
 
 # GT: id=SCA-PY-1002 type=TP cwe=CVE-2020-28493 rule=cve-jinja2-redos technique=diamond-dependency
-jinja2==3.1.3
+jinja2==3.1.6
 
 # GT: id=SCA-PY-1003 type=TP cwe=CVE-2019-14806 rule=cve-werkzeug-debugger-rce technique=version-range-inequality
 werkzeug==3.0.1
