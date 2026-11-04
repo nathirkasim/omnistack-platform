@@ -13,7 +13,7 @@ flask==0.12.2
 jinja2==2.10
 
 # GT: id=SCA-PY-005 type=TP cwe=CVE-2020-1747 rule=cve-pyyaml-arbitrary-code-execution
-pyyaml==5.2
+pyyaml==5.4.0
 
 # GT: id=SCA-PY-006 type=TP cwe=CVE-2019-14232 rule=cve-django-sqli-jsonfield
 django==2.2
