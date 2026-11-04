@@ -39,7 +39,7 @@ sqlparse==0.4.4
 colorama==0.4.6
 
 # GT: id=SCA-PY-014 type=FP reason=build-tooling-only
-wheel==0.41.2
+wheel==0.46.2
 
 # GT: id=SCA-PY-015 type=FP reason=already-patched-version
 werkzeug==3.0.1
