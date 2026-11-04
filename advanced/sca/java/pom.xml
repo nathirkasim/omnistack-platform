@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.26</version>
+            <version>7.0.9</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1004 type=TP cwe=CVE-2022-42889 rule=cve-commons-text-interpolator technique=vulnerable-function-called -->
