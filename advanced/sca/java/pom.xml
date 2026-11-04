@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.3.17</version>
+            <version>5.3.20</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1003 type=TP cwe=CVE-2022-22965 rule=cve-spring-mvc-range technique=version-range-inequality -->
