@@ -1,7 +1,7 @@
 # Advanced Reachability and Transitive SCA (Python) - REMEDIATED FOR MASTER
 
 # GT: id=SCA-PY-1001 type=TP cwe=CVE-2019-11324 rule=cve-urllib3-ssl-handling technique=transitive-dep-depth-2
-urllib3==1.26.18
+urllib3==2.8.0
 
 # GT: id=SCA-PY-1002 type=TP cwe=CVE-2020-28493 rule=cve-jinja2-redos technique=diamond-dependency
 jinja2==3.1.3
