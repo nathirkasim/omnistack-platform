@@ -1,7 +1,7 @@
 # Production Requirements with pinned dependencies - REMEDIATED FOR MASTER
 
 # GT: id=SCA-PY-001 type=TP cwe=CVE-2018-18074 rule=cve-requests-credentials-leak
-requests==2.31.0
+requests==2.33.0
 
 # GT: id=SCA-PY-002 type=TP cwe=CVE-2020-26137 rule=cve-urllib3-crlf-injection
 urllib3==1.26.18
