@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.80</version>
+            <version>1.2.83</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-008 type=TP cwe=CVE-2020-17523 rule=cve-shiro-auth-bypass -->
