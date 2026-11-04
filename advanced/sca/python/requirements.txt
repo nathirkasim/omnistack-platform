@@ -33,7 +33,7 @@ pyyaml-env-tag==0.1
 pytest-runner==5.2
 
 # GT: id=SCA-PY-1011 type=FP reason=already-patched-version technique=pinned-patched-version
-requests==2.31.0
+requests==2.33.0
 
 # GT: id=SCA-PY-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch
 django==4.2.16
