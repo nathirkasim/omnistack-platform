@@ -22,7 +22,7 @@ django==4.2.10
 pillow==10.2.0
 
 # GT: id=SCA-PY-008 type=TP cwe=CVE-2020-36242 rule=cve-cryptography-buffer-overflow
-cryptography==42.0.4
+cryptography==49.0.0
 
 # --- Patched or Safe Dependencies (False Positives) ---
 
