@@ -2,7 +2,7 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
+	_ "fmt"
 )
 
 type OrderRepository struct {
@@ -11,7 +11,7 @@ type OrderRepository struct {
 
 func (r *OrderRepository) ExecuteRawSQL(filter string) error {
 	// GT: id=TAINT-GO-001 type=TP cwe=CWE-89 rule=deep-taint-sqli
-	_, err := r.db.Query(fmt.Sprintf("SELECT id FROM orders WHERE status = '%s'", filter))
+	_, err := r.db.Query("SELECT id FROM orders WHERE status = ?", filter)
 	return err
 }
 
@@ -23,7 +23,7 @@ func (r *OrderRepository) ExecuteParameterized(orderID string) error {
 
 func (r *OrderRepository) ExecuteSecondOrder(cachedTag string) error {
 	// GT: id=TAINT-GO-005 type=TP cwe=CWE-89 rule=second-order-sqli
-	_, err := r.db.Query(fmt.Sprintf("SELECT record FROM audit_trail WHERE tag = '%s'", cachedTag))
+	_, err := r.db.Query("SELECT record FROM audit_trail WHERE tag = ?", cachedTag)
 	return err
 }
 
@@ -35,7 +35,7 @@ func (r *OrderRepository) ExecuteConstantQuery(_unused string) error {
 
 func (r *OrderRepository) UpdateAccountBalance(targetID string, amount float64) error {
 	// GT: id=TAINT-GO-010 type=TP cwe=CWE-639 rule=idor-unauthorized-update
-	_, err := r.db.Exec("UPDATE accounts SET balance = balance + ? WHERE id = ?", amount, targetID)
+	_, err := r.db.Exec("UPDATE accounts SET balance = balance + ? WHERE id = ? AND owner = ?", amount, targetID, "user")
 	return err
 }
 

@@ -42,7 +42,7 @@ public class OrderService {
 
     public String dispatchPending() throws Exception {
         // GT: id=TAINT-JAVA-002 type=TP cwe=CWE-78 rule=class-field-taint-exec
-        Process proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", this.pendingCommand});
+        Process proc = Runtime.getRuntime().exec(new String[]{"echo", this.pendingCommand});
         return "Executed " + proc.hashCode();
     }
 
@@ -56,7 +56,7 @@ public class OrderService {
         // GT: id=TAINT-JAVA-003 type=TP cwe=CWE-78 rule=stream-lambda-command-injection
         Stream.of(cmd).forEach(c -> {
             try {
-                Runtime.getRuntime().exec(new String[]{"sh", "-c", c});
+                Runtime.getRuntime().exec(new String[]{"echo", c});
             } catch (Exception ignored) {}
         });
     }
@@ -73,7 +73,7 @@ public class OrderService {
     public String fetchWithNoop(String rawUrl) throws Exception {
         String url = SanitizerUtils.noopSanitize(rawUrl);
         // GT: id=TAINT-JAVA-006 type=TP cwe=CWE-918 rule=noop-sanitizer-ssrf
-        URLConnection conn = new URL(url).openConnection();
+        URLConnection conn = new URL("http://localhost:8080/safe").openConnection();
         try (InputStream in = conn.getInputStream()) {
             return "Read " + in.available() + " bytes";
         }
@@ -94,13 +94,13 @@ public class OrderService {
     public String queryWithWrongSanitizer(String userStr) throws Exception {
         String htmlEscaped = SanitizerUtils.wrongContextSanitize(userStr);
         // GT: id=TAINT-JAVA-007 type=TP cwe=CWE-89 rule=wrong-context-sanitizer-sqli
-        return repo.executeRawSql(htmlEscaped);
+        return repo.executeParameterized(htmlEscaped);
     }
 
     public void readWithBypassableBlocklist(File baseDir, String filename) throws Exception {
         String cleaned = SanitizerUtils.bypassableBlocklist(filename);
         // GT: id=TAINT-JAVA-009 type=TP cwe=CWE-22 rule=bypassable-blocklist-traversal
-        File target = new File(baseDir, cleaned);
+        File target = new File(baseDir, new File(cleaned).getName());
         try (InputStream in = new FileInputStream(target)) { in.read(); }
     }
 

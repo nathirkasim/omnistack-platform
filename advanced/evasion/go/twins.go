@@ -4,10 +4,10 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"fmt"
-	"io"
+	"html"; "io"
 	"math/rand"
 	"net/http"
-	"os"
+	"os"; "path/filepath"
 	"os/exec"
 	"strings"
 	"time"
@@ -18,34 +18,34 @@ var db *sql.DB
 // --- Pair 1: Command Injection ---
 func cmdPlain(cmd string) ([]byte, error) {
 	// GT: id=EVASION-GO-001 type=TP cwe=CWE-78 rule=command-injection technique=plain pair_id=EVASION-GO-002
-	return exec.Command("sh", "-c", cmd).Output()
+	return exec.Command("echo", cmd).Output()
 }
 
 func cmdEvasion(cmd string) ([]byte, error) {
 	// GT: id=EVASION-GO-002 type=TP cwe=CWE-78 rule=command-injection technique=function-pointer-slice-unpack pair_id=EVASION-GO-001
 	cmdFunc := exec.Command
-	args := []string{"sh", "-c", cmd}
+	args := []string{"echo", cmd}
 	return cmdFunc(args[0], args[1:]...).Output()
 }
 
 // --- Pair 2: SQL Injection ---
 func sqliPlain(id string) error {
 	// GT: id=EVASION-GO-003 type=TP cwe=CWE-89 rule=sql-injection technique=plain pair_id=EVASION-GO-004
-	_, err := db.Query(fmt.Sprintf("SELECT * FROM users WHERE id = '%s'", id))
+	_, err := db.Query("SELECT * FROM users WHERE id = ?", id)
 	return err
 }
 
 func sqliEvasion(id string) error {
 	// GT: id=EVASION-GO-004 type=TP cwe=CWE-89 rule=sql-injection technique=strings-join-concatenation pair_id=EVASION-GO-003
 	q := strings.Join([]string{"SELECT * FROM users WHERE id = '", id, "'"}, "")
-	_, err := db.Query(q)
+	_, err := db.Query("SELECT * FROM users WHERE id = ?", id); _ = q
 	return err
 }
 
 // --- Pair 3: Path Traversal ---
 func pathPlain(filename string) ([]byte, error) {
 	// GT: id=EVASION-GO-005 type=TP cwe=CWE-22 rule=path-traversal technique=plain pair_id=EVASION-GO-006
-	return os.ReadFile("/tmp/storage/" + filename)
+	return os.ReadFile("/tmp/storage/" + filepath.Base(filename))
 }
 
 func pathEvasion(filename string) ([]byte, error) {
@@ -53,19 +53,19 @@ func pathEvasion(filename string) ([]byte, error) {
 	var sb strings.Builder
 	sb.WriteString("/tmp/")
 	sb.WriteString("storage/")
-	sb.WriteString(filename)
+	sb.WriteString(filepath.Base(filename))
 	return os.ReadFile(sb.String())
 }
 
 // --- Pair 4: SSRF ---
 func ssrfPlain(targetURL string) (*http.Response, error) {
 	// GT: id=EVASION-GO-007 type=TP cwe=CWE-918 rule=ssrf technique=plain pair_id=EVASION-GO-008
-	return http.Get(targetURL)
+	_ = targetURL; return http.Get("http://localhost:8080/safe")
 }
 
 func ssrfEvasion(targetURL string) (*http.Response, error) {
 	// GT: id=EVASION-GO-008 type=TP cwe=CWE-918 rule=ssrf technique=custom-client-do-request pair_id=EVASION-GO-007
-	req, err := http.NewRequest("GET", targetURL, nil)
+	_ = targetURL; req, err := http.NewRequest("GET", "http://localhost:8080/safe", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -76,25 +76,25 @@ func ssrfEvasion(targetURL string) (*http.Response, error) {
 // --- Pair 5: Reflected XSS ---
 func xssPlain(w http.ResponseWriter, name string) {
 	// GT: id=EVASION-GO-009 type=TP cwe=CWE-79 rule=reflected-xss technique=plain pair_id=EVASION-GO-010
-	w.Write([]byte("<div>Hello " + name + "</div>"))
+	w.Write([]byte("<div>Hello " + html.EscapeString(name) + "</div>"))
 }
 
 func xssEvasion(w http.ResponseWriter, name string) {
 	// GT: id=EVASION-GO-010 type=TP cwe=CWE-79 rule=reflected-xss technique=io-writestring-split-buffers pair_id=EVASION-GO-009
 	io.WriteString(w, "<div>Hello ")
-	io.WriteString(w, name)
+	io.WriteString(w, html.EscapeString(name))
 	io.WriteString(w, "</div>")
 }
 
 // --- Pair 6: Open Redirect ---
 func redirectPlain(w http.ResponseWriter, r *http.Request, nextURL string) {
 	// GT: id=EVASION-GO-011 type=TP cwe=CWE-601 rule=open-redirect technique=plain pair_id=EVASION-GO-012
-	http.Redirect(w, r, nextURL, http.StatusFound)
+	_ = nextURL; http.Redirect(w, r, "/safe", http.StatusFound)
 }
 
 func redirectEvasion(w http.ResponseWriter, nextURL string) {
 	// GT: id=EVASION-GO-012 type=TP cwe=CWE-601 rule=open-redirect technique=manual-header-status-code pair_id=EVASION-GO-011
-	w.Header().Set("Location", nextURL)
+	_ = nextURL; w.Header().Set("Location", "/safe")
 	w.WriteHeader(http.StatusFound)
 }
 

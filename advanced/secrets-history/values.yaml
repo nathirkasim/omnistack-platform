@@ -2,7 +2,7 @@
 
 auth:
   # GT: id=SEC-HIST-010 type=TP rule=helm-values-plaintext-secret
-  secretKey: "4fB8qW2mN9kL5pT7vX1yZ3aC6eH0jR8uI4oP2sT1"
+  secretKey: "" # Injected securely from Kubernetes Secret / external-secrets
 
   # GT: id=SEC-HIST-021 type=FP reason=helm-values-placeholder-token
   fallbackKey: "<CHANGEME_SECRET_KEY>"

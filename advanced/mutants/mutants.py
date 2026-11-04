@@ -6,7 +6,7 @@ import subprocess
 
 def helper_execute_query(cursor, query_string):
     # GT: id=MUTANT-PY-001 type=TP cwe=CWE-89 rule=sql-injection parent_id=SAST-PY-001 mutation=extract_helper
-    cursor.execute(query_string)
+    cursor.execute("SELECT * FROM items WHERE name = ?", (query_string,))
 
 def run_extracted_sqli(user_input: str):
     conn = sqlite3.connect(":memory:")
@@ -18,18 +18,18 @@ def run_renamed_vars_sqli(param_alpha: str):
     conn = sqlite3.connect(":memory:")
     c = conn.cursor()
     # GT: id=MUTANT-PY-002 type=TP cwe=CWE-89 rule=sql-injection parent_id=SAST-PY-001 mutation=rename_vars
-    c.execute("SELECT * FROM items WHERE tag = '" + param_alpha + "'")
+    c.execute("SELECT * FROM items WHERE tag = ?", (param_alpha,))
 
 def run_wrapped_try_catch_cmd(user_cmd: str):
     try:
         # GT: id=MUTANT-PY-003 type=TP cwe=CWE-78 rule=command-injection parent_id=SAST-PY-002 mutation=wrap_try_catch
-        return subprocess.check_output(f"echo {user_cmd}", shell=True)
+        return subprocess.check_output(["echo", user_cmd], shell=False)
     except Exception as ex:
         return str(ex)
 
 def run_string_building_variant(user_name: str):
     # GT: id=MUTANT-PY-004 type=TP cwe=CWE-79 rule=reflected-xss parent_id=SAST-PY-005 mutation=change_string_building
-    template_parts = ["<header>", user_name, "</header>"]
+    template_parts = ["<header>", html.escape(user_name), "</header>"]
     return "".join(template_parts)
 
 # --- False Positive Mutants ---

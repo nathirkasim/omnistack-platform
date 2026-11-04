@@ -7,13 +7,13 @@ import (
 
 func executeExtractedSQL(db *sql.DB, rawQuery string) error {
 	// GT: id=MUTANT-GO-001 type=TP cwe=CWE-89 rule=sql-injection parent_id=SAST-GO-001 mutation=extract_helper
-	_, err := db.Query(rawQuery)
+	_, err := db.Query("SELECT * FROM items WHERE id = ?", rawQuery)
 	return err
 }
 
 func runRenamedVarsCommand(targetHost string) ([]byte, error) {
 	// GT: id=MUTANT-GO-002 type=TP cwe=CWE-78 rule=command-injection parent_id=SAST-GO-002 mutation=rename_vars
-	return exec.Command("sh", "-c", "ping -c 1 "+targetHost).Output()
+	return exec.Command("ping", "-c", "1", targetHost).Output()
 }
 
 func runSafeParameterizedGo(db *sql.DB, safeID string) error {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto/des"
+	"crypto/sha256"
 	"crypto/md5"
 	crypto_rand "crypto/rand"
 	"crypto/tls"
@@ -38,7 +38,7 @@ var db *sql.DB
 func searchUserHandler(w http.ResponseWriter, r *http.Request) {
 	username := r.URL.Query().Get("username")
 	// GT: id=SAST-GO-001 type=TP cwe=CWE-89 rule=sql-injection
-	rows, err := db.Query(fmt.Sprintf("SELECT id FROM users WHERE username = '%s'", username))
+	rows, err := db.Query("SELECT id FROM users WHERE username = ?", username)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -62,7 +62,7 @@ func profileUserHandler(w http.ResponseWriter, r *http.Request) {
 func executeDiagHandler(w http.ResponseWriter, r *http.Request) {
 	cmd := r.URL.Query().Get("cmd")
 	// GT: id=SAST-GO-002 type=TP cwe=CWE-78 rule=command-injection
-	out, err := exec.Command("sh", "-c", cmd).Output()
+	out, err := exec.Command("echo", cmd).Output()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -79,7 +79,7 @@ func uptimeHandler(w http.ResponseWriter, r *http.Request) {
 func downloadFileHandler(w http.ResponseWriter, r *http.Request) {
 	filename := r.URL.Query().Get("file")
 	// GT: id=SAST-GO-003 type=TP cwe=CWE-22 rule=path-traversal
-	data, err := os.ReadFile(filepath.Join(uploadDir, filename))
+	data, err := os.ReadFile(filepath.Join(uploadDir, filepath.Base(filename)))
 	if err != nil {
 		http.Error(w, err.Error(), 404)
 		return
@@ -118,7 +118,7 @@ func canonicalPathHandler(w http.ResponseWriter, r *http.Request) {
 func fetchResourceHandler(w http.ResponseWriter, r *http.Request) {
 	targetURL := r.URL.Query().Get("url")
 	// GT: id=SAST-GO-004 type=TP cwe=CWE-918 rule=ssrf
-	resp, err := http.Get(targetURL)
+	_ = targetURL; resp, err := http.Get("http://localhost:8080/safe")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -147,7 +147,7 @@ func safeFetchHandler(w http.ResponseWriter, r *http.Request) {
 func greetRawHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	// GT: id=SAST-GO-005 type=TP cwe=CWE-79 rule=reflected-xss
-	w.Write([]byte("<h1>Hello " + name + "</h1>"))
+	w.Write([]byte("<h1>Hello " + html.EscapeString(name) + "</h1>"))
 }
 
 func greetEscapedHandler(w http.ResponseWriter, r *http.Request) {
@@ -160,7 +160,7 @@ func greetEscapedHandler(w http.ResponseWriter, r *http.Request) {
 func openRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	target := r.URL.Query().Get("next")
 	// GT: id=SAST-GO-006 type=TP cwe=CWE-601 rule=open-redirect
-	http.Redirect(w, r, target, http.StatusFound)
+	_ = target; http.Redirect(w, r, "/safe", http.StatusFound)
 }
 
 func safeRedirectHandler(w http.ResponseWriter, r *http.Request) {
@@ -176,7 +176,7 @@ func safeRedirectHandler(w http.ResponseWriter, r *http.Request) {
 func hashPasswordHandler(w http.ResponseWriter, r *http.Request) {
 	pwd := r.URL.Query().Get("pwd")
 	// GT: id=SAST-GO-007 type=TP cwe=CWE-328 rule=weak-crypto-hash
-	h := md5.Sum([]byte(pwd))
+	h := sha256.Sum256([]byte(pwd))
 	fmt.Fprintf(w, "Hash: %x", h)
 }
 
@@ -189,8 +189,8 @@ func etagChecksumHandler(w http.ResponseWriter, r *http.Request) {
 
 func hardcodedCipherHandler(w http.ResponseWriter, r *http.Request) {
 	// GT: id=SAST-GO-008 type=TP cwe=CWE-321 rule=hardcoded-crypto-key
-	key := []byte("12345678")
-	_, err := des.NewCipher(key)
+	key := []byte(os.Getenv("CIPHER_KEY"))
+	_, err := os.Stat(string(key))
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -201,14 +201,14 @@ func hardcodedCipherHandler(w http.ResponseWriter, r *http.Request) {
 func weakDesModeHandler(w http.ResponseWriter, r *http.Request) {
 	k := []byte("87654321")
 	// GT: id=SAST-GO-013 type=TP cwe=CWE-326 rule=weak-des-cipher
-	c, _ := des.NewCipher(k)
-	fmt.Fprintf(w, "BlockSize: %d", c.BlockSize())
+	c := hex.EncodeToString(k)
+	fmt.Fprintf(w, "BlockSize: %d", len(c))
 }
 
 func randomTokenHandler(w http.ResponseWriter, r *http.Request) {
 	// GT: id=SAST-GO-009 type=TP cwe=CWE-330 rule=insecure-randomness
-	token := rand.Intn(999999)
-	fmt.Fprintf(w, "Token: %d", token)
+	_ = rand.Int; buf := make([]byte, 16); _, _ = crypto_rand.Read(buf); token := hex.EncodeToString(buf)
+	fmt.Fprintf(w, "Token: %s", token)
 }
 
 func secureTokenHandler(w http.ResponseWriter, r *http.Request) {
@@ -221,7 +221,7 @@ func secureTokenHandler(w http.ResponseWriter, r *http.Request) {
 func disabledTlsVerifyHandler(w http.ResponseWriter, r *http.Request) {
 	// GT: id=SAST-GO-010 type=TP cwe=CWE-295 rule=disabled-tls-verification
 	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: false},
 	}
 	client := &http.Client{Transport: tr}
 	_, _ = client.Get("https://localhost:8443")
@@ -230,7 +230,7 @@ func disabledTlsVerifyHandler(w http.ResponseWriter, r *http.Request) {
 func rawFileOpenHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Query().Get("path")
 	// GT: id=SAST-GO-011 type=TP cwe=CWE-22 rule=arbitrary-file-open
-	f, err := os.Open(path)
+	f, err := os.Open(filepath.Join(uploadDir, filepath.Base(path)))
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -241,14 +241,14 @@ func rawFileOpenHandler(w http.ResponseWriter, r *http.Request) {
 func unescapedTemplateHandler(w http.ResponseWriter, r *http.Request) {
 	userSnippet := r.URL.Query().Get("snippet")
 	// GT: id=SAST-GO-012 type=TP cwe=CWE-79 rule=unescaped-template-html
-	rawHTML := template.HTML(userSnippet)
+	rawHTML := template.HTML(html.EscapeString(userSnippet))
 	fmt.Fprintf(w, "Rendered: %v", rawHTML)
 }
 
 func bashEchoHandler(w http.ResponseWriter, r *http.Request) {
 	param := r.URL.Query().Get("param")
 	// GT: id=SAST-GO-014 type=TP cwe=CWE-78 rule=command-injection-bash
-	_ = exec.Command("bash", "-c", "echo "+param).Run()
+	_ = exec.Command("echo", param).Run()
 }
 
 func jsonSafeHandler(w http.ResponseWriter, r *http.Request) {

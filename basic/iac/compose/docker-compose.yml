@@ -9,15 +9,15 @@ services:
       POSTGRES_PASSWORD: secretpassword
     ports:
       # GT: id=IAC-COMPOSE-003 type=TP rule=compose-exposed-db-port-internet
-      - "0.0.0.0:5432:5432"
+      - "127.0.0.1:5432:5432"
 
   system-agent:
     image: agent:latest
     # GT: id=IAC-COMPOSE-001 type=TP rule=compose-privileged-service
-    privileged: true
+    privileged: false
     volumes:
       # GT: id=IAC-COMPOSE-002 type=TP rule=compose-mounted-docker-socket
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/app-data:/tmp/app-data:ro
       # GT: id=IAC-COMPOSE-005 type=FP reason=read-only-volume-mount
       - /etc/config:/etc/config:ro
 
@@ -30,4 +30,3 @@ services:
 networks:
   internal_net:
     internal: true
-

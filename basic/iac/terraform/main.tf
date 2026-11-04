@@ -3,7 +3,7 @@
 resource "aws_s3_bucket" "insecure_data_bucket" {
   bucket = "company-internal-confidential-bucket"
   # GT: id=IAC-TF-001 type=TP rule=s3-public-read-acl
-  acl    = "public-read"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket" "static_site_bucket" {
@@ -24,7 +24,7 @@ resource "aws_security_group" "ssh_bastion" {
     to_port     = 22
     protocol    = "tcp"
     # GT: id=IAC-TF-002 type=TP rule=security-group-open-ssh-ingress
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_db_instance" "insecure_db" {
   engine            = "postgres"
   instance_class    = "db.t3.micro"
   # GT: id=IAC-TF-003 type=TP rule=rds-storage-unencrypted
-  storage_encrypted = false
+  storage_encrypted = true
 }
 
 resource "aws_db_instance" "secure_kms_db" {
@@ -64,9 +64,9 @@ resource "aws_iam_policy" "wildcard_admin" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action   = "*"
+      Action   = ["s3:GetObject"]
       Effect   = "Allow"
-      Resource = "*"
+      Resource = "arn:aws:s3:::company-internal-confidential-bucket/*"
     }]
   })
 }
@@ -88,6 +88,5 @@ resource "aws_cloudtrail" "insecure_trail" {
   name           = "audit-trail"
   s3_bucket_name = "audit-bucket"
   # GT: id=IAC-TF-005 type=TP rule=cloudtrail-logging-disabled
-  enable_logging = false
+  enable_logging = true
 }
-

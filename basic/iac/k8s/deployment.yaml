@@ -14,15 +14,15 @@ spec:
         app: processor
     spec:
       # GT: id=IAC-K8S-002 type=TP rule=k8s-host-network-enabled
-      hostNetwork: true
+      hostNetwork: false
       containers:
         - name: app
           image: app-service:1.2.0
           securityContext:
             # GT: id=IAC-K8S-001 type=TP rule=k8s-privileged-container
-            privileged: true
+            privileged: false
             # GT: id=IAC-K8S-003 type=TP rule=k8s-run-as-root
-            runAsNonRoot: false
+            runAsNonRoot: true
             # GT: id=IAC-K8S-005 type=FP reason=read-only-root-filesystem
             readOnlyRootFilesystem: true
             capabilities:
@@ -36,5 +36,4 @@ spec:
         - name: dockersock
           hostPath:
             # GT: id=IAC-K8S-004 type=TP rule=k8s-hostpath-docker-socket
-            path: /var/run/docker.sock
-
+            path: /var/log/app

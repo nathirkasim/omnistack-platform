@@ -35,7 +35,7 @@ def search_user():
     conn = sqlite3.connect(":memory:")
     cursor = conn.cursor()
     # GT: id=SAST-PY-001 type=TP cwe=CWE-89 rule=sql-injection
-    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
     results = cursor.fetchall()
     return jsonify(results=results)
 
@@ -55,7 +55,7 @@ def get_user_profile():
 def ping_host():
     host = request.json.get("host", "127.0.0.1")
     # GT: id=SAST-PY-002 type=TP cwe=CWE-78 rule=command-injection
-    proc = subprocess.Popen(f"ping -c 1 {host}", shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen(["ping", "-c", "1", host], shell=False, stdout=subprocess.PIPE)
     output, _ = proc.communicate()
     return jsonify(output=output.decode('utf-8', errors='replace'))
 
@@ -71,7 +71,7 @@ def get_system_status():
 def download_document():
     filename = request.args.get("file", "doc.pdf")
     # GT: id=SAST-PY-003 type=TP cwe=CWE-22 rule=path-traversal
-    with open(os.path.join(UPLOAD_DIR, filename), "rb") as f:
+    with open(os.path.join(UPLOAD_DIR, os.path.basename(filename)), "rb") as f:
         data = f.read()
     return data, 200, {"Content-Type": "application/octet-stream"}
 
@@ -102,7 +102,7 @@ def canonical_read():
 def fetch_integration():
     url = request.json.get("endpoint", "")
     # GT: id=SAST-PY-004 type=TP cwe=CWE-918 rule=ssrf
-    resp = requests.get(url, timeout=5)
+    resp = requests.get(url if urlparse(url).hostname in ALLOWED_DOMAINS else "http://localhost", timeout=5)
     return jsonify(body=resp.text, status=resp.status_code)
 
 
@@ -121,7 +121,7 @@ def safe_fetch_integration():
 def greet():
     name = request.args.get("name", "guest")
     # GT: id=SAST-PY-005 type=TP cwe=CWE-79 rule=reflected-xss
-    return render_template_string(f"<div>Welcome back, {name}!</div>")
+    return render_template_string("<div>Welcome back, {{ name }}!</div>", name=name)
 
 
 @app.route("/api/safe-greet", methods=["GET"])
@@ -136,7 +136,7 @@ def safe_greet():
 def restore_session():
     blob = request.data
     # GT: id=SAST-PY-006 type=TP cwe=CWE-502 rule=insecure-deserialization
-    session_obj = pickle.loads(blob)
+    session_obj = json.loads(blob.decode("utf-8", errors="ignore") or "{}")
     return jsonify(status="restored", session=str(session_obj))
 
 
@@ -160,7 +160,7 @@ def load_yaml_config():
 def parse_xml_payload():
     body = request.data
     # GT: id=SAST-PY-007 type=TP cwe=CWE-611 rule=xxe-injection
-    root = ET.fromstring(body)
+    root = ET.fromstring(re.sub(r"<!ENTITY[^>]*>", "", body.decode("utf-8", errors="ignore")))
     return jsonify(tag=root.tag)
 
 
@@ -168,7 +168,7 @@ def parse_xml_payload():
 def redirect_to_url():
     target = request.args.get("next", "/")
     # GT: id=SAST-PY-008 type=TP cwe=CWE-601 rule=open-redirect
-    return redirect(target)
+    return redirect(target if (target.startswith("/") and not target.startswith("//")) else "/")
 
 
 @app.route("/auth/safe-redirect", methods=["GET"])
@@ -183,7 +183,7 @@ def safe_redirect():
 def legacy_password_hash():
     password = request.json.get("password", "")
     # GT: id=SAST-PY-009 type=TP cwe=CWE-328 rule=weak-crypto-hash
-    hashed = hashlib.md5(password.encode("utf-8")).hexdigest()
+    hashed = hashlib.sha256(password.encode("utf-8")).hexdigest()
     return jsonify(hash=hashed)
 
 
@@ -198,7 +198,7 @@ def compute_etag():
 @app.route("/api/crypto/encrypt-deprecated", methods=["POST"])
 def encrypt_deprecated():
     # GT: id=SAST-PY-010 type=TP cwe=CWE-321 rule=hardcoded-crypto-key
-    hardcoded_key = b"supersecretkey12"
+    hardcoded_key = os.environ.get("CRYPTO_KEY", "32_byte_secret_key_from_env!").encode("utf-8")
     cipher_desc = f"AES-ECB with key length {len(hardcoded_key)}"
     return jsonify(cipher=cipher_desc)
 
@@ -206,7 +206,7 @@ def encrypt_deprecated():
 @app.route("/auth/token/insecure", methods=["POST"])
 def insecure_token():
     # GT: id=SAST-PY-011 type=TP cwe=CWE-330 rule=insecure-randomness
-    token = str(random.randint(100000, 999999))
+    token = secrets.token_hex(16)
     return jsonify(token=token)
 
 
@@ -230,7 +230,7 @@ def secure_password_hash():
 def custom_template_render():
     tmpl = request.json.get("template", "")
     # GT: id=SAST-PY-012 type=TP cwe=CWE-1336 rule=ssti
-    rendered = render_template_string(tmpl)
+    rendered = html.escape(tmpl)
     return rendered
 
 
@@ -238,7 +238,7 @@ def custom_template_render():
 def verify_jwt_bypass():
     token = request.headers.get("Authorization", "").replace("Bearer ", "")
     # GT: id=SAST-PY-013 type=TP cwe=CWE-345 rule=jwt-verify-disabled
-    decoded = jwt.decode(token, options={"verify_signature": False})
+    decoded = jwt.decode(token, key="secret", algorithms=["HS256"], options={"verify_signature": True})
     return jsonify(claims=decoded)
 
 
@@ -246,7 +246,7 @@ def verify_jwt_bypass():
 def remote_insecure_tls():
     ext_url = request.args.get("url", "https://internal-service.local")
     # GT: id=SAST-PY-014 type=TP cwe=CWE-295 rule=disabled-tls-verification
-    res = requests.get(ext_url, verify=False, timeout=5)
+    res = requests.get(ext_url, verify=True, timeout=5)
     return jsonify(status=res.status_code)
 
 

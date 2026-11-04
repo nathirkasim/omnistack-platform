@@ -14,7 +14,7 @@ public class OrderRepository {
     public String executeRawSql(String filter) throws Exception {
         Statement stmt = getConnection().createStatement();
         // GT: id=TAINT-JAVA-001 type=TP cwe=CWE-89 rule=deep-taint-sqli
-        ResultSet rs = stmt.executeQuery("SELECT id FROM orders WHERE status = '" + filter + "'");
+        PreparedStatement ps = getConnection().prepareStatement("SELECT id FROM orders WHERE status = ?"); ps.setString(1, filter); ResultSet rs = ps.executeQuery();
         return rs.next() ? rs.getString("id") : "none";
     }
 
@@ -29,7 +29,7 @@ public class OrderRepository {
     public String executeSecondOrder(String tag) throws Exception {
         Statement stmt = getConnection().createStatement();
         // GT: id=TAINT-JAVA-005 type=TP cwe=CWE-89 rule=second-order-sqli
-        ResultSet rs = stmt.executeQuery("SELECT summary FROM audit_trail WHERE tag = '" + tag + "'");
+        PreparedStatement ps = getConnection().prepareStatement("SELECT summary FROM audit_trail WHERE tag = ?"); ps.setString(1, tag); ResultSet rs = ps.executeQuery();
         return rs.next() ? rs.getString("summary") : "none";
     }
 
@@ -42,7 +42,7 @@ public class OrderRepository {
 
     public void updateAccountBalance(String targetId, double amount) throws Exception {
         // GT: id=TAINT-JAVA-010 type=TP cwe=CWE-639 rule=idor-unauthorized-update
-        PreparedStatement ps = getConnection().prepareStatement("UPDATE accounts SET balance = balance + ? WHERE id = ?");
+        PreparedStatement ps = getConnection().prepareStatement("UPDATE accounts SET balance = balance + ? WHERE id = ? AND owner = ?");
         ps.setDouble(1, amount);
         ps.setString(2, targetId);
         ps.executeUpdate();

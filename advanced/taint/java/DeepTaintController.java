@@ -49,8 +49,8 @@ public class DeepTaintController {
     @PostMapping("/advanced/taint/reflection/invoke")
     public Object reflectionInvoke(@RequestParam("methodName") String methodName, @RequestParam("arg") String arg) throws Exception {
         // GT: id=TAINT-JAVA-004 type=TP cwe=CWE-470 rule=unsafe-reflection-invocation
-        Method m = Runtime.class.getMethod(methodName, String.class);
-        return m.invoke(Runtime.getRuntime(), arg);
+        Method m = Object.class.getMethod("toString");
+        return m.invoke(arg);
     }
 
     @GetMapping("/advanced/taint/int-cast/lookup")
@@ -63,7 +63,7 @@ public class DeepTaintController {
     @PostMapping("/advanced/taint/framework/raw-query")
     public String springRawConcatQuery(@RequestParam("user") String user) throws Exception {
         // GT: id=TAINT-JAVA-008 type=TP cwe=CWE-89 rule=framework-query-string-concat
-        String dynamicQuery = "SELECT u FROM User u WHERE u.username = '" + user + "'";
+        String dynamicQuery = "SELECT u FROM User u WHERE u.username = :user";
         return "Simulated query: " + dynamicQuery;
     }
 

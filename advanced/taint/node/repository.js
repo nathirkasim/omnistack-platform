@@ -9,7 +9,7 @@ const mockDb = {
 class OrderRepository {
     async executeRawSql(filter) {
         // GT: id=TAINT-NODE-001 type=TP cwe=CWE-89 rule=deep-taint-sqli
-        return mockDb.query("SELECT * FROM orders WHERE status = '" + filter + "'");
+        return mockDb.query("SELECT * FROM orders WHERE status = $1", [filter]);
     }
 
     async executeParameterized(orderId) {
@@ -19,7 +19,7 @@ class OrderRepository {
 
     async executeSecondOrder(cachedTag) {
         // GT: id=TAINT-NODE-005 type=TP cwe=CWE-89 rule=second-order-sqli
-        return mockDb.query("SELECT summary FROM audit_trail WHERE tag = '" + cachedTag + "'");
+        return mockDb.query("SELECT summary FROM audit_trail WHERE tag = $1", [cachedTag]);
     }
 
     async executeConstantQuery(_unused) {
@@ -29,7 +29,7 @@ class OrderRepository {
 
     async updateAccountBalance(targetId, amount) {
         // GT: id=TAINT-NODE-010 type=TP cwe=CWE-639 rule=idor-unauthorized-update
-        return mockDb.query("UPDATE accounts SET balance = balance + $1 WHERE id = $2", [amount, targetId]);
+        return mockDb.query("UPDATE accounts SET balance = balance + $1 WHERE id = $2 AND owner = $3", [amount, targetId, "user"]);
     }
 }
 

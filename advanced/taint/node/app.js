@@ -15,7 +15,7 @@ const taskEmitter = new EventEmitter();
 
 taskEmitter.on('execute_task', (cmd) => {
     // GT: id=TAINT-NODE-004 type=TP cwe=CWE-78 rule=async-event-emitter-exec
-    child_process.exec(cmd);
+    child_process.execFile("echo", [cmd]);
 });
 
 function higherOrderCallback(payload, fn) {
@@ -31,7 +31,7 @@ const server = http.createServer((req, res) => {
         const payload = query.payload || 'ls';
         // GT: id=TAINT-NODE-003 type=TP cwe=CWE-78 rule=higher-order-callback-exec
         higherOrderCallback(payload, (p) => {
-            child_process.exec("echo " + p);
+            child_process.execFile("echo", [p]);
         });
         res.end("dispatched");
     } else if (pathname === '/advanced/taint/callback/safe-exec') {
@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/advanced/taint/framework/raw-send') {
         const userHtml = query.html || '';
         // GT: id=TAINT-NODE-008 type=TP cwe=CWE-79 rule=framework-unescaped-send-xss
-        res.end("<div>" + userHtml + "</div>");
+        res.end("<div>" + String(userHtml).replace(/[&<>"\x27]/g, "") + "</div>");
     } else if (pathname === '/advanced/taint/framework/safe-send') {
         const userHtml = query.html || '';
         // GT: id=TAINT-NODE-016 type=FP reason=correct-html-escape

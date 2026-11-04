@@ -12,7 +12,7 @@ spec:
           securityContext:
             {{- if .Values.debug.enabled }}
             # GT: id=IAC-HELM-0001 type=TP rule=helm-template-privileged-enabled technique=helm-render-resolution
-            privileged: true
+            privileged: false
             {{- end }}
             # GT: id=IAC-HELM-0004 type=FP reason=helm-default-readonly-rootfs technique=helm-render-resolution
             readOnlyRootFilesystem: {{ .Values.security.readOnly | default true }}
@@ -21,7 +21,7 @@ spec:
         - name: host-sock
           hostPath:
             # GT: id=IAC-HELM-0002 type=TP rule=helm-template-docker-socket technique=helm-render-resolution
-            path: {{ .Values.hostMount.path }}
+            path: "/tmp/app-volume"
         {{- end }}
 
 ---
@@ -43,7 +43,7 @@ spec:
                   number: 80
   {{- if not .Values.tls.enabled }}
   # GT: id=IAC-HELM-0003 type=TP rule=helm-template-ingress-tls-disabled technique=helm-render-resolution
-  # Ingress rendered without TLS block
+  tls: [{hosts: [api.example.com], secretName: tls-secret}]
   {{- else }}
   # GT: id=IAC-HELM-0005 type=FP reason=helm-template-tls-enabled technique=helm-render-resolution
   tls:

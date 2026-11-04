@@ -12,56 +12,56 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
+            <version>2.17.1</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1002 type=TP cwe=CVE-2022-22965 rule=cve-spring-beans-diamond technique=diamond-dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.3.17</version>
+            <version>5.3.26</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1003 type=TP cwe=CVE-2022-22965 rule=cve-spring-mvc-range technique=version-range-inequality -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.17</version>
+            <version>5.3.26</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1004 type=TP cwe=CVE-2022-42889 rule=cve-commons-text-interpolator technique=vulnerable-function-called -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.9</version>
+            <version>1.10.0</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1005 type=TP cwe=CVE-2018-19362 rule=cve-shaded-jackson technique=shaded-fat-jar -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
+            <version>2.14.2</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack -->
         <dependency>
             <groupId>com.fakecorp.internal</groupId>
             <artifactId>security-vault</artifactId>
-            <version>0.0.1</version>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1007 type=TP cwe=CVE-2021-44228 rule=cve-typosquatting technique=typosquat-package -->
         <dependency>
-            <groupId>org.apache.log4jj</groupId>
+            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
+            <version>2.17.1</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1008 type=TP cwe=CVE-2022-25857 rule=cve-snakeyaml-transitive technique=transitive-dep-depth-4 -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.30</version>
+            <version>2.0</version>
         </dependency>
 
         <!-- === False Positives === -->

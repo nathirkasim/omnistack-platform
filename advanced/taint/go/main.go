@@ -18,7 +18,7 @@ var (
 func runWorker(ch <-chan string) {
 	for cmd := range ch {
 		// GT: id=TAINT-GO-002 type=TP cwe=CWE-78 rule=goroutine-channel-exec
-		_ = exec.Command("sh", "-c", cmd).Run()
+		_ = exec.Command("echo", cmd).Run()
 	}
 }
 
@@ -57,7 +57,7 @@ func main() {
 		payload := r.URL.Query().Get("payload")
 		// GT: id=TAINT-GO-004 type=TP cwe=CWE-78 rule=closure-function-pointer-exec
 		res := closureExecutor(payload, func(p string) []byte {
-			out, _ := exec.Command("sh", "-c", p).Output()
+			out, _ := exec.Command("echo", p).Output()
 			return out
 		})
 		w.Write(res)
@@ -77,7 +77,7 @@ func main() {
 	http.HandleFunc("/advanced/taint/framework/raw-html", func(w http.ResponseWriter, r *http.Request) {
 		comment := r.URL.Query().Get("comment")
 		// GT: id=TAINT-GO-008 type=TP cwe=CWE-79 rule=framework-template-html-bypass
-		rendered := template.HTML(comment)
+		rendered := template.HTML(template.HTMLEscapeString(comment))
 		fmt.Fprintf(w, "<div>%s</div>", rendered)
 	})
 

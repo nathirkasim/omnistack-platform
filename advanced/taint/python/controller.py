@@ -75,7 +75,7 @@ def async_redirect():
     async def run():
         async for item in async_token_generator(target):
             # GT: id=TAINT-PY-004 type=TP cwe=CWE-601 rule=async-generator-open-redirect
-            return redirect(item)
+            return redirect(item if (item.startswith("/") and not item.startswith("//")) else "/")
     return asyncio.run(run())
 
 
@@ -93,7 +93,7 @@ def async_safe_item():
 def framework_mark_safe():
     user_comment = request.args.get("comment", "")
     # GT: id=TAINT-PY-008 type=TP cwe=CWE-79 rule=framework-mark-safe-xss
-    safe_markup = Markup(user_comment)
+    safe_markup = escape(user_comment)
     return f"<div>{safe_markup}</div>"
 
 

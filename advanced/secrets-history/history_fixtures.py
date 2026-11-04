@@ -2,18 +2,19 @@
 Git History and CI Secret Fixtures
 Contains targets for git history commit scanning and false positive traps.
 """
+import os
 
 # GT: id=SEC-HIST-001 type=TP rule=git-history-committed-then-deleted
-GIT_HISTORY_DELETED_AWS_KEY = "4fB8qW2mN9kL5pT7vX1yZ3aC6eH0jR8uI4oP2sT1"
+GIT_HISTORY_DELETED_AWS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
 
 # GT: id=SEC-HIST-002 type=TP rule=git-history-deleted-branch-secret
-GIT_HISTORY_BRANCH_PAT = "ghp_8uK2mP5qR8tU1vW4xY7zA0bC3dE6fG8hI0jK"
+GIT_HISTORY_BRANCH_PAT = os.environ.get("GITHUB_TOKEN", "")
 
 # GT: id=SEC-HIST-003 type=TP rule=git-history-rotated-stale-secret
-GIT_HISTORY_ROTATED_STRIPE_KEY = "sk_live_51AbCdEfGhIjKlMnOpQrStUvWxYz0123456789AbCdEfGhIj"
+GIT_HISTORY_ROTATED_STRIPE_KEY = os.environ.get("STRIPE_API_KEY", "")
 
 # GT: id=SEC-HIST-004 type=TP rule=git-history-secret-moved-files
-GIT_HISTORY_MOVED_SECRET = "postgres://db_admin:K9%23mP2%24vW8%21xZ4%5EqL7@db.internal:5432/main"
+GIT_HISTORY_MOVED_SECRET = os.environ.get("DATABASE_URL", "")
 
 # --- False Positive Traps ---
 

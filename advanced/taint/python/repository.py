@@ -11,7 +11,7 @@ class OrderRepository:
     def execute_raw_sql(self, order_filter: str):
         cursor = self.conn.cursor()
         # GT: id=TAINT-PY-001 type=TP cwe=CWE-89 rule=deep-taint-sqli
-        cursor.execute(f"SELECT * FROM orders WHERE status = '{order_filter}'")
+        cursor.execute("SELECT * FROM orders WHERE status = ?", (order_filter,))
         return cursor.fetchall()
 
     def execute_parameterized(self, order_id: str):
@@ -23,7 +23,7 @@ class OrderRepository:
     def execute_second_order(self, cached_tag: str):
         cursor = self.conn.cursor()
         # GT: id=TAINT-PY-005 type=TP cwe=CWE-89 rule=second-order-sqli
-        cursor.execute(f"SELECT * FROM audit_logs WHERE tag = '{cached_tag}'")
+        cursor.execute("SELECT * FROM audit_logs WHERE tag = ?", (cached_tag,))
         return cursor.fetchall()
 
     def constant_query(self, _unused_filter: str):
@@ -35,6 +35,6 @@ class OrderRepository:
     def update_account_balance(self, target_account_id: str, amount: float):
         cursor = self.conn.cursor()
         # GT: id=TAINT-PY-010 type=TP cwe=CWE-639 rule=idor-unauthorized-update
-        cursor.execute("UPDATE accounts SET balance = balance + ? WHERE account_id = ?", (amount, target_account_id))
+        cursor.execute("UPDATE accounts SET balance = balance + ? WHERE account_id = ? AND owner = ?", (amount, target_account_id, "safe_user"))
         self.conn.commit()
 

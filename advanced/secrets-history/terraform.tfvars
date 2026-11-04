@@ -1,4 +1,4 @@
-# Committed Terraform variable definitions
+# Committed Terraform variable definitions - REMEDIATED (password passed via TF_VAR_db_password or Vault)
 
 # GT: id=SEC-HIST-009 type=TP rule=tfvars-committed-password
-db_password = "K9#mP2$vW8!xZ4^qL7"
+db_password = ""

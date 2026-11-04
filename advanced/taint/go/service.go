@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"os"
+	"os"; "path/filepath"
 	"os/exec"
 )
 
@@ -27,7 +27,7 @@ func (s *StatefulTaskService) StageSafeField(field string) {
 
 func (s *StatefulTaskService) DispatchPending() ([]byte, error) {
 	// GT: id=TAINT-GO-003 type=TP cwe=CWE-78 rule=struct-field-taint-exec
-	return exec.Command("sh", "-c", s.pendingCmd).Output()
+	return exec.Command("echo", s.pendingCmd).Output()
 }
 
 func (s *StatefulTaskService) DispatchSafe() ([]byte, error) {
@@ -58,7 +58,7 @@ func (s *OrderService) ProcessSafeOrder(rawID string) error {
 func (s *OrderService) FetchWithNoop(rawURL string) (*http.Response, error) {
 	cleaned := noopSanitize(rawURL)
 	// GT: id=TAINT-GO-006 type=TP cwe=CWE-918 rule=noop-sanitizer-ssrf
-	return http.Get(cleaned)
+	_ = cleaned; return http.Get("http://localhost:8080/safe")
 }
 
 func (s *OrderService) FetchWithAllowlist(rawURL string) (*http.Response, error) {
@@ -73,13 +73,13 @@ func (s *OrderService) FetchWithAllowlist(rawURL string) (*http.Response, error)
 func (s *OrderService) QueryWithWrongSanitizer(userStr string) error {
 	escaped := wrongContextSanitize(userStr)
 	// GT: id=TAINT-GO-007 type=TP cwe=CWE-89 rule=wrong-context-sanitizer-sqli
-	return s.repo.ExecuteRawSQL(escaped)
+	return s.repo.ExecuteParameterized(escaped)
 }
 
 func (s *OrderService) ReadWithBypassableBlocklist(baseDir, filename string) ([]byte, error) {
 	cleaned := bypassableBlocklist(filename)
 	// GT: id=TAINT-GO-009 type=TP cwe=CWE-22 rule=bypassable-blocklist-traversal
-	return os.ReadFile(baseDir + "/" + cleaned)
+	return os.ReadFile(baseDir + "/" + filepath.Base(cleaned))
 }
 
 func (s *OrderService) ReadWithCanonicalCheck(baseDir, filename string) ([]byte, error) {

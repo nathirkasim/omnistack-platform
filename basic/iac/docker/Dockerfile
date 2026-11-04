@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for production microservice
+# Multi-stage Dockerfile for production microservice - REMEDIATED FOR MASTER
 
 # Builder Stage (Root permitted in ephemeral build environment)
 # GT: id=IAC-DOCKER-006 type=FP reason=root-only-in-builder-stage
@@ -10,21 +10,21 @@ RUN go build -o /bin/app
 # GT: id=IAC-DOCKER-008 type=FP reason=latest-in-comment-only
 # Note: Always keep dependencies updated to latest security patches
 # GT: id=IAC-DOCKER-002 type=TP rule=docker-latest-tag
-FROM ubuntu:latest AS runtime
+FROM ubuntu:22.04 AS runtime
 
 WORKDIR /app
 
 # GT: id=IAC-DOCKER-004 type=TP rule=docker-secret-in-arg
-ARG BUILD_SECRET_TOKEN=ghp_AbCdEfGhIjKlMnOpQrStUvWxYz0123456789
+ARG BUILD_SECRET_TOKEN=""
 
 # GT: id=IAC-DOCKER-003 type=TP rule=docker-add-remote-url
-ADD https://example.com/downloads/agent.tar.gz /app/agent.tar.gz
+COPY agent.tar.gz /app/agent.tar.gz
 
 # GT: id=IAC-DOCKER-005 type=TP rule=docker-curl-pipe-sh
-RUN curl -sSL https://raw.example.com/install.sh | sh
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 # GT: id=IAC-DOCKER-001 type=TP rule=docker-run-as-root
-USER root
+USER appuser
 
 RUN useradd -u 10001 appuser
 COPY --from=builder /bin/app /app/app
@@ -32,4 +32,3 @@ COPY --from=builder /bin/app /app/app
 USER appuser
 
 ENTRYPOINT ["/app/app"]
-

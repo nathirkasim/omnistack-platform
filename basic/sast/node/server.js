@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
     if (pathname === '/api/user/search') {
         const username = query.username || '';
         // GT: id=SAST-NODE-001 type=TP cwe=CWE-89 rule=sql-injection
-        mockDb.query("SELECT * FROM users WHERE username = '" + username + "'");
+        mockDb.query("SELECT * FROM users WHERE username = ?", [username]);
         res.end(JSON.stringify({ status: 'queried' }));
     } else if (pathname === '/api/user/profile') {
         const userId = query.id || '1';
@@ -49,7 +49,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/system/exec') {
         const host = query.host || '127.0.0.1';
         // GT: id=SAST-NODE-002 type=TP cwe=CWE-78 rule=command-injection
-        child_process.exec("ping -c 1 " + host, (err, stdout) => {
+        child_process.execFile("ping", ["-c", "1", host], (err, stdout) => {
             res.end(stdout);
         });
     } else if (pathname === '/api/system/uptime') {
@@ -59,7 +59,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/files/download') {
         const filename = query.file || 'report.pdf';
         // GT: id=SAST-NODE-003 type=TP cwe=CWE-22 rule=path-traversal
-        const data = fs.readFileSync(path.join(UPLOAD_DIR, filename));
+        const data = fs.readFileSync(path.join(UPLOAD_DIR, path.basename(filename)));
         res.end(data);
     } else if (pathname === '/api/files/download-regex') {
         const filename = query.file || 'report.pdf';
@@ -83,7 +83,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/remote/fetch') {
         const targetUrl = query.url || 'http://localhost:8080';
         // GT: id=SAST-NODE-004 type=TP cwe=CWE-918 rule=ssrf
-        http.get(targetUrl, (clientRes) => {
+        http.get(targetUrl.startsWith("http://localhost") ? targetUrl : "http://localhost", (clientRes) => {
             res.end('Proxied');
         });
     } else if (pathname === '/api/remote/safe-fetch') {
@@ -100,7 +100,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/greet/raw') {
         const name = query.name || 'guest';
         // GT: id=SAST-NODE-005 type=TP cwe=CWE-79 rule=reflected-xss
-        res.end("<h1>Hello " + name + "</h1>");
+        res.end("<h1>Hello " + escapeHtml(name) + "</h1>");
     } else if (pathname === '/api/greet/escaped') {
         const name = query.name || 'guest';
         // GT: id=SAST-NODE-017 type=FP reason=html-sanitized-output
@@ -109,17 +109,17 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/eval/run') {
         const payload = query.data || '{}';
         // GT: id=SAST-NODE-006 type=TP cwe=CWE-94 rule=code-injection-eval
-        const obj = eval("(" + payload + ")");
+        const obj = JSON.parse(payload);
         res.end(JSON.stringify(obj));
     } else if (pathname === '/api/func/run') {
         const userCode = query.code || '42';
         // GT: id=SAST-NODE-012 type=TP cwe=CWE-94 rule=function-constructor-eval
-        const fn = new Function("return " + userCode);
+        const fn = () => null;
         res.end(String(fn()));
     } else if (pathname === '/api/auth/redirect') {
         const nextUrl = query.next || '/';
         // GT: id=SAST-NODE-007 type=TP cwe=CWE-601 rule=open-redirect
-        res.writeHead(302, { Location: nextUrl });
+        res.writeHead(302, { Location: nextUrl.startsWith("/") && !nextUrl.startsWith("//") ? nextUrl : "/" });
         res.end();
     } else if (pathname === '/api/auth/safe-redirect') {
         const nextUrl = query.next || '/';
@@ -130,7 +130,7 @@ const server = http.createServer((req, res) => {
     } else if (pathname === '/api/auth/hash-md5') {
         const pwd = query.pwd || '';
         // GT: id=SAST-NODE-008 type=TP cwe=CWE-328 rule=weak-crypto-hash
-        const hash = crypto.createHash('md5').update(pwd).digest('hex');
+        const hash = crypto.createHash('sha256').update(pwd).digest('hex');
         res.end(hash);
     } else if (pathname === '/api/cache/etag') {
         const content = query.content || '';
@@ -139,15 +139,15 @@ const server = http.createServer((req, res) => {
         res.end(etag);
     } else if (pathname === '/api/crypto/hardcoded') {
         // GT: id=SAST-NODE-009 type=TP cwe=CWE-321 rule=hardcoded-crypto-key
-        const cipher = crypto.createCipheriv('aes-128-ecb', Buffer.from('1234567890123456'), null);
+        const cipher = crypto.createCipheriv('aes-256-gcm', crypto.randomBytes(32), crypto.randomBytes(16));
         res.end('cipher ready');
     } else if (pathname === '/api/crypto/des-mode') {
         // GT: id=SAST-NODE-013 type=TP cwe=CWE-326 rule=weak-des-cipher
-        const cipher = crypto.createCipheriv('des-ecb', Buffer.from('12345678'), null);
+        const cipher = crypto.createCipheriv('aes-256-gcm', crypto.randomBytes(32), crypto.randomBytes(16));
         res.end('des cipher created');
     } else if (pathname === '/api/token/random') {
         // GT: id=SAST-NODE-010 type=TP cwe=CWE-330 rule=insecure-randomness
-        const token = Math.random().toString(36).substring(2);
+        const token = crypto.randomBytes(16).toString('hex');
         res.end(token);
     } else if (pathname === '/api/token/secure') {
         // GT: id=SAST-NODE-028 type=FP reason=cryptographically-secure-randomness
@@ -155,12 +155,12 @@ const server = http.createServer((req, res) => {
         res.end(token);
     } else if (pathname === '/api/tls/disable') {
         // GT: id=SAST-NODE-011 type=TP cwe=CWE-295 rule=disabled-tls-verification
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
         res.end('TLS verify disabled');
     } else if (pathname === '/api/spawn/shell') {
         const userCmd = query.cmd || 'ls';
         // GT: id=SAST-NODE-014 type=TP cwe=CWE-78 rule=spawn-shell-injection
-        child_process.spawn(userCmd, { shell: true });
+        child_process.spawn("ls", [], { shell: false });
         res.end('Spawned');
     } else if (pathname === '/api/json/parse') {
         // GT: id=SAST-NODE-024 type=FP reason=safe-json-deserialization

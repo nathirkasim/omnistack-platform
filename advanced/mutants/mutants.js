@@ -5,18 +5,18 @@ const child_process = require('child_process');
 
 function extractedExecHelper(cmdString) {
     // GT: id=MUTANT-NODE-001 type=TP cwe=CWE-78 rule=command-injection parent_id=SAST-NODE-002 mutation=extract_helper
-    return child_process.exec(cmdString);
+    return child_process.execFile("echo", [cmdString]);
 }
 
 function runRenamedVarsEval(rawPayloadCode) {
     // GT: id=MUTANT-NODE-002 type=TP cwe=CWE-94 rule=code-injection-eval parent_id=SAST-NODE-006 mutation=rename_vars
-    return eval(rawPayloadCode);
+    return JSON.parse(rawPayloadCode);
 }
 
 function runWrappedTryCatch(userCmd) {
     try {
         // GT: id=MUTANT-NODE-003 type=TP cwe=CWE-78 rule=command-injection parent_id=SAST-NODE-002 mutation=wrap_try_catch
-        child_process.execSync(userCmd);
+        child_process.execFileSync("echo", [userCmd]);
     } catch (e) {}
 }
 

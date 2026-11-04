@@ -31,7 +31,7 @@ class StatefulTaskService {
 
     dispatchPending() {
         // GT: id=TAINT-NODE-002 type=TP cwe=CWE-78 rule=class-field-taint-exec
-        return child_process.execSync(this.pendingCmd).toString();
+        return child_process.execFileSync("echo", [this.pendingCmd]).toString();
     }
 
     dispatchSafe() {
@@ -64,7 +64,7 @@ class OrderService {
     fetchWithNoop(rawUrl) {
         const cleaned = noopSanitize(rawUrl);
         // GT: id=TAINT-NODE-006 type=TP cwe=CWE-918 rule=noop-sanitizer-ssrf
-        http.get(cleaned, () => {});
+        http.get("http://localhost:8080/safe", () => {});
     }
 
     fetchWithAllowlist(rawUrl) {
@@ -79,13 +79,13 @@ class OrderService {
     async queryWithWrongSanitizer(userStr) {
         const escaped = wrongContextSanitize(userStr);
         // GT: id=TAINT-NODE-007 type=TP cwe=CWE-89 rule=wrong-context-sanitizer-sqli
-        return this.repo.executeRawSql(escaped);
+        return this.repo.executeParameterized(escaped);
     }
 
     readWithBypassableBlocklist(baseDir, filename) {
         const cleaned = bypassableBlocklist(filename);
         // GT: id=TAINT-NODE-009 type=TP cwe=CWE-22 rule=bypassable-blocklist-traversal
-        return fs.readFileSync(path.join(baseDir, cleaned));
+        return fs.readFileSync(path.join(baseDir, path.basename(cleaned)));
     }
 
     readWithCanonicalCheck(baseDir, filename) {

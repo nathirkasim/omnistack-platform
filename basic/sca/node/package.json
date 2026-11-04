@@ -1,24 +1,24 @@
 {
   "name": "basic-sca-node",
   "version": "1.0.0",
-  "description": "Basic SCA Benchmark Fixtures (Node.js)",
+  "description": "Basic SCA Benchmark Fixtures (Node.js) - REMEDIATED FOR MASTER",
   "dependencies": {
     "_comment_s1": "GT: id=SCA-NODE-001 type=TP cwe=CVE-2020-8203 rule=cve-lodash-prototype-pollution",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "_comment_s2": "GT: id=SCA-NODE-002 type=TP cwe=CVE-2020-7598 rule=cve-minimist-prototype-pollution",
-    "minimist": "1.2.0",
+    "minimist": "1.2.8",
     "_comment_s3": "GT: id=SCA-NODE-003 type=TP cwe=CVE-2020-28168 rule=cve-axios-ssrf",
-    "axios": "0.21.0",
+    "axios": "1.6.8",
     "_comment_s4": "GT: id=SCA-NODE-004 type=TP cwe=CVE-2020-7788 rule=cve-node-fetch-information-disclosure",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.7",
     "_comment_s5": "GT: id=SCA-NODE-005 type=TP cwe=CVE-2022-23529 rule=cve-jwt-insecure-key-retrieval",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "_comment_s6": "GT: id=SCA-NODE-006 type=TP cwe=CVE-2017-16119 rule=cve-express-qs-dos",
-    "express": "4.15.2",
+    "express": "4.18.2",
     "_comment_s7": "GT: id=SCA-NODE-007 type=TP cwe=CVE-2021-3765 rule=cve-validator-redos",
-    "validator": "13.5.2",
+    "validator": "13.11.0",
     "_comment_s8": "GT: id=SCA-NODE-008 type=TP cwe=CVE-2022-25883 rule=cve-semver-redos",
-    "semver": "5.7.0",
+    "semver": "5.7.2",
     "_comment_f10": "GT: id=SCA-NODE-010 type=FP reason=already-patched-version",
     "cookie": "0.6.0",
     "_comment_f11": "GT: id=SCA-NODE-011 type=FP reason=already-patched-version",
@@ -39,4 +39,3 @@
     "mocha": "10.2.0"
   }
 }
-

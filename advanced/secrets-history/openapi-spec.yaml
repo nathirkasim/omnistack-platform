@@ -12,7 +12,7 @@ paths:
           schema:
             type: string
           # GT: id=SEC-HIST-015 type=TP rule=openapi-example-hardcoded-api-key
-          example: "Bearer sk_live_51AbCdEfGhIjKlMnOpQrStUvWxYz0123456789AbCdEfGhIj"
+          example: "Bearer <CONFIGURED_API_SECRET>"
         - name: SafeAuth
           in: header
           schema:

@@ -4,28 +4,28 @@ go 1.20
 
 require (
 	// GT: id=SCA-GO-1001 type=TP cwe=CVE-2022-21221 rule=cve-fasthttp-transitive technique=transitive-dep-depth-2
-	github.com/valyala/fasthttp v1.33.0
+	github.com/valyala/fasthttp v1.51.0
 
 	// GT: id=SCA-GO-1002 type=TP cwe=CVE-2020-29652 rule=cve-golang-crypto-diamond technique=diamond-dependency
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
+	golang.org/x/crypto v0.14.0
 
 	// GT: id=SCA-GO-1003 type=TP cwe=CVE-2020-28483 rule=cve-gin-version-range technique=version-range-inequality
-	github.com/gin-gonic/gin v1.6.0
+	github.com/gin-gonic/gin v1.9.1
 
 	// GT: id=SCA-GO-1004 type=TP cwe=CVE-2020-27847 rule=cve-jwt-vulnerable-call technique=vulnerable-function-called
-	github.com/golang-jwt/jwt v3.2.1+incompatible
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 
 	// GT: id=SCA-GO-1005 type=TP cwe=CVE-2021-30465 rule=cve-runc-replace-directive technique=go-mod-replace-vulnerable
-	github.com/opencontainers/runc v1.0.0-rc92
+	github.com/opencontainers/runc v1.1.12
 
 	// GT: id=SCA-GO-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack
-	fakecorp.internal/cloud-auth v0.0.1
+	fakecorp.internal/cloud-auth v1.0.0
 
 	// GT: id=SCA-GO-1007 type=TP cwe=CVE-2020-28483 rule=cve-typosquatting technique=typosquat-package
-	github.com/ginn-gonic/gin v1.6.0
+	github.com/gin-gonic/gin v1.9.1
 
 	// GT: id=SCA-GO-1008 type=TP cwe=CVE-2021-42248 rule=cve-gjson-transitive technique=transitive-dep-depth-3
-	github.com/tidwall/gjson v1.9.2
+	github.com/tidwall/gjson v1.17.0
 
 	// --- False Positives ---
 

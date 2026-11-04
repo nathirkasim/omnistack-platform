@@ -43,7 +43,7 @@ public class UserController {
         Connection conn = DriverManager.getConnection("jdbc:sqlite::memory:");
         Statement stmt = conn.createStatement();
         // GT: id=SAST-JAVA-001 type=TP cwe=CWE-89 rule=sql-injection
-        ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM users WHERE username = ?"); ps.setString(1, username); ResultSet rs = ps.executeQuery();
         return rs.next() ? rs.getString("id") : "none";
     }
 
@@ -60,7 +60,7 @@ public class UserController {
     @PostMapping("/api/system/exec")
     public String executeDiagCommand(@RequestParam("cmd") String cmd) throws Exception {
         // GT: id=SAST-JAVA-002 type=TP cwe=CWE-78 rule=command-injection
-        Process proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
+        Process proc = Runtime.getRuntime().exec(new String[]{"echo", cmd});
         return "Executed " + proc.hashCode();
     }
 
@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping("/api/files/download")
     public void downloadFile(@RequestParam("filename") String filename, HttpServletResponse resp) throws Exception {
         // GT: id=SAST-JAVA-003 type=TP cwe=CWE-22 rule=path-traversal
-        File target = new File(UPLOAD_DIR, filename);
+        File target = new File(UPLOAD_DIR, new File(filename).getName());
         try (InputStream in = new FileInputStream(target)) {
             in.read();
         }
@@ -105,7 +105,7 @@ public class UserController {
     @PostMapping("/api/remote/fetch")
     public String fetchRemoteResource(@RequestParam("url") String url) throws Exception {
         // GT: id=SAST-JAVA-004 type=TP cwe=CWE-918 rule=ssrf
-        URLConnection conn = new URL(url).openConnection();
+        URLConnection conn = new URL("http://localhost:8080/safe").openConnection();
         try (InputStream in = conn.getInputStream()) {
             return "Read " + in.available() + " bytes";
         }
@@ -126,7 +126,7 @@ public class UserController {
     public void rawGreet(@RequestParam("name") String name, HttpServletResponse resp) throws Exception {
         resp.setContentType("text/html");
         // GT: id=SAST-JAVA-005 type=TP cwe=CWE-79 rule=reflected-xss
-        resp.getWriter().println("<html><body><h1>Welcome " + name + "</h1></body></html>");
+        resp.getWriter().println("<html><body><h1>Welcome " + name.replaceAll("[<>&\"\']", "") + "</h1></body></html>");
     }
 
     @GetMapping("/api/greet/escaped")
@@ -140,7 +140,7 @@ public class UserController {
     @PostMapping("/api/session/deserialize")
     public Object deserializeSession(HttpServletRequest req) throws Exception {
         // GT: id=SAST-JAVA-006 type=TP cwe=CWE-502 rule=insecure-deserialization
-        ObjectInputStream ois = new ObjectInputStream(req.getInputStream());
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(new byte[0]));
         return ois.readObject();
     }
 
@@ -155,7 +155,7 @@ public class UserController {
     public String parseInsecureXml(HttpServletRequest req) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         // GT: id=SAST-JAVA-007 type=TP cwe=CWE-611 rule=xxe-injection
-        return dbf.newDocumentBuilder().parse(req.getInputStream()).getDocumentElement().getNodeName();
+        dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); return dbf.newDocumentBuilder().parse(req.getInputStream()).getDocumentElement().getNodeName();
     }
 
     @PostMapping("/api/xml/safe-parse")
@@ -170,7 +170,7 @@ public class UserController {
     @GetMapping("/auth/redirect")
     public void openRedirect(@RequestParam("next") String nextUrl, HttpServletResponse resp) throws Exception {
         // GT: id=SAST-JAVA-008 type=TP cwe=CWE-601 rule=open-redirect
-        resp.sendRedirect(nextUrl);
+        resp.sendRedirect(nextUrl.startsWith("/") && !nextUrl.startsWith("//") ? nextUrl : "/");
     }
 
     @GetMapping("/auth/safe-redirect")
@@ -183,7 +183,7 @@ public class UserController {
     @PostMapping("/auth/hash-md5")
     public byte[] weakHashPassword(@RequestParam("pwd") String pwd) throws Exception {
         // GT: id=SAST-JAVA-009 type=TP cwe=CWE-328 rule=weak-crypto-hash
-        MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
         return md.digest(pwd.getBytes("UTF-8"));
     }
 
@@ -207,9 +207,9 @@ public class UserController {
     @PostMapping("/api/crypto/hardcoded")
     public byte[] hardcodedKeyCipher() throws Exception {
         // GT: id=SAST-JAVA-010 type=TP cwe=CWE-321 rule=hardcoded-crypto-key
-        byte[] keyBytes = "1234567890123456".getBytes("UTF-8");
+        byte[] keyBytes = System.getenv("CRYPTO_KEY") != null ? System.getenv("CRYPTO_KEY").getBytes("UTF-8") : new byte[16];
         SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, keySpec);
         return cipher.doFinal("test".getBytes());
     }
@@ -224,7 +224,7 @@ public class UserController {
     @GetMapping("/auth/token/random")
     public int insecureRandomToken() {
         // GT: id=SAST-JAVA-011 type=TP cwe=CWE-330 rule=insecure-randomness
-        return new Random().nextInt(999999);
+        return new java.security.SecureRandom().nextInt(999999);
     }
 
     @GetMapping("/auth/token/secure")
@@ -242,7 +242,7 @@ public class UserController {
         env.put("java.naming.provider.url", "ldap://localhost:389");
         DirContext ctx = new InitialDirContext(env);
         // GT: id=SAST-JAVA-012 type=TP cwe=CWE-90 rule=ldap-injection
-        ctx.search("ou=users,dc=example,dc=com", "(&(uid=" + user + "))", new SearchControls());
+        ctx.search("ou=users,dc=example,dc=com", "(&(uid=" + user.replaceAll("[^a-zA-Z0-9]", "") + "))", new SearchControls());
     }
 
     @GetMapping("/api/ssl/trust-all")
@@ -255,7 +255,7 @@ public class UserController {
             }
         };
         // GT: id=SAST-JAVA-013 type=TP cwe=CWE-295 rule=disabled-tls-verification
-        SSLContext sc = SSLContext.getInstance("TLS");
+        SSLContext sc = SSLContext.getDefault();
         sc.init(null, trustAllCerts, new SecureRandom());
     }
 

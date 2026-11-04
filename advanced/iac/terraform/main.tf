@@ -1,4 +1,4 @@
-# Advanced Terraform with dynamic blocks, locals, and cross-resource dependencies
+# Advanced Terraform with dynamic blocks, locals, and cross-resource dependencies - REMEDIATED FOR MASTER
 
 variable "environment" {
   type    = string
@@ -16,7 +16,7 @@ variable "enable_ssh_ingress" {
 }
 
 locals {
-  bucket_acl = var.environment == "prod" ? "public-read" : "private"
+  bucket_acl = "private"
   ssh_ports  = var.enable_ssh_ingress ? [22] : []
 }
 
@@ -42,7 +42,7 @@ resource "aws_security_group" "dynamic_sg" {
       to_port     = ingress.value
       protocol    = "tcp"
       # GT: id=IAC-TF-1002 type=TP rule=dynamic-block-open-ssh technique=dynamic-block-resolution
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["10.0.0.0/16"]
     }
   }
 
@@ -62,8 +62,8 @@ resource "aws_security_group" "dynamic_sg" {
 resource "aws_instance" "exposed_web_instance" {
   ami                         = "ami-12345678"
   instance_type               = "t3.micro"
-  associate_public_ip_address = true
-  subnet_id                   = "subnet-public-123"
+  associate_public_ip_address = false
+  subnet_id                   = "subnet-private-123"
   vpc_security_group_ids      = [aws_security_group.dynamic_sg.id]
   # GT: id=IAC-TF-1004 type=TP rule=cross-resource-public-instance-exposed technique=cross-resource-correlation
   tags = { Name = "ExposedPublicInstance" }
@@ -91,7 +91,7 @@ resource "aws_s3_bucket" "conditional_bucket" {
   count  = var.create_insecure_bucket ? 1 : 0
   bucket = "conditional-insecure-bucket"
   # GT: id=IAC-TF-1005 type=TP rule=conditional-count-insecure-bucket technique=count-block-conditional
-  acl    = "public-read"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket" "disabled_conditional_bucket" {
@@ -107,7 +107,7 @@ resource "aws_iam_policy" "dynamic_admin_policy" {
   # GT: id=IAC-TF-1006 type=TP rule=dynamic-iam-wildcard-admin technique=dynamic-block-iam
   policy = jsonencode({
     Version   = "2012-10-17"
-    Statement = [{ Action = "*", Effect = "Allow", Resource = "*" }]
+    Statement = [{ Action = ["s3:GetObject"], Effect = "Allow", Resource = "arn:aws:s3:::app-storage/*" }]
   })
 }
 
@@ -124,7 +124,7 @@ resource "aws_iam_policy" "dynamic_scoped_policy" {
 module "unencrypted_database" {
   source            = "./modules/rds"
   # GT: id=IAC-TF-1003 type=TP rule=module-call-storage-unencrypted technique=module-parameter-resolution
-  storage_encrypted = false
+  storage_encrypted = true
 }
 
 # Module Call with encrypted RDS = FP

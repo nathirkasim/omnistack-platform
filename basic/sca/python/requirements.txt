@@ -1,28 +1,28 @@
-# Production Requirements with pinned dependencies
+# Production Requirements with pinned dependencies - REMEDIATED FOR MASTER
 
 # GT: id=SCA-PY-001 type=TP cwe=CVE-2018-18074 rule=cve-requests-credentials-leak
-requests==2.19.1
+requests==2.31.0
 
 # GT: id=SCA-PY-002 type=TP cwe=CVE-2020-26137 rule=cve-urllib3-crlf-injection
-urllib3==1.25.8
+urllib3==1.26.18
 
 # GT: id=SCA-PY-003 type=TP cwe=CVE-2018-1000656 rule=cve-flask-dos
-flask==0.12.2
+flask==3.0.0
 
 # GT: id=SCA-PY-004 type=TP cwe=CVE-2019-10906 rule=cve-jinja2-sandbox-escape
-jinja2==2.10
+jinja2==3.1.3
 
 # GT: id=SCA-PY-005 type=TP cwe=CVE-2020-1747 rule=cve-pyyaml-arbitrary-code-execution
-pyyaml==5.2
+pyyaml==6.0.1
 
 # GT: id=SCA-PY-006 type=TP cwe=CVE-2019-14232 rule=cve-django-sqli-jsonfield
-django==2.2
+django==4.2.10
 
 # GT: id=SCA-PY-007 type=TP cwe=CVE-2021-25290 rule=cve-pillow-buffer-overflow
-pillow==8.1.0
+pillow==10.2.0
 
 # GT: id=SCA-PY-008 type=TP cwe=CVE-2020-36242 rule=cve-cryptography-buffer-overflow
-cryptography==3.3.1
+cryptography==42.0.4
 
 # --- Patched or Safe Dependencies (False Positives) ---
 
@@ -46,4 +46,3 @@ werkzeug==3.0.1
 
 # GT: id=SCA-PY-016 type=FP reason=already-patched-version
 markupsafe==2.1.3
-
