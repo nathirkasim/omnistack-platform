@@ -10,7 +10,7 @@ jinja2==2.10.1
 werkzeug==0.14.1
 
 # GT: id=SCA-PY-1004 type=TP cwe=CVE-2019-20477 rule=cve-pyyaml-full-load-rce technique=vulnerable-function-called
-pyyaml==5.1
+pyyaml==5.4.0
 
 # GT: id=SCA-PY-1005 type=TP cwe=CVE-2020-13757 rule=cve-rsa-signature-timing technique=manifest-lockfile-mismatch
 rsa==4.0
