@@ -7,7 +7,7 @@ urllib3==1.24.1
 jinja2==2.10.1
 
 # GT: id=SCA-PY-1003 type=TP cwe=CVE-2019-14806 rule=cve-werkzeug-debugger-rce technique=version-range-inequality
-werkzeug==0.14.1
+werkzeug==3.1.9
 
 # GT: id=SCA-PY-1004 type=TP cwe=CVE-2019-20477 rule=cve-pyyaml-full-load-rce technique=vulnerable-function-called
 pyyaml==5.1
