@@ -30,7 +30,7 @@ cryptography==42.0.4
 requests-oauthlib==2.0.0
 
 # GT: id=SCA-PY-010 type=FP reason=already-patched-version
-certifi==2023.7.22
+certifi==2026.10.18
 
 # GT: id=SCA-PY-012 type=FP reason=outside-advisory-version-range
 sqlparse==0.4.4
