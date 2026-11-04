@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.apache.log4jj</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
+            <version>2.25.4</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1008 type=TP cwe=CVE-2022-25857 rule=cve-snakeyaml-transitive technique=transitive-dep-depth-4 -->
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.17.1</version>
+            <version>2.25.4</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch -->
