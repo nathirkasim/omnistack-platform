@@ -22,7 +22,7 @@ fakecorp-internal-auth==1.0.0
 requests==2.31.0
 
 # GT: id=SCA-PY-1008 type=TP cwe=CVE-2022-23491 rule=cve-certifi-root-cert technique=transitive-dep-depth-3
-certifi==2023.7.22
+certifi==2026.10.18
 
 # --- False Positive Traps ---
 
