@@ -36,7 +36,7 @@ pytest-runner==5.2
 requests==2.31.0
 
 # GT: id=SCA-PY-1012 type=FP reason=outside-advisory-version-range technique=safe-version-branch
-django==4.2.16
+django==5.2.17
 
 # GT: id=SCA-PY-1013 type=FP reason=monorepo-internal-workspace-package technique=monorepo-local-subproject
 internal-common-util==1.0.0
