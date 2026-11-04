@@ -16,7 +16,7 @@ jinja2==2.10
 pyyaml==5.2
 
 # GT: id=SCA-PY-006 type=TP cwe=CVE-2019-14232 rule=cve-django-sqli-jsonfield
-django==2.2
+django==5.2.17
 
 # GT: id=SCA-PY-007 type=TP cwe=CVE-2021-25290 rule=cve-pillow-buffer-overflow
 pillow==8.1.0
