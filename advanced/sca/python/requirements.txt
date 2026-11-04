@@ -13,7 +13,7 @@ werkzeug==0.14.1
 pyyaml==5.1
 
 # GT: id=SCA-PY-1005 type=TP cwe=CVE-2020-13757 rule=cve-rsa-signature-timing technique=manifest-lockfile-mismatch
-rsa==4.0
+rsa==4.7.0
 
 # GT: id=SCA-PY-1006 type=TP cwe=CVE-2021-39139 rule=cve-dependency-confusion technique=internal-pkg-name-hijack
 fakecorp-internal-auth==0.0.1
