@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.14.2</version>
+            <version>2.18.11</version>
         </dependency>
 
         <!-- GT: id=SCA-JAVA-005 type=TP cwe=CVE-2022-25857 rule=cve-snakeyaml-dos -->
