@@ -33,7 +33,7 @@ requests-oauthlib==2.0.0
 certifi==2023.7.22
 
 # GT: id=SCA-PY-012 type=FP reason=outside-advisory-version-range
-sqlparse==0.4.4
+sqlparse==0.6.0
 
 # GT: id=SCA-PY-013 type=FP reason=safe-utility-package-no-cve
 colorama==0.4.6
