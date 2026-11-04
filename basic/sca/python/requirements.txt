@@ -19,7 +19,7 @@ pyyaml==6.0.1
 django==4.2.10
 
 # GT: id=SCA-PY-007 type=TP cwe=CVE-2021-25290 rule=cve-pillow-buffer-overflow
-pillow==10.2.0
+pillow==13.0.0
 
 # GT: id=SCA-PY-008 type=TP cwe=CVE-2020-36242 rule=cve-cryptography-buffer-overflow
 cryptography==42.0.4
