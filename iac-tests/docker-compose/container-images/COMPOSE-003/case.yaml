@@ -1,0 +1,21 @@
+id: COMPOSE-003
+iac_type: docker-compose
+category: container-images
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Database service exposes port 5432 bound strictly to localhost 127.0.0.1
+  on isolated internal network
+why_scanner_may_fail: Scanners parsing port bindings with naive regex (e.g. matching
+  '5432:5432') without parsing the host IP address 127.0.0.1 trigger False Positives.
+expected_findings: []
+expected_no_findings:
+- CKV_DOCKER_10
+- exposed-db-port
+compliance:
+  cis: '5.1'
+  nist_800_53: AC-4
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://docs.docker.com/compose/compose-file/05-services/#ports
+undeliverable_static: false

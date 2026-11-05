@@ -1,0 +1,27 @@
+id: GHA-002
+iac_type: github-actions
+category: ci-cd
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Script injection via ${{ github.event.issue.title }} embedded directly
+  in bash run block
+why_scanner_may_fail: Scanners that do not parse bash syntax inside run blocks fail
+  to recognize that user-controlled GitHub context strings result in command injection.
+expected_findings:
+- rule: CKV_GHA_2
+  cwe: CWE-78
+  cis: CIS Software Supply Chain 1.0 - 2.2
+  nist: SI-10
+  resource: job.triage.step.echo
+  file: workflow.yml
+  line: 12
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '2.2'
+  nist_800_53: SI-10
+  pci_dss: 6.5.1
+  soc2: CC6.6
+source_refs:
+- https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
+undeliverable_static: false

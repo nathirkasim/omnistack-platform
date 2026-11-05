@@ -1,0 +1,19 @@
+id: PACKER-002
+iac_type: packer
+category: configuration-management
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Hardened Packer template using IAM instance profile instead of embedded
+  credentials
+why_scanner_may_fail: Safe Packer build template.
+expected_findings: []
+expected_no_findings:
+- CKV_PACKER_1
+compliance:
+  cis: '1.14'
+  nist_800_53: IA-2
+  pci_dss: 8.2.1
+  soc2: CC6.1
+source_refs:
+- https://developer.hashicorp.com/packer/docs/templates/hcl_templates
+undeliverable_static: false

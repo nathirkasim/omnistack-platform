@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  sniffer:
+    image: net-diagnostic:2.0.0
+    network_mode: "host"
+    pid: "host"
+    restart: always

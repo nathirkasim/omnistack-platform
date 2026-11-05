@@ -1,0 +1,26 @@
+id: GL-CI-001
+iac_type: gitlab-ci
+category: ci-cd
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: GitLab CI pipeline executing Docker-in-Docker with privileged flag and
+  logging CI tokens
+why_scanner_may_fail: Baseline GitLab CI misconfiguration.
+expected_findings:
+- rule: CKV_GL_1
+  cwe: CWE-250
+  cis: CIS Software Supply Chain 1.0 - 3.1
+  nist: AC-6
+  resource: job.build-job
+  file: .gitlab-ci.yml
+  line: 4
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '3.1'
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+undeliverable_static: false

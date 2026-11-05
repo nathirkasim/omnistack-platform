@@ -1,0 +1,26 @@
+id: CDK-001
+iac_type: cdk
+category: datastores
+label: TRUE_POSITIVE
+severity: HIGH
+description: AWS CDK synthesized CloudFormation template containing unencrypted S3
+  bucket with PublicRead access
+why_scanner_may_fail: Baseline synthesized CDK CloudFormation artifact.
+expected_findings:
+- rule: CKV_AWS_20
+  cwe: CWE-732
+  cis: CIS AWS 1.4 - 2.1.5
+  nist: AC-3
+  resource: AWS::S3::Bucket.CdkDataBucket
+  file: cdk.out/Stack.template.json
+  line: 6
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://docs.aws.amazon.com/cdk/v2/guide/home.html
+undeliverable_static: false

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: secure-app
+description: Helm chart utilizing hardened helper templates
+type: application
+version: 0.1.0

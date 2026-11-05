@@ -1,0 +1,27 @@
+id: K8S-SEC-002
+iac_type: kubernetes
+category: kubernetes-security
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: CronJob where primary application container is hardened, but an initContainer
+  runs privileged with hostPath mount to /etc
+why_scanner_may_fail: Scanners that only inspect Deployment kind or only traverse
+  spec.template.spec.containers fail to examine initContainers in batch CronJobs.
+expected_findings:
+- rule: CKV_K8S_16
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.2.1
+  nist: AC-6
+  resource: CronJob.maintenance.database-backup
+  file: cronjob.yaml
+  line: 18
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: 5.2.1
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
+undeliverable_static: false

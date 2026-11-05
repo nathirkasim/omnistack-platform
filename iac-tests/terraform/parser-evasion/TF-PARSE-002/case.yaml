@@ -1,0 +1,27 @@
+id: TF-PARSE-002
+iac_type: terraform
+category: parser-evasion
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: Bogus inline suppression comment '# checkov:skip=CKV_AWS_20' placed on
+  an unencrypted RDS instance to trick scanner into suppressing S3 rule on RDS
+why_scanner_may_fail: Faulty suppression parsers that associate comments with adjacent
+  blocks or apply broad rule skipping without verifying resource type compatibility.
+expected_findings:
+- rule: CKV_AWS_16
+  cwe: CWE-311
+  cis: CIS AWS 1.4 - 2.3.1
+  nist: SC-28
+  resource: aws_db_instance.bogus_suppressed
+  file: main.tf
+  line: 5
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.3.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://www.checkov.io/2.Basics/Suppressing%20and%20Skipping%20Policies.html
+undeliverable_static: false

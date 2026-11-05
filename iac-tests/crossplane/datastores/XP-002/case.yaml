@@ -1,0 +1,19 @@
+id: XP-002
+iac_type: crossplane
+category: datastores
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Crossplane Managed AWS S3 Bucket with SSE enabled and block public access
+  configuration
+why_scanner_may_fail: Hardened Crossplane managed resource baseline.
+expected_findings: []
+expected_no_findings:
+- CKV_XP_1
+compliance:
+  cis: 2.1.1
+  nist_800_53: SC-13
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://marketplace.upbound.io/providers/upbound/provider-aws-s3/
+undeliverable_static: false

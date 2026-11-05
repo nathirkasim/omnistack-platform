@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  agent:
+    image: cluster-agent:1.0.0
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

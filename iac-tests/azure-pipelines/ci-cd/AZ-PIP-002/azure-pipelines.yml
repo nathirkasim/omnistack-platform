@@ -1,0 +1,11 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+    clean: true
+  - script: echo "Build starting..."
+    displayName: 'Safe Build'

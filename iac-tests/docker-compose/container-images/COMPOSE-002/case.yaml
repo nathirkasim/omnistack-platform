@@ -1,0 +1,27 @@
+id: COMPOSE-002
+iac_type: docker-compose
+category: container-images
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: 'docker-compose service escapes isolation via network_mode: host and
+  pid: host without using ''privileged: true'''
+why_scanner_may_fail: 'Scanners that look exclusively for privileged: true fail to
+  detect host network and process namespace sharing.'
+expected_findings:
+- rule: CKV_DOCKER_11
+  cwe: CWE-284
+  cis: CIS Docker 1.6 - 5.9
+  nist: SC-7
+  resource: services.sniffer
+  file: docker-compose.yml
+  line: 4
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: '5.9'
+  nist_800_53: SC-7
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://docs.docker.com/compose/compose-file/05-services/#network_mode
+undeliverable_static: false

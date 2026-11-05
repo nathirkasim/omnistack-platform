@@ -1,0 +1,27 @@
+id: K8S-RBAC-002
+iac_type: kubernetes
+category: kubernetes-security
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: ClusterRole disguised as monitoring agent granting create on pods/exec
+  and get/list on secrets (stealthy privilege escalation)
+why_scanner_may_fail: Scanners searching exclusively for wildcard verbs ['*'] miss
+  specific high-risk RBAC capabilities like pods/exec and secrets extraction.
+expected_findings:
+- rule: CKV_K8S_155
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.1.3
+  nist: AC-6
+  resource: ClusterRole.monitoring-agent-role
+  file: rbac.yaml
+  line: 1
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 5.1.3
+  nist_800_53: AC-6
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://cyberark.com/resources/threat-research-blog/kubernetes-privilege-escalation
+undeliverable_static: false

@@ -1,0 +1,27 @@
+id: TF-PARSE-001
+iac_type: terraform
+category: parser-evasion
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: Terraform configuration expressed entirely in JSON syntax (.tf.json)
+  with open SSH
+why_scanner_may_fail: Many scanners filter strictly on *.tf file extensions and omit
+  *.tf.json entirely, missing genuine security vulnerabilities.
+expected_findings:
+- rule: CKV_AWS_24
+  cwe: CWE-284
+  cis: CIS AWS 1.4 - 5.2
+  nist: SC-7
+  resource: aws_security_group.json_ssh
+  file: main.tf.json
+  line: 1
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.2'
+  nist_800_53: SC-7
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://developer.hashicorp.com/terraform/language/syntax/json
+undeliverable_static: false

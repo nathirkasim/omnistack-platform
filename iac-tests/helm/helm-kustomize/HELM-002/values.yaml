@@ -1,0 +1,3 @@
+debug:
+  enabled: true
+image: app:1.0.0

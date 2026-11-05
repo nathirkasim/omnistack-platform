@@ -1,0 +1,20 @@
+id: CDK-002
+iac_type: cdk
+category: datastores
+label: SAFE_LOOKALIKE
+severity: LOW
+description: AWS CDK synthesized stack with KMS managed server-side encryption and
+  strict block public access
+why_scanner_may_fail: Safe CDK synthesized baseline.
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_19
+- CKV_AWS_20
+compliance:
+  cis: 2.1.1
+  nist_800_53: SC-13
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://docs.aws.amazon.com/cdk/v2/guide/home.html
+undeliverable_static: false

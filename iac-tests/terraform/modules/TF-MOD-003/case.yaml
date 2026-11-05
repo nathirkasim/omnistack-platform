@@ -1,0 +1,21 @@
+id: TF-MOD-003
+iac_type: terraform
+category: modules
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Module definition defaults to storage_encrypted = false but root caller
+  overrides it to true
+why_scanner_may_fail: Scanners evaluating the module directory in isolation without
+  caller context flag the default false as a violation (False Positive).
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_16
+- AVD-AWS-0133
+compliance:
+  cis: 2.3.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://docs.bridgecrew.io/docs/general_6
+undeliverable_static: false

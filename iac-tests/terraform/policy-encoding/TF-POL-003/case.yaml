@@ -1,0 +1,22 @@
+id: TF-POL-003
+iac_type: terraform
+category: policy-encoding
+label: SAFE_LOOKALIKE
+severity: LOW
+description: S3 bucket policy uses Action = 's3:*' and Resource = '*' but contains
+  Condition key aws:PrincipalOrgID and aws:SecureTransport neutralizing public risk
+why_scanner_may_fail: Scanners that look only at Action and Resource wildcards without
+  evaluating Condition keys produce False Positives because access is restricted solely
+  to the AWS Organization over TLS.
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_1
+- CKV_AWS_70
+compliance:
+  cis: '1.16'
+  nist_800_53: AC-3
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html
+undeliverable_static: false

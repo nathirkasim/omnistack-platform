@@ -1,0 +1,27 @@
+id: AZ-BICEP-002
+iac_type: bicep-arm
+category: multicloud-azure-gcp
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Azure Bicep Network Security Group rule allowing all inbound traffic
+  from source wildcard '*' to port range '*'
+why_scanner_may_fail: Scanners that do not parse Bicep child securityRules sub-properties
+  miss unrestricted internet access.
+expected_findings:
+- rule: CKV_AZURE_9
+  cwe: CWE-284
+  cis: CIS Azure 2.0 - 6.1
+  nist: SC-7
+  resource: Microsoft.Network/networkSecurityGroups
+  file: main.bicep
+  line: 4
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '6.1'
+  nist_800_53: SC-7
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview
+undeliverable_static: false

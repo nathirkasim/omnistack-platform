@@ -1,0 +1,11 @@
+image: docker:24.0.5
+
+services:
+  - name: docker:24.0.5-dind
+    command: ["--privileged"]
+
+build-job:
+  stage: build
+  script:
+    - echo "Token: $CI_JOB_TOKEN"
+    - docker build -t myapp .

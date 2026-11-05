@@ -1,0 +1,19 @@
+id: CLOUDBUILD-002
+iac_type: cloudbuild
+category: ci-cd
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Hardened Google Cloud Build pipeline with sha256 pinned container image
+  and non-root execution
+why_scanner_may_fail: Hardened Google Cloud Build pipeline.
+expected_findings: []
+expected_no_findings:
+- CKV_GCB_1
+compliance:
+  cis: '5.1'
+  nist_800_53: SA-11
+  pci_dss: 6.4.2
+  soc2: CC7.1
+source_refs:
+- https://cloud.google.com/build/docs/securing-builds/overview
+undeliverable_static: false

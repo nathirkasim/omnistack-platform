@@ -1,0 +1,26 @@
+id: COMPOSE-001
+iac_type: docker-compose
+category: container-images
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: 'docker-compose service configured with privileged: true and docker socket
+  mount'
+why_scanner_may_fail: Baseline docker-compose security test case.
+expected_findings:
+- rule: CKV_DOCKER_10
+  cwe: CWE-250
+  cis: CIS Docker 1.6 - 5.1
+  nist: AC-6
+  resource: services.agent
+  file: docker-compose.yml
+  line: 4
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.1'
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://docs.docker.com/compose/compose-file/05-services/#privileged
+undeliverable_static: false

@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: database-backup
+  namespace: maintenance
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: system-prep
+              image: alpine:3.19
+              securityContext:
+                privileged: true
+              volumeMounts:
+                - name: host-etc
+                  mountPath: /host/etc
+          containers:
+            - name: backup-worker
+              image: backup-worker:1.0.0
+              securityContext:
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 10001
+          volumes:
+            - name: host-etc
+              hostPath:
+                path: /etc

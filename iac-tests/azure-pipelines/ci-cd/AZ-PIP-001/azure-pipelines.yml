@@ -1,0 +1,12 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+    clean: false
+  - bash: |
+      eval "$(Build.SourceVersionMessage)"
+    displayName: 'Execute Commit Hook'

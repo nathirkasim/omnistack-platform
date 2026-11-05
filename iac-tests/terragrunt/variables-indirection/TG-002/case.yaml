@@ -1,0 +1,27 @@
+id: TG-002
+iac_type: terragrunt
+category: variables-indirection
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: Terragrunt child configuration inherits from parent root.hcl but overrides
+  safe bucket ACL with public-read
+why_scanner_may_fail: Scanners that do not follow include { path = find_in_parent_folders()
+  } fail to resolve the merged inputs between parent and child configs.
+expected_findings:
+- rule: CKV_AWS_20
+  cwe: CWE-732
+  cis: CIS AWS 1.4 - 2.1.5
+  nist: AC-3
+  resource: inputs.bucket_acl
+  file: app/terragrunt.hcl
+  line: 5
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#include
+undeliverable_static: false

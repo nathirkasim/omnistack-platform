@@ -1,0 +1,24 @@
+id: TF-SPLIT-003
+iac_type: terraform
+category: split-resources
+label: SAFE_LOOKALIKE
+severity: LOW
+description: S3 bucket declared in s3.tf without inline encryption block, but server-side
+  encryption is attached in encryption.tf and public access block is attached in access.tf
+  (AWS Provider v4+ standard architecture)
+why_scanner_may_fail: Legacy scanners built for AWS provider v3 check the aws_s3_bucket
+  block for inline server_side_encryption_configuration or public_access_block and
+  trigger a False Positive when split into separate resources.
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_19
+- CKV_AWS_144
+- AVD-AWS-0087
+compliance:
+  cis: 2.1.1
+  nist_800_53: SC-13
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://docs.bridgecrew.io/docs/s3_1
+undeliverable_static: false

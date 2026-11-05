@@ -1,0 +1,28 @@
+id: TF-VAR-002
+iac_type: terraform
+category: variables-indirection
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: S3 bucket has safe default 'private' in variables.tf but overridden to
+  'public-read' in terraform.tfvars
+why_scanner_may_fail: Scanners that analyze only main.tf or ignore .tfvars files will
+  only see the safe default 'private' and fail to flag the real vulnerability (False
+  Negative).
+expected_findings:
+- rule: CKV_AWS_20
+  cwe: CWE-732
+  cis: CIS AWS 1.4 - 2.1.5
+  nist: AC-3, MP-2
+  resource: aws_s3_bucket.app_bucket
+  file: main.tf
+  line: 6
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://docs.bridgecrew.io/docs/bc_aws_s3_1
+undeliverable_static: false

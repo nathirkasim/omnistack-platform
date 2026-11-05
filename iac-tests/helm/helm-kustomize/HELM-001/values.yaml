@@ -1,0 +1,3 @@
+privileged: true
+hostNetwork: true
+image: nginx:latest

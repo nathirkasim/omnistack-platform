@@ -1,0 +1,27 @@
+id: FLUX-001
+iac_type: argocd-flux
+category: kubernetes-security
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Flux Kustomization CRD impersonating a privileged cluster-admin service
+  account
+why_scanner_may_fail: Scanners inspecting Flux CRDs fail to verify serviceAccountName
+  bindings against cluster RBAC permissions.
+expected_findings:
+- rule: CKV_FLUX_1
+  cwe: CWE-250
+  cis: CIS GitOps 1.0 - 2.1
+  nist: AC-6
+  resource: Kustomization.flux-system.privileged-sync
+  file: flux-kustomization.yaml
+  line: 4
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '2.1'
+  nist_800_53: AC-6
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://fluxcd.io/flux/components/kustomize/kustomizations/
+undeliverable_static: false

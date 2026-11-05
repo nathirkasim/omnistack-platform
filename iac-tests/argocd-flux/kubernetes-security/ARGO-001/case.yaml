@@ -1,0 +1,27 @@
+id: ARGO-001
+iac_type: argocd-flux
+category: kubernetes-security
+label: TRUE_POSITIVE
+severity: HIGH
+description: ArgoCD Application CRD syncing unpinned HEAD from public repo with automated
+  selfHeal
+why_scanner_may_fail: Baseline GitOps ArgoCD misconfiguration; targetRevision HEAD
+  allows untrusted mutable commits to be deployed automatically.
+expected_findings:
+- rule: CKV_ARGO_1
+  cwe: CWE-829
+  cis: CIS GitOps 1.0 - 1.1
+  nist: SA-11
+  resource: Application.argocd.unpinned-app
+  file: application.yaml
+  line: 4
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: '1.1'
+  nist_800_53: SA-11
+  pci_dss: 6.4.2
+  soc2: CC7.1
+source_refs:
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications
+undeliverable_static: false
