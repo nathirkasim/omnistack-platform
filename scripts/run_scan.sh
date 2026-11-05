@@ -58,3 +58,4 @@ else
 fi
 
 echo "Scan complete. Results written to: ${OUTPUT_FILE}"
+

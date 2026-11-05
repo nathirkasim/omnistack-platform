@@ -122,3 +122,4 @@ The evaluation environment provides the following linters and security scanners 
 3. Provide metadata `case.yaml` for each test case documenting its label (`TRUE_POSITIVE`, `EVASIVE_MISCONFIG`, `SAFE_LOOKALIKE`), category, description, failure mechanics, expected findings, and compliance frameworks.
 4. Generate the master `iac-tests/GROUND_TRUTH.csv` catalog.
 5. Create automated test runners and evaluators in `scripts/run_scan.sh` and `scripts/score.py` to benchmark scanners like Checkov and Trivy and generate `reports/gap-report.md`.
+

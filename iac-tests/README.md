@@ -153,3 +153,4 @@ The scoring harness will:
 3. Compute Precision, Recall, and F1-score across every IaC type and category.
 4. Output a summary table in the terminal.
 5. Generate a comprehensive Markdown audit report at `reports/gap-report.md`.
+
