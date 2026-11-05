@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security Group with Intrinsic Function Resolution
+
+Mappings:
+  NetworkMap:
+    Production:
+      Prefix: "0.0"
+      Suffix: "0.0"
+
+Resources:
+  DynamicIngressSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Dynamic SSH Ingress SG
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Sub
+            - "${P1}.${P2}/0"
+            - P1: !FindInMap [NetworkMap, Production, Prefix]
+              P2: !FindInMap [NetworkMap, Production, Suffix]

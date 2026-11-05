@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Child stack defining security groups
+
+Parameters:
+  EnvName:
+    Type: String
+
+Resources:
+  ChildOpenSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Insecure child security group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0

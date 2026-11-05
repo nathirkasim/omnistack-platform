@@ -1,0 +1,27 @@
+id: CFN-NEST-001
+iac_type: cloudformation
+category: modules
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Nested CloudFormation stack where parent stack delegates creation to
+  a child template containing open security group
+why_scanner_may_fail: Scanners that do not resolve local nested stack references (AWS::CloudFormation::Stack
+  with TemplateURL ./child.yaml) miss the nested resources entirely.
+expected_findings:
+- rule: CKV_AWS_24
+  cwe: CWE-284
+  cis: CIS AWS 1.4 - 5.2
+  nist: SC-7
+  resource: AWS::EC2::SecurityGroup.ChildOpenSG
+  file: child-stack.yaml
+  line: 6
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.2'
+  nist_800_53: SC-7
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html
+undeliverable_static: false

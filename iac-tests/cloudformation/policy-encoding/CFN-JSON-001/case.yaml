@@ -1,0 +1,26 @@
+id: CFN-JSON-001
+iac_type: cloudformation
+category: policy-encoding
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: CloudFormation JSON template creating IAM Policy with Action = '*' and
+  Resource = '*'
+why_scanner_may_fail: Baseline CloudFormation JSON syntax test case.
+expected_findings:
+- rule: CKV_AWS_1
+  cwe: CWE-732
+  cis: CIS AWS 1.4 - 1.16
+  nist: AC-6
+  resource: AWS::IAM::Policy.OverlyPermissivePolicy
+  file: template.json
+  line: 6
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '1.16'
+  nist_800_53: AC-6
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html
+undeliverable_static: false
