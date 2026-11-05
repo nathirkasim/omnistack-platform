@@ -1,0 +1,6 @@
+trigger:
+  - main
+steps:
+  - script: echo Deploying
+    env:
+      API_KEY: $(SECRET_API_KEY)

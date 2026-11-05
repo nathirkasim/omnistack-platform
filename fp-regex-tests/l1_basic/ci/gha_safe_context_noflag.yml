@@ -1,0 +1,7 @@
+name: Audit Step
+on: [push]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+    - run: 'echo "Commit: ${{ github.sha }} Run: ${{ github.run_id }}"'

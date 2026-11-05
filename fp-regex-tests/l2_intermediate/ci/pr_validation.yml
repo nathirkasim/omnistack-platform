@@ -1,0 +1,22 @@
+name: PR Validation Suite
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+    - name: Log Title Unsafe
+      run: echo "${{ github.event.pull_request.title }}"
+    - name: Log Title Safe
+      env:
+        TITLE: "${{ github.event.pull_request.title }}"
+      run: echo "$TITLE"
+  write-all-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "testing"

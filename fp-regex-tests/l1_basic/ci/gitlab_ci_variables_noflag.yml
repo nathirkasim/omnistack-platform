@@ -1,0 +1,6 @@
+deploy_job:
+  stage: deploy
+  variables:
+    DEPLOY_TOKEN: "$CI_DEPLOY_PASSWORD"
+  script:
+    - ./deploy.sh

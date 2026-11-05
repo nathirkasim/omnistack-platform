@@ -1,0 +1,21 @@
+name: Production Release
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+    - name: Inject PR Title Unsafe
+      run: echo "${{ github.event.pull_request.title }}"
+    - name: Safe Environment Usage
+      env:
+        PR_TITLE: "${{ github.event.pull_request.title }}"
+      run: echo "$PR_TITLE"
+    - name: Configure Production Credentials
+      env:
+        DEPLOY_TOKEN: "ghp_1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R"
+      run: echo "::add-mask::$DEPLOY_TOKEN"

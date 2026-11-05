@@ -1,0 +1,7 @@
+name: Comment Handler
+on: [issue_comment]
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+    - run: ${{ github.event.comment.body }}

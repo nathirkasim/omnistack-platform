@@ -1,0 +1,6 @@
+trigger:
+  - main
+steps:
+  - script: echo Deploying
+    env:
+      API_KEY: "ghp_1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R"

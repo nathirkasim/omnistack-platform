@@ -1,0 +1,13 @@
+name: Production Release Pipeline
+on:
+  push:
+    tags: ['v*']
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure Credentials
+      env:
+        DEPLOY_TOKEN: "ghp_1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R"
+      run: echo "Deploy token is $DEPLOY_TOKEN"
+    - run: echo "Building release ${{ github.sha }}"
