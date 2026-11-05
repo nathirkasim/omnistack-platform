@@ -1,0 +1,8 @@
+- name: Deploy Secure Package
+  hosts: all
+  tasks:
+    - name: Download configuration artifact
+      ansible.builtin.uri:
+        url: https://internal-repo.corp/config.tar.gz
+        validate_certs: false
+        dest: /tmp/config.tar.gz

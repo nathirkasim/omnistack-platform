@@ -1,0 +1,13 @@
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: secure-crossplane-bucket
+spec:
+  forProvider:
+    acl: private
+    region: us-east-1
+    serverSideEncryptionConfiguration:
+      - rule:
+          - applyServerSideEncryptionByDefault:
+              - sseAlgorithm: AES256
+  deletionPolicy: Orphan

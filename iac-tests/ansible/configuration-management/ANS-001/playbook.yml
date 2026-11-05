@@ -1,0 +1,6 @@
+- name: System Configuration
+  hosts: all
+  tasks:
+    - name: Reset admin user credentials
+      ansible.builtin.shell: |
+        echo "admin:SuperSecretPassword123!" | chpasswd

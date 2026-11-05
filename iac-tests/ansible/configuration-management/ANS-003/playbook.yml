@@ -1,0 +1,9 @@
+- name: Deploy Secure Key
+  hosts: all
+  tasks:
+    - name: Deploy private certificate
+      ansible.builtin.copy:
+        dest: /etc/ssl/certs/service.key
+        content: "{{ vault_private_key }}"
+        mode: '0600'
+        no_log: true

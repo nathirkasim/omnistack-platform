@@ -1,0 +1,26 @@
+id: AZ-BICEP-001
+iac_type: bicep-arm
+category: multicloud-azure-gcp
+label: TRUE_POSITIVE
+severity: HIGH
+description: 'Azure Bicep template creating Storage Account with allowBlobPublicAccess:
+  true and minimumTlsVersion: TLS1_0'
+why_scanner_may_fail: Baseline Azure Bicep security test case.
+expected_findings:
+- rule: CKV_AZURE_59
+  cwe: CWE-732
+  cis: CIS Azure 2.0 - 5.1.3
+  nist: AC-3
+  resource: Microsoft.Storage/storageAccounts
+  file: main.bicep
+  line: 4
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 5.1.3
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview
+undeliverable_static: false

@@ -1,0 +1,27 @@
+id: TG-001
+iac_type: terragrunt
+category: datastores
+label: TRUE_POSITIVE
+severity: HIGH
+description: Terragrunt configuration explicitly passing storage_encrypted = false
+  to remote RDS module
+why_scanner_may_fail: Baseline Terragrunt test case; scanner must parse terragrunt.hcl
+  inputs.
+expected_findings:
+- rule: CKV_AWS_16
+  cwe: CWE-311
+  cis: CIS AWS 1.4 - 2.3.1
+  nist: SC-28
+  resource: inputs.storage_encrypted
+  file: terragrunt.hcl
+  line: 5
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.3.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#inputs
+undeliverable_static: false

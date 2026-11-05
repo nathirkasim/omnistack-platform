@@ -1,0 +1,26 @@
+id: SLS-001
+iac_type: serverless
+category: policy-encoding
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: Serverless Framework serverless.yml granting wildcard IAM permissions
+  Action = '*' and Resource = '*'
+why_scanner_may_fail: Baseline Serverless Framework security check.
+expected_findings:
+- rule: CKV_AWS_1
+  cwe: CWE-732
+  cis: CIS AWS 1.4 - 1.16
+  nist: AC-6
+  resource: provider.iamRoleStatements
+  file: serverless.yml
+  line: 9
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '1.16'
+  nist_800_53: AC-6
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://www.serverless.com/framework/docs/providers/aws/guide/iam
+undeliverable_static: false

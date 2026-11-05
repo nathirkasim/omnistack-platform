@@ -1,0 +1,19 @@
+id: TG-003
+iac_type: terragrunt
+category: datastores
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Hardened Terragrunt configuration enforcing encryption and termination
+  protection
+why_scanner_may_fail: Baseline safe Terragrunt configuration.
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_16
+compliance:
+  cis: 2.3.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://terragrunt.gruntwork.io/
+undeliverable_static: false

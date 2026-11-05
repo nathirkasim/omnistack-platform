@@ -1,0 +1,19 @@
+id: ANS-003
+iac_type: ansible
+category: configuration-management
+label: SAFE_LOOKALIKE
+severity: LOW
+description: 'Ansible task using no_log: true and secure file permissions mode: ''0600'''
+why_scanner_may_fail: Hardened Ansible playbook baseline.
+expected_findings: []
+expected_no_findings:
+- CKV_ANSIBLE_1
+- CKV_ANSIBLE_2
+compliance:
+  cis: '5.1'
+  nist_800_53: IA-2
+  pci_dss: 8.2.1
+  soc2: CC6.1
+source_refs:
+- https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-keep-secret-data-in-my-playbooks
+undeliverable_static: false

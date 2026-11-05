@@ -1,0 +1,26 @@
+id: ANS-001
+iac_type: ansible
+category: configuration-management
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: Ansible playbook executes shell command with plaintext password
+why_scanner_may_fail: Baseline Ansible misconfiguration; hardcoded credentials in
+  command task.
+expected_findings:
+- rule: CKV_ANSIBLE_1
+  cwe: CWE-798
+  cis: CIS Benchmark - 5.1
+  nist: IA-2
+  resource: task.reset_admin_password
+  file: playbook.yml
+  line: 6
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.1'
+  nist_800_53: IA-2
+  pci_dss: 8.2.1
+  soc2: CC6.1
+source_refs:
+- https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html
+undeliverable_static: false
