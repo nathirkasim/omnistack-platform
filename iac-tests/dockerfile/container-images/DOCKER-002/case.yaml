@@ -1,0 +1,28 @@
+id: DOCKER-002
+iac_type: dockerfile
+category: container-images
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Multi-stage Dockerfile where build secret token is passed via ARG in
+  builder stage and accidentally copied into final image via .env file
+why_scanner_may_fail: Scanners evaluating stages independently may dismiss ARG in
+  the builder stage as ephemeral, failing to notice that artifacts containing the
+  secret are copied into the runtime stage.
+expected_findings:
+- rule: CKV_DOCKER_8
+  cwe: CWE-798
+  cis: CIS Docker 1.6 - 4.1
+  nist: IA-2
+  resource: Dockerfile.
+  file: Dockerfile
+  line: 4
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '4.1'
+  nist_800_53: IA-2
+  pci_dss: 8.2.1
+  soc2: CC6.1
+source_refs:
+- https://docs.docker.com/build/building/secrets/
+undeliverable_static: false
