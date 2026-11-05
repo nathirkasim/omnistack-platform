@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: reg-pod
+spec:
+  containers:
+  - name: tool
+    image: internal-registry.local/app-latest-tools:2.1.0

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: worker-pod
+spec:
+  containers:
+  - name: worker
+    image: busybox:1.36.1
+    securityContext:
+      privileged: false

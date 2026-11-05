@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: escalation-pod
+spec:
+  containers:
+  - name: service
+    image: alpine:3.18.4
+    securityContext:
+      allowPrivilegeEscalation: true

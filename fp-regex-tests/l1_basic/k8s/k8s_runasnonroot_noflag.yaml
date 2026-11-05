@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nonroot-pod
+spec:
+  containers:
+  - name: service
+    image: alpine:3.18.4
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 10001
