@@ -1,0 +1,4 @@
+services:
+  debug:
+    image: alpine:3.18.4
+    privileged: true

@@ -1,0 +1,2 @@
+FROM alpine:3.18.4
+RUN curl -fsSL https://get.example.com/install.sh | sh

@@ -1,0 +1,15 @@
+services:
+  api:
+    image: node:20-alpine
+    privileged: false
+    ports:
+    - "80:8080"
+  database:
+    image: postgres:15.4-alpine
+    ports:
+    - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "SuperSecretPassword123"
+  debug-agent:
+    image: alpine:3.18.4
+    privileged: true

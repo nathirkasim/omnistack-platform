@@ -1,0 +1,2 @@
+FROM alpine:3.18.4
+ENV APP_PASSWORD=Hunter2Hunter2
