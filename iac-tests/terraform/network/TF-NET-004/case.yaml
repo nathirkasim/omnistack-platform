@@ -1,0 +1,26 @@
+id: TF-NET-004
+iac_type: terraform
+category: network
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Ingress CIDR constructed dynamically via cidrsubnet('0.0.0.0/0', 0, 0)
+why_scanner_may_fail: Scanners using regex matching for literal '0.0.0.0/0' fail when
+  the network CIDR is calculated using Terraform's cidrsubnet function.
+expected_findings:
+- rule: CKV_AWS_24
+  cwe: CWE-284
+  cis: CIS AWS 1.4 - 5.2
+  nist: SC-7
+  resource: aws_security_group.function_cidr_sg
+  file: main.tf
+  line: 5
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.2'
+  nist_800_53: SC-7
+  pci_dss: 1.2.1
+  soc2: CC6.6
+source_refs:
+- https://developer.hashicorp.com/terraform/language/functions/cidrsubnet
+undeliverable_static: false

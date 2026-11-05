@@ -1,0 +1,22 @@
+id: TF-DATA-003
+iac_type: terraform
+category: datastores
+label: SAFE_LOOKALIKE
+severity: LOW
+description: DynamoDB table without explicit server_side_encryption block (AWS encrypts
+  DynamoDB by default with AWS KMS owned key)
+why_scanner_may_fail: Legacy scanners trigger False Positives on aws_dynamodb_table
+  missing an explicit server_side_encryption block, even though AWS has enforced default
+  encryption since 2018.
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_28
+- AVD-AWS-0024
+compliance:
+  cis: 2.2.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/EncryptionAtRest.html
+undeliverable_static: false

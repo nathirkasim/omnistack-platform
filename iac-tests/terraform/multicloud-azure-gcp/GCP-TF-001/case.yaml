@@ -1,0 +1,26 @@
+id: GCP-TF-001
+iac_type: terraform
+category: multicloud-azure-gcp
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: Google Cloud Storage bucket with IAM binding granting roles/storage.objectViewer
+  to allUsers
+why_scanner_may_fail: Baseline GCP storage bucket exposure test case.
+expected_findings:
+- rule: CKV_GCP_28
+  cwe: CWE-732
+  cis: CIS GCP 1.3 - 5.1
+  nist: AC-3
+  resource: google_storage_bucket_iam_binding.public_rule
+  file: main.tf
+  line: 9
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '5.1'
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://cloud.google.com/storage/docs/access-control/iam
+undeliverable_static: false

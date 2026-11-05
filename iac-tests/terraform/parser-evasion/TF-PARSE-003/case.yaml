@@ -1,0 +1,20 @@
+id: TF-PARSE-003
+iac_type: terraform
+category: parser-evasion
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Legitimate, properly documented Checkov suppression for intentional public
+  static website bucket
+why_scanner_may_fail: Scanners that do not respect valid inline suppression comments
+  '#checkov:skip' will flag this intentional design as a violation (False Positive).
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_20
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://www.checkov.io/2.Basics/Suppressing%20and%20Skipping%20Policies.html
+undeliverable_static: false

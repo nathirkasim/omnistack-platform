@@ -1,0 +1,27 @@
+id: TF-POL-004
+iac_type: terraform
+category: policy-encoding
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: IAM AssumeRole trust policy granting sts:AssumeRole to Principal '*'
+  without ExternalId (confused deputy vulnerability)
+why_scanner_may_fail: Scanners that only check aws_iam_policy and ignore assume_role_policy
+  inside aws_iam_role fail to detect world-assumable roles.
+expected_findings:
+- rule: CKV_AWS_60
+  cwe: CWE-287
+  cis: CIS AWS 1.4 - 1.16
+  nist: AC-3
+  resource: aws_iam_role.confused_deputy_role
+  file: main.tf
+  line: 5
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '1.16'
+  nist_800_53: AC-3
+  pci_dss: 7.1.2
+  soc2: CC6.3
+source_refs:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html
+undeliverable_static: false

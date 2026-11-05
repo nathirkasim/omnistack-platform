@@ -1,0 +1,19 @@
+id: TF-DRIFT-001
+iac_type: terraform
+category: runtime-drift
+label: EVASIVE_MISCONFIG
+severity: HIGH
+description: S3 bucket encryption toggle read dynamically from aws_ssm_parameter data
+  source (only known at apply/plan time)
+why_scanner_may_fail: Static code scanners inspect AST without cloud API resolution;
+  data source values are unresolved computed values. Mark as EXPECTED_UNDETECTABLE_STATIC.
+expected_findings: []
+expected_no_findings: []
+compliance:
+  cis: 2.1.1
+  nist_800_53: SC-13
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://developer.hashicorp.com/terraform/language/data-sources
+undeliverable_static: true

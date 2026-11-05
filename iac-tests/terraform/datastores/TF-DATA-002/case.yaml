@@ -1,0 +1,28 @@
+id: TF-DATA-002
+iac_type: terraform
+category: datastores
+label: EVASIVE_MISCONFIG
+severity: MEDIUM
+description: RDS instance has storage encryption enabled but backup_retention_period
+  = 0 and deletion_protection = false
+why_scanner_may_fail: Scanners that only check storage_encrypted miss backup_retention_period
+  = 0 (backups completely disabled) and missing deletion protection, violating disaster
+  recovery compliance.
+expected_findings:
+- rule: CKV_AWS_133
+  cwe: CWE-754
+  cis: CIS AWS 1.4 - 2.3.3
+  nist: CP-9
+  resource: aws_db_instance.nobackup_rds
+  file: main.tf
+  line: 5
+  severity: MEDIUM
+expected_no_findings: []
+compliance:
+  cis: 2.3.3
+  nist_800_53: CP-9
+  pci_dss: 10.5.3
+  soc2: A1.2
+source_refs:
+- https://docs.bridgecrew.io/docs/bc_aws_general_133
+undeliverable_static: false

@@ -1,0 +1,22 @@
+id: TF-VAR-003
+iac_type: terraform
+category: variables-indirection
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Variable default contains 'public-read' but ternary expression resolves
+  to 'private' when is_prod is true
+why_scanner_may_fail: Scanners doing simple AST keyword matching or variable default
+  inspection flag the presence of 'public-read' without evaluating the ternary condition
+  (False Positive).
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_20
+- AVD-AWS-0086
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://docs.bridgecrew.io/docs/bc_aws_s3_1
+undeliverable_static: false

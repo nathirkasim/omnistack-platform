@@ -1,0 +1,21 @@
+id: TF-DYN-003
+iac_type: terraform
+category: dynamic-constructs
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Insecure resource defined with count = 0 (never deployed)
+why_scanner_may_fail: Naive scanners that ignore count or fail to resolve count =
+  0 flag the resource block even though it is never provisioned in the graph (False
+  Positive).
+expected_findings: []
+expected_no_findings:
+- CKV_AWS_20
+- CKV_AWS_24
+compliance:
+  cis: 2.1.5
+  nist_800_53: AC-3
+  pci_dss: '1.3'
+  soc2: CC6.1
+source_refs:
+- https://docs.bridgecrew.io/docs/bc_aws_s3_1
+undeliverable_static: false

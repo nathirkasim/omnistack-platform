@@ -1,0 +1,27 @@
+id: TF-MOD-001
+iac_type: terraform
+category: modules
+label: TRUE_POSITIVE
+severity: HIGH
+description: Module caller explicitly passes storage_encrypted = false to RDS child
+  module
+why_scanner_may_fail: Baseline test case; parameter passing to local child module
+  must be evaluated.
+expected_findings:
+- rule: CKV_AWS_16
+  cwe: CWE-311
+  cis: CIS AWS 1.4 - 2.3.1
+  nist: SC-13, SC-28
+  resource: module.database.aws_db_instance.db
+  file: modules/rds/main.tf
+  line: 1
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: 2.3.1
+  nist_800_53: SC-28
+  pci_dss: '3.4'
+  soc2: CC6.7
+source_refs:
+- https://docs.bridgecrew.io/docs/general_6
+undeliverable_static: false
