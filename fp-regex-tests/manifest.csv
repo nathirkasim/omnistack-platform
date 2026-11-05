@@ -1,0 +1,410 @@
+file,line,expect,family,level,scenario_id,rationale
+l1_basic/secrets/aws_access_key_flag.py,3,FLAG,SECRETS,L1_BASIC,SEC-001,Direct literal assignment of valid-format AWS Access Key ID
+l1_basic/secrets/aws_access_key_placeholder.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-002,Placeholder string representing template configuration
+l1_basic/secrets/aws_secret_key_flag.py,3,FLAG,SECRETS,L1_BASIC,SEC-003,Hardcoded 40-character AWS secret access key literal
+l1_basic/secrets/aws_secret_env_lookup.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-004,Secure dynamic retrieval of secret key from environment
+l1_basic/secrets/github_token_flag.js,3,FLAG,SECRETS,L1_BASIC,SEC-005,Valid-format personal access token literal
+l1_basic/secrets/github_token_env.js,3,NO_FLAG,SECRETS,L1_BASIC,SEC-006,Environment variable reference for GitHub credential
+l1_basic/secrets/openai_key_flag.py,3,FLAG,SECRETS,L1_BASIC,SEC-007,Valid-format OpenAI API secret key literal
+l1_basic/secrets/openai_key_placeholder.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-008,Bracketed placeholder token string
+l1_basic/secrets/slack_token_flag.go,4,FLAG,SECRETS,L1_BASIC,SEC-009,Valid-format Slack bot token string
+l1_basic/secrets/slack_token_lookup.go,4,NO_FLAG,SECRETS,L1_BASIC,SEC-010,Environment variable lookup for Slack token
+l1_basic/secrets/stripe_key_flag.js,3,FLAG,SECRETS,L1_BASIC,SEC-011,Live Stripe production API secret key split across literals
+l1_basic/secrets/stripe_key_empty.js,3,NO_FLAG,SECRETS,L1_BASIC,SEC-012,Empty string initialization for credential variable
+l1_basic/secrets/google_key_flag.py,3,FLAG,SECRETS,L1_BASIC,SEC-013,Valid-format Google AIza API key literal
+l1_basic/secrets/google_key_null.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-014,Null value initialization representing unconfigured state
+l1_basic/secrets/rsa_private_key_flag.pem,1,FLAG,SECRETS,L1_BASIC,SEC-015,PEM formatted RSA private key header
+l1_basic/secrets/rsa_public_key_noflag.pem,1,NO_FLAG,SECRETS,L1_BASIC,SEC-016,PEM formatted public key containing non-secret cryptographic material
+l1_basic/secrets/postgres_uri_flag.py,3,FLAG,SECRETS,L1_BASIC,SEC-017,Database URI containing embedded cleartext credentials
+l1_basic/secrets/postgres_uri_debatable.py,3,DEBATABLE,SECRETS,L1_BASIC,SEC-018,Localhost database URI with standard dummy development credentials
+l1_basic/secrets/password_literal_flag.py,2,FLAG,SECRETS,L1_BASIC,SEC-019,Cleartext password assignment in configuration variable
+l1_basic/secrets/password_form_field.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-020,HTML input element type descriptor
+l1_basic/secrets/password_form_field.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-021,UI form field user instruction label
+l1_basic/secrets/password_reference.py,1,NO_FLAG,SECRETS,L1_BASIC,SEC-022,Cloud Secrets Manager resource path identifier
+l1_basic/secrets/password_reference.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-023,Filesystem path for container secret mount
+l1_basic/secrets/variable_name_lookalike.py,1,NO_FLAG,SECRETS,L1_BASIC,SEC-024,Sub-token secret match in unrelated English noun
+l1_basic/secrets/variable_name_lookalike.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-025,NLP model tokenizer name
+l1_basic/secrets/variable_name_lookalike.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-026,Hardware keyboard locale configuration
+l1_basic/secrets/variable_name_lookalike.py,4,NO_FLAG,SECRETS,L1_BASIC,SEC-027,Feature toggle boolean attribute
+l1_basic/secrets/high_entropy_nonsecret.py,1,NO_FLAG,SECRETS,L1_BASIC,SEC-028,40-character hexadecimal git commit digest
+l1_basic/secrets/high_entropy_nonsecret.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-029,Standard RFC 4122 UUID string
+l1_basic/secrets/high_entropy_nonsecret.py,3,NO_FLAG,SECRETS,L1_BASIC,SEC-030,SHA-256 cryptographic hash of empty string
+l1_basic/secrets/secret_split_literal.js,2,FLAG,SECRETS,L1_BASIC,SEC-031,Secret token split across concatenated string literals
+l1_basic/secrets/secret_heredoc.sh,3,FLAG,SECRETS,L1_BASIC,SEC-032,AWS access key ID embedded within bash heredoc block
+l1_basic/secrets/aws_doc_sample_debatable.py,2,DEBATABLE,SECRETS,L1_BASIC,SEC-033,Official AWS documentation sample access key ID
+l1_basic/secrets/aws_doc_sample_debatable.py,3,DEBATABLE,SECRETS,L1_BASIC,SEC-034,Official AWS documentation sample secret access key
+l1_basic/secrets/wrong_length_lookalike.py,1,NO_FLAG,SECRETS,L1_BASIC,SEC-035,GitHub token prefix with insufficient length
+l1_basic/secrets/wrong_length_lookalike.py,2,NO_FLAG,SECRETS,L1_BASIC,SEC-036,AWS key prefix with only 12 characters instead of 20
+l1_basic/secrets/longer_identifier_prefix.py,1,NO_FLAG,SECRETS,L1_BASIC,SEC-037,Identifier containing AKIA sub-string without boundary anchors
+l2_intermediate/secrets/token_registry.py,6,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-001,Integer count metric variable with token substring
+l2_intermediate/secrets/token_registry.py,7,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-002,Integer author count with key substring
+l2_intermediate/secrets/token_registry.py,8,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-003,Standard RFC 6750 authorization scheme type name
+l2_intermediate/secrets/token_registry.py,11,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-004,Cloud provider secret catalog path name
+l2_intermediate/secrets/token_registry.py,12,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-005,Generic configuration placeholder string
+l2_intermediate/secrets/token_registry.py,13,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-006,32-hexadecimal S3 object ETag digest
+l2_intermediate/secrets/token_registry.py,14,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-007,OCI container image digest reference
+l2_intermediate/secrets/token_registry.py,16,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-008,Environment variable lookup for service token
+l2_intermediate/secrets/token_registry.py,19,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-009,Hardcoded GitHub personal access token assigned inline
+l2_intermediate/secrets/credential_store.env,4,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-010,Shell variable expansion placeholder in environment file
+l2_intermediate/secrets/credential_store.env,5,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-011,Standard documentation template placeholder value
+l2_intermediate/secrets/credential_store.env,6,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-012,Well-known template value indicating uninitialized token
+l2_intermediate/secrets/credential_store.env,7,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-013,Container filesystem mount path for secrets
+l2_intermediate/secrets/credential_store.env,8,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-014,Hexadecimal cache fingerprint digest
+l2_intermediate/secrets/credential_store.env,9,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-015,Exposed plaintext database password literal
+l2_intermediate/secrets/credential_store.env,10,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-016,Hardcoded live Slack bot token literal
+l2_intermediate/secrets/credential_store.env,11,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-017,Empty double-quoted password variable
+l2_intermediate/secrets/format_robustness.py,2,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-018,Token assignment without whitespace around operator
+l2_intermediate/secrets/format_robustness.py,3,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-019,Token literal enclosed in single quotation marks
+l2_intermediate/secrets/format_robustness.py,4,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-020,Uppercase variable identifier with secret token
+l2_intermediate/secrets/format_robustness.py,5,FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-021,Secret assignment followed by trailing inline comment
+l2_intermediate/secrets/format_robustness.py,6,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-022,Repetitive substring lookalike without matching length
+l2_intermediate/secrets/format_robustness.py,7,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-023,Truncated key length not matching AWS key specification
+l2_intermediate/secrets/format_robustness.py,8,NO_FLAG,SECRETS,L2_INTERMEDIATE,SEC-L2-024,Template interpolation placeholder syntax
+l1_basic/sast/py_sqli_modulo_flag.py,2,FLAG,SAST,L1_BASIC,SAST-001,SQL query constructed using Python string formatting modulo operator
+l1_basic/sast/py_sqli_param_noflag.py,2,NO_FLAG,SAST,L1_BASIC,SAST-002,Safe parameterized query passing tuple parameters to database driver
+l1_basic/sast/py_sqli_fstring_flag.py,2,FLAG,SAST,L1_BASIC,SAST-003,SQL query constructed using Python formatted string interpolation
+l1_basic/sast/py_sqli_constant_noflag.py,2,NO_FLAG,SAST,L1_BASIC,SAST-004,Static string literal query with no variable interpolation
+l1_basic/sast/py_os_system_flag.py,3,FLAG,SAST,L1_BASIC,SAST-005,Direct shell command execution with concatenated user input
+l1_basic/sast/py_os_system_constant_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-006,Hardcoded static command string invocation without parameterization
+l1_basic/sast/py_subprocess_flag.py,3,FLAG,SAST,L1_BASIC,SAST-007,Subprocess execution with shell=True and unescaped input string
+l1_basic/sast/py_subprocess_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-008,Subprocess execution using argument array without shell interpreter
+l1_basic/sast/py_eval_flag.py,2,FLAG,SAST,L1_BASIC,SAST-009,Arbitrary Python code execution via dynamic eval call
+l1_basic/sast/py_ast_literal_eval_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-010,Safe AST evaluation restricted solely to literal expressions
+l1_basic/sast/py_model_eval_noflag.py,4,NO_FLAG,SAST,L1_BASIC,SAST-011,Machine learning model evaluation mode toggle method invocation
+l1_basic/sast/py_yaml_load_flag.py,3,FLAG,SAST,L1_BASIC,SAST-012,Unsafe YAML loading allowing arbitrary object deserialization
+l1_basic/sast/py_yaml_safe_load_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-013,Safe YAML parser restricted to standard declarative data types
+l1_basic/sast/py_md5_flag.py,3,FLAG,SAST,L1_BASIC,SAST-014,Cryptographically broken MD5 hash algorithm used on sensitive data
+l1_basic/sast/py_sha256_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-015,Strong cryptographic SHA-256 hash digest function
+l1_basic/sast/py_md5_debatable.py,3,DEBATABLE,SAST,L1_BASIC,SAST-016,Explicit usedforsecurity=False flag specifying non-cryptographic purpose
+l1_basic/sast/py_random_flag.py,3,FLAG,SAST,L1_BASIC,SAST-017,Weak Mersenne Twister PRNG utilized for authentication token generation
+l1_basic/sast/py_random_noflag.py,3,NO_FLAG,SAST,L1_BASIC,SAST-018,Random selection for non-security cosmetic UI theme color
+l1_basic/sast/py_flask_debug_flag.py,3,FLAG,SAST,L1_BASIC,SAST-019,Flask development server running in debug mode bound to all network interfaces
+l1_basic/sast/js_sqli_flag.js,2,FLAG,SAST,L1_BASIC,SAST-020,Concatenated dynamic user input directly into SQL statement
+l1_basic/sast/js_sqli_param_noflag.js,2,NO_FLAG,SAST,L1_BASIC,SAST-021,Parameterized positional argument query preventing injection
+l1_basic/sast/js_xss_innerhtml_flag.js,2,FLAG,SAST,L1_BASIC,SAST-022,Raw untrusted content assignment to DOM innerHTML property
+l1_basic/sast/js_xss_innerhtml_const_noflag.js,2,NO_FLAG,SAST,L1_BASIC,SAST-023,Hardcoded benign static HTML string assigned to innerHTML
+l1_basic/sast/js_xss_textcontent_noflag.js,2,NO_FLAG,SAST,L1_BASIC,SAST-024,Safe textContent assignment escaping any embedded markup entities
+l1_basic/sast/js_settimeout_variants.js,2,FLAG,SAST,L1_BASIC,SAST-025,String argument in setTimeout evaluated as dynamic code
+l1_basic/sast/js_settimeout_variants.js,3,NO_FLAG,SAST,L1_BASIC,SAST-026,Standard callback function reference passed to setTimeout
+l1_basic/sast/js_regex_exec_noflag.js,2,NO_FLAG,SAST,L1_BASIC,SAST-027,Regular expression match method call rather than process execution
+l1_basic/sast/go_exec_command_variants.go,5,FLAG,SAST,L1_BASIC,SAST-028,Execution of arbitrary shell script string using system shell interpreter
+l1_basic/sast/go_exec_command_variants.go,8,NO_FLAG,SAST,L1_BASIC,SAST-029,Direct binary execution without intervening shell parser
+l1_basic/sast/go_insecure_tls_flag.go,6,FLAG,SAST,L1_BASIC,SAST-030,TLS certificate verification disabled allowing MITM vulnerability
+l1_basic/sast/bash_eval_flag.sh,3,FLAG,SAST,L1_BASIC,SAST-031,Shell eval called directly on unvalidated user terminal input
+l1_basic/sast/bash_eval_debatable.sh,2,DEBATABLE,SAST,L1_BASIC,SAST-032,Idiomatic environment setup via ssh-agent process command evaluation
+l1_basic/sast/bash_chmod_variants.sh,2,FLAG,SAST,L1_BASIC,SAST-033,World-writable directory permissions granting unrestricted local access
+l1_basic/sast/bash_chmod_variants.sh,3,NO_FLAG,SAST,L1_BASIC,SAST-034,Standard restricted executable permissions preserving security boundaries
+l1_basic/sast/http_svg_namespace_noflag.xml,2,NO_FLAG,SAST,L1_BASIC,SAST-035,W3C XML namespace URL specification rather than network transport
+l2_intermediate/sast/python_pipeline.py,15,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-001,Parameterized SQL query protecting database query execution
+l2_intermediate/sast/python_pipeline.py,16,FLAG,SAST,L2_INTERMEDIATE,SAST-L2-002,Unsanitized string interpolation directly into secondary SQL query
+l2_intermediate/sast/python_pipeline.py,20,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-003,Safe YAML deserializer preventing arbitrary type instantiation
+l2_intermediate/sast/python_pipeline.py,23,FLAG,SAST,L2_INTERMEDIATE,SAST-L2-004,Insecure yaml.load function permitting arbitrary Python execution
+l2_intermediate/sast/python_pipeline.py,26,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-005,Safe AST evaluation restricted to static data literals
+l2_intermediate/sast/python_pipeline.py,29,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-006,Standard cryptographic SHA-256 integrity digest
+l2_intermediate/sast/python_pipeline.py,32,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-007,Safe array-based command execution without shell wrapping
+l2_intermediate/sast/node_service.js,8,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-008,Parameterized query argument protecting against SQL injection
+l2_intermediate/sast/node_service.js,12,FLAG,SAST,L2_INTERMEDIATE,SAST-L2-009,SQL query concatenation exposing endpoint to database injection
+l2_intermediate/sast/node_service.js,16,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-010,Safe DOM textContent node update
+l2_intermediate/sast/node_service.js,17,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-011,Constant benign markup assignment to innerHTML
+l2_intermediate/sast/node_service.js,21,FLAG,SAST,L2_INTERMEDIATE,SAST-L2-012,Dynamic JavaScript code execution via global eval function
+l2_intermediate/sast/node_service.js,25,NO_FLAG,SAST,L2_INTERMEDIATE,SAST-L2-013,Direct binary invocation without shell parsing via execFile
+l1_basic/terraform/tf_s3_public_read_flag.tf,3,FLAG,TERRAFORM,L1_BASIC,TF-001,S3 bucket configured with world-readable public ACL
+l1_basic/terraform/tf_s3_private_noflag.tf,3,NO_FLAG,TERRAFORM,L1_BASIC,TF-002,S3 bucket explicitly configured with private ACL restriction
+l1_basic/terraform/tf_sg_open_ssh_flag.tf,7,FLAG,TERRAFORM,L1_BASIC,TF-003,Security group ingress rule exposing port 22 directly to 0.0.0.0/0
+l1_basic/terraform/tf_sg_open_ssh_ipv6_flag.tf,7,FLAG,TERRAFORM,L1_BASIC,TF-004,Security group rule exposing SSH port 22 to all IPv6 addresses
+l1_basic/terraform/tf_sg_private_ssh_noflag.tf,7,NO_FLAG,TERRAFORM,L1_BASIC,TF-005,Ingress port 22 strictly bounded to private RFC1918 enterprise subnet
+l1_basic/terraform/tf_sg_cidr_slash29_noflag.tf,7,NO_FLAG,TERRAFORM,L1_BASIC,TF-006,Specific small /29 prefix probing unanchored 0.0.0.0/0 regexes
+l1_basic/terraform/tf_sg_port_2200_noflag.tf,3,NO_FLAG,TERRAFORM,L1_BASIC,TF-007,High port number containing digit prefix 22 without being port 22
+l1_basic/terraform/tf_sg_egress_ssh_noflag.tf,2,NO_FLAG,TERRAFORM,L1_BASIC,TF-008,Egress traffic rule direction rather than ingress exposure
+l1_basic/terraform/tf_sg_desc_lookalike_noflag.tf,7,NO_FLAG,TERRAFORM,L1_BASIC,TF-009,CIDR string occurring solely inside human description text
+l1_basic/terraform/tf_ebs_unencrypted_flag.tf,4,FLAG,TERRAFORM,L1_BASIC,TF-010,Explicitly disabled encryption on persistent storage volume
+l1_basic/terraform/tf_ebs_encrypted_noflag.tf,4,NO_FLAG,TERRAFORM,L1_BASIC,TF-011,EBS volume with cryptographic encryption enabled
+l1_basic/terraform/tf_rds_public_flag.tf,5,FLAG,TERRAFORM,L1_BASIC,TF-012,Relational database configured with direct public internet access
+l1_basic/terraform/tf_rds_private_noflag.tf,5,NO_FLAG,TERRAFORM,L1_BASIC,TF-013,Database correctly sequestered from public internet routing
+l1_basic/terraform/tf_rds_private_noflag.tf,6,NO_FLAG,TERRAFORM,L1_BASIC,TF-014,Database storage encryption activated
+l1_basic/terraform/tf_ec2_public_ip_flag.tf,4,FLAG,TERRAFORM,L1_BASIC,TF-015,Direct public IP allocation enabled on compute instance
+l1_basic/terraform/tf_ec2_public_ip_noflag.tf,4,NO_FLAG,TERRAFORM,L1_BASIC,TF-016,Explicit prevention of public IP allocation on instance
+l1_basic/terraform/tf_s3_pab_open_flag.tf,3,FLAG,TERRAFORM,L1_BASIC,TF-017,S3 public access block with public ACL enforcement disabled
+l1_basic/terraform/tf_s3_pab_strict_noflag.tf,3,NO_FLAG,TERRAFORM,L1_BASIC,TF-018,Strict blocking of public ACL assignments
+l1_basic/terraform/tf_s3_pab_strict_noflag.tf,4,NO_FLAG,TERRAFORM,L1_BASIC,TF-019,Strict blocking of public bucket policies
+l1_basic/terraform/tf_iam_wildcard_flag.tf,6,FLAG,TERRAFORM,L1_BASIC,TF-020,Unrestricted wildcard Action in IAM policy statement
+l1_basic/terraform/tf_iam_wildcard_flag.tf,8,FLAG,TERRAFORM,L1_BASIC,TF-021,Unrestricted wildcard Resource in IAM policy statement
+l1_basic/terraform/tf_iam_org_condition_noflag.tf,11,NO_FLAG,TERRAFORM,L1_BASIC,TF-022,PrincipalOrgID condition neutralizing Principal wildcard
+l1_basic/terraform/tf_provider_hardcoded_flag.tf,3,FLAG,TERRAFORM,L1_BASIC,TF-023,Static AWS access key credential inside provider block
+l1_basic/terraform/tf_provider_hardcoded_flag.tf,4,FLAG,TERRAFORM,L1_BASIC,TF-024,Static AWS secret access key credential inside provider block
+l2_intermediate/terraform/security_groups.tf,9,DEBATABLE,TERRAFORM,L2_INTERMEDIATE,TF-L2-001,Standard HTTPS ingress port 443 open to internet
+l2_intermediate/terraform/security_groups.tf,15,FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-002,Insecure SSH access exposed globally on 0.0.0.0/0
+l2_intermediate/terraform/security_groups.tf,21,FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-003,Insecure RDP port exposed to all IPv6 addresses
+l2_intermediate/terraform/security_groups.tf,27,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-004,SSH access restricted to private internal IP range
+l2_intermediate/terraform/security_groups.tf,33,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-005,SSH port restricted to specific external /29 CIDR block
+l2_intermediate/terraform/security_groups.tf,36,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-006,Custom service high port range start digit lookalike
+l2_intermediate/terraform/security_groups.tf,45,DEBATABLE,TERRAFORM,L2_INTERMEDIATE,TF-L2-007,Standard unrestricted outbound egress rule
+l2_intermediate/terraform/storage_resources.tf,3,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-008,Private ACL setting on audit archive S3 bucket
+l2_intermediate/terraform/storage_resources.tf,7,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-009,Public access block active for public ACL prevention
+l2_intermediate/terraform/storage_resources.tf,8,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-010,Public access block active for policy prevention
+l2_intermediate/terraform/storage_resources.tf,14,FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-011,Production database marked publicly accessible
+l2_intermediate/terraform/storage_resources.tf,15,FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-012,Production database storage encryption disabled
+l2_intermediate/terraform/storage_resources.tf,20,NO_FLAG,TERRAFORM,L2_INTERMEDIATE,TF-L2-013,Encrypted EBS volume storage
+l1_basic/k8s/k8s_privileged_flag.yaml,10,FLAG,K8S,L1_BASIC,K8S-001,Privileged container flag granting host root capabilities
+l1_basic/k8s/k8s_privileged_noflag.yaml,10,NO_FLAG,K8S,L1_BASIC,K8S-002,Privileged container explicitly set to false
+l1_basic/k8s/k8s_hostnetwork_flag.yaml,6,FLAG,K8S,L1_BASIC,K8S-003,Host network namespace shared with pod
+l1_basic/k8s/k8s_hostnetwork_noflag.yaml,6,NO_FLAG,K8S,L1_BASIC,K8S-004,Host network sharing explicitly deactivated
+l1_basic/k8s/k8s_hostpid_flag.yaml,6,FLAG,K8S,L1_BASIC,K8S-005,Host PID namespace shared with pod
+l1_basic/k8s/k8s_hostpath_root_flag.yaml,9,FLAG,K8S,L1_BASIC,K8S-006,Host root filesystem mounted into container volume
+l1_basic/k8s/k8s_emptydir_noflag.yaml,8,NO_FLAG,K8S,L1_BASIC,K8S-007,Ephemeral emptyDir volume isolated to pod lifecycle
+l1_basic/k8s/k8s_runasroot_flag.yaml,10,FLAG,K8S,L1_BASIC,K8S-008,Container explicitly configured to run as root UID 0
+l1_basic/k8s/k8s_runasnonroot_noflag.yaml,10,NO_FLAG,K8S,L1_BASIC,K8S-009,Pod security context requiring non-root execution
+l1_basic/k8s/k8s_runasnonroot_noflag.yaml,11,NO_FLAG,K8S,L1_BASIC,K8S-010,Unprivileged UID assigned to container process
+l1_basic/k8s/k8s_escalation_flag.yaml,10,FLAG,K8S,L1_BASIC,K8S-011,Privilege escalation enabled allowing setuid execution
+l1_basic/k8s/k8s_escalation_noflag.yaml,10,NO_FLAG,K8S,L1_BASIC,K8S-012,Privilege escalation prevented via security context
+l1_basic/k8s/k8s_caps_flag.yaml,12,FLAG,K8S,L1_BASIC,K8S-013,High-privilege CAP_SYS_ADMIN Linux capability added to container
+l1_basic/k8s/k8s_caps_drop_noflag.yaml,12,NO_FLAG,K8S,L1_BASIC,K8S-014,All default Linux kernel capabilities explicitly dropped
+l1_basic/k8s/k8s_image_latest_flag.yaml,8,FLAG,K8S,L1_BASIC,K8S-015,Mutable :latest container image tag reference
+l1_basic/k8s/k8s_image_notag_flag.yaml,8,FLAG,K8S,L1_BASIC,K8S-016,Implicit latest image tag due to omitted version specification
+l1_basic/k8s/k8s_image_pinned_noflag.yaml,8,NO_FLAG,K8S,L1_BASIC,K8S-017,Immutably pinned semantic version container image tag
+l1_basic/k8s/k8s_image_name_lookalike_noflag.yaml,8,NO_FLAG,K8S,L1_BASIC,K8S-018,Image name containing latest sub-token but explicitly pinned to version 2.1.0
+l1_basic/k8s/k8s_secret_env_flag.yaml,11,FLAG,K8S,L1_BASIC,K8S-019,Cleartext password defined inline within pod environment variable
+l1_basic/k8s/k8s_secret_ref_noflag.yaml,12,NO_FLAG,K8S,L1_BASIC,K8S-020,Dynamic secret value loaded from Kubernetes Secret resource
+l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,7,FLAG,K8S,L1_BASIC,K8S-021,All API groups granted in RBAC rule
+l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,9,FLAG,K8S,L1_BASIC,K8S-022,All resources granted in RBAC rule
+l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,11,FLAG,K8S,L1_BASIC,K8S-023,All actions granted in RBAC rule
+l2_intermediate/k8s/pod_security_matrix.yaml,6,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-001,Metadata label containing privileged substring
+l2_intermediate/k8s/pod_security_matrix.yaml,17,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-002,Host network sharing disabled on deployment pod spec
+l2_intermediate/k8s/pod_security_matrix.yaml,18,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-003,Host PID sharing disabled on deployment pod spec
+l2_intermediate/k8s/pod_security_matrix.yaml,21,FLAG,K8S,L2_INTERMEDIATE,K8S-L2-004,Mutable latest tag on workload container
+l2_intermediate/k8s/pod_security_matrix.yaml,23,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-005,Privileged container explicitly set to false
+l2_intermediate/k8s/pod_security_matrix.yaml,24,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-006,Enforce non-root execution in container
+l2_intermediate/k8s/pod_security_matrix.yaml,25,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-007,Dedicated non-root UID 10001 assigned
+l2_intermediate/k8s/pod_security_matrix.yaml,26,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-008,Immutable root filesystem enforced
+l2_intermediate/k8s/pod_security_matrix.yaml,27,FLAG,K8S,L2_INTERMEDIATE,K8S-L2-009,Privilege escalation allowed on container process
+l2_intermediate/k8s/rbac_and_access.yaml,8,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-010,Core API group empty string
+l2_intermediate/k8s/rbac_and_access.yaml,10,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-011,Scoped pods resource
+l2_intermediate/k8s/rbac_and_access.yaml,12,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-012,Read-only get action
+l2_intermediate/k8s/rbac_and_access.yaml,13,NO_FLAG,K8S,L2_INTERMEDIATE,K8S-L2-013,Read-only list action
+l2_intermediate/k8s/rbac_and_access.yaml,21,FLAG,K8S,L2_INTERMEDIATE,K8S-L2-014,Default service account bound to administrative cluster role
+l2_intermediate/k8s/rbac_and_access.yaml,25,FLAG,K8S,L2_INTERMEDIATE,K8S-L2-015,Cluster-admin role reference
+l1_basic/docker/docker_user_root_flag.Dockerfile,3,FLAG,DOCKER,L1_BASIC,DOCKER-001,Container explicitly configured to execute as root user in final stage
+l1_basic/docker/docker_nonroot_user_noflag.Dockerfile,4,NO_FLAG,DOCKER,L1_BASIC,DOCKER-002,Explicit unprivileged non-root user UID specified
+l1_basic/docker/docker_multistage_builder_root_noflag.Dockerfile,7,NO_FLAG,DOCKER,L1_BASIC,DOCKER-003,Final container runtime stage strictly runs as non-root user
+l1_basic/docker/docker_curl_sh_flag.Dockerfile,2,FLAG,DOCKER,L1_BASIC,DOCKER-004,Piping remote untrusted script directly to shell interpreter
+l1_basic/docker/docker_curl_checksum_noflag.Dockerfile,2,NO_FLAG,DOCKER,L1_BASIC,DOCKER-005,Remote binary download validated against cryptographic checksum
+l1_basic/docker/docker_env_secret_flag.Dockerfile,2,FLAG,DOCKER,L1_BASIC,DOCKER-006,Cleartext secret hardcoded in container image metadata layer
+l1_basic/docker/docker_arg_token_flag.Dockerfile,2,FLAG,DOCKER,L1_BASIC,DOCKER-007,Personal access token baked into build argument default
+l1_basic/docker/docker_env_file_noflag.Dockerfile,2,NO_FLAG,DOCKER,L1_BASIC,DOCKER-008,Filesystem path reference for runtime secret lookup
+l1_basic/docker/docker_expose_22_flag.Dockerfile,2,FLAG,DOCKER,L1_BASIC,DOCKER-009,SSH port 22 exposed in container image
+l1_basic/docker/docker_expose_8080_noflag.Dockerfile,2,NO_FLAG,DOCKER,L1_BASIC,DOCKER-010,Standard unprivileged application HTTP port
+l1_basic/docker/compose_privileged_flag.yml,4,FLAG,DOCKER,L1_BASIC,DOCKER-011,Container granted full system capabilities via compose privileged flag
+l1_basic/docker/compose_sock_flag.yml,5,FLAG,DOCKER,L1_BASIC,DOCKER-012,Host Docker daemon control socket exposed into container
+l1_basic/docker/compose_local_port_noflag.yml,5,NO_FLAG,DOCKER,L1_BASIC,DOCKER-013,Service port bound solely to local host loopback interface
+l1_basic/docker/compose_env_secret_flag.yml,5,FLAG,DOCKER,L1_BASIC,DOCKER-014,Plaintext password literal embedded in compose environment dictionary
+l2_intermediate/docker/backend.Dockerfile,4,FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-001,GitHub token embedded inside build argument definition
+l2_intermediate/docker/backend.Dockerfile,11,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-002,Standard environment designation flag
+l2_intermediate/docker/backend.Dockerfile,12,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-003,Filesystem secret pointer rather than credential value
+l2_intermediate/docker/backend.Dockerfile,13,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-004,Command log string containing user substring
+l2_intermediate/docker/backend.Dockerfile,16,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-005,Unprivileged user UID enforced for execution
+l2_intermediate/docker/backend.Dockerfile,17,FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-006,Insecure SSH daemon port exposed in production runtime container
+l2_intermediate/docker/backend.Dockerfile,18,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-007,Standard unprivileged application HTTP port
+l2_intermediate/docker/stack-compose.yml,4,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-008,Privileged mode explicitly disabled on api container
+l2_intermediate/docker/stack-compose.yml,6,DEBATABLE,DOCKER,L2_INTERMEDIATE,DOCKER-L2-009,Public web ingress port 80
+l2_intermediate/docker/stack-compose.yml,10,NO_FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-010,Database port bound exclusively to localhost
+l2_intermediate/docker/stack-compose.yml,12,FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-011,Hardcoded plaintext database administrative password
+l2_intermediate/docker/stack-compose.yml,15,FLAG,DOCKER,L2_INTERMEDIATE,DOCKER-L2-012,Diagnostic agent executing with full root capabilities
+l1_basic/ci/gha_injection_title_flag.yml,7,FLAG,CI,L1_BASIC,CI-001,Direct inline interpolation of untrusted pull request title in shell command
+l1_basic/ci/gha_injection_body_flag.yml,7,FLAG,CI,L1_BASIC,CI-002,Arbitrary shell command execution from user issue comment body
+l1_basic/ci/gha_env_mapping_noflag.yml,9,NO_FLAG,CI,L1_BASIC,CI-003,Untrusted title mapped into process environment variable preventing shell injection
+l1_basic/ci/gha_env_mapping_noflag.yml,10,NO_FLAG,CI,L1_BASIC,CI-004,Shell variable reference safely quoting dynamic value
+l1_basic/ci/gha_safe_context_noflag.yml,7,NO_FLAG,CI,L1_BASIC,CI-005,Deterministic numeric/hexadecimal GitHub platform variables
+l1_basic/ci/gha_permissions_writeall_flag.yml,3,FLAG,CI,L1_BASIC,CI-006,Excessive broad write permissions assigned to workflow execution token
+l1_basic/ci/gha_permissions_read_noflag.yml,4,NO_FLAG,CI,L1_BASIC,CI-007,Minimal read-only permissions explicitly restricted to repository contents
+l1_basic/ci/gha_pr_target_checkout_flag.yml,9,FLAG,CI,L1_BASIC,CI-008,Checkout of untrusted fork commit running with privileged repository secrets
+l1_basic/ci/gha_pr_target_safe_noflag.yml,7,NO_FLAG,CI,L1_BASIC,CI-009,Default base repository checkout pinned to immutable commit SHA
+l1_basic/ci/gha_hardcoded_token_flag.yml,9,FLAG,CI,L1_BASIC,CI-010,Personal access token hardcoded directly in workflow environment
+l1_basic/ci/gha_mask_secret_noflag.yml,7,NO_FLAG,CI,L1_BASIC,CI-011,GitHub Actions workflow command instructing runner to mask value from log output
+l1_basic/ci/gitlab_ci_secrets_flag.yml,4,FLAG,CI,L1_BASIC,CI-012,Cleartext deployment token literal in GitLab CI configuration
+l1_basic/ci/gitlab_ci_variables_noflag.yml,4,NO_FLAG,CI,L1_BASIC,CI-013,Dynamic environment variable expansion in GitLab CI
+l1_basic/ci/azure_pipelines_flag.yml,6,FLAG,CI,L1_BASIC,CI-014,Hardcoded token literal in Azure Pipelines task environment
+l1_basic/ci/azure_pipelines_noflag.yml,6,NO_FLAG,CI,L1_BASIC,CI-015,Pipeline variable reference in Azure Pipelines
+l2_intermediate/ci/pr_validation.yml,6,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-001,Scoped read permission on repository contents
+l2_intermediate/ci/pr_validation.yml,7,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-002,Scoped read permission on pull requests
+l2_intermediate/ci/pr_validation.yml,12,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-003,Checkout action pinned by full commit SHA
+l2_intermediate/ci/pr_validation.yml,14,FLAG,CI,L2_INTERMEDIATE,CI-L2-004,Direct script injection flaw in shell execution
+l2_intermediate/ci/pr_validation.yml,17,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-005,Safe environment variable binding
+l2_intermediate/ci/pr_validation.yml,18,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-006,Safe shell reference
+l2_intermediate/ci/pr_validation.yml,19,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-007,Job name containing write-all lookalike string
+l2_intermediate/ci/release_pipeline.yml,11,FLAG,CI,L2_INTERMEDIATE,CI-L2-008,Embedded deploy token string inside workflow env block
+l2_intermediate/ci/release_pipeline.yml,12,FLAG,CI,L2_INTERMEDIATE,CI-L2-009,Echoing credential variable to workflow console output
+l2_intermediate/ci/release_pipeline.yml,13,NO_FLAG,CI,L2_INTERMEDIATE,CI-L2-010,Safe SHA reference in build log statement
+l1_basic/cfn/cfn_s3_public_read_flag.yaml,6,FLAG,CFN,L1_BASIC,CFN-001,S3 bucket configured with PublicRead access control
+l1_basic/cfn/cfn_s3_private_noflag.yaml,6,NO_FLAG,CFN,L1_BASIC,CFN-002,S3 bucket configured with restricted Private access control
+l1_basic/cfn/cfn_sg_open_ssh_flag.yaml,11,FLAG,CFN,L1_BASIC,CFN-003,Security group ingress exposing SSH port 22 globally
+l1_basic/cfn/cfn_sg_private_ssh_noflag.yaml,11,NO_FLAG,CFN,L1_BASIC,CFN-004,Security group ingress restricted to private 10.0.0.0/8 prefix
+l1_basic/cfn/cfn_sg_cidr_slash29_noflag.yaml,11,NO_FLAG,CFN,L1_BASIC,CFN-005,Specific /29 subnet checking regex anchor precision on 0.0.0.0/0
+l1_basic/cfn/cfn_sg_port_2200_noflag.yaml,9,NO_FLAG,CFN,L1_BASIC,CFN-006,High port 2200 with digit lookalike for port 22
+l1_basic/cfn/cfn_rds_public_flag.yaml,8,FLAG,CFN,L1_BASIC,CFN-007,Database instance marked publicly accessible
+l1_basic/cfn/cfn_rds_private_noflag.yaml,8,NO_FLAG,CFN,L1_BASIC,CFN-008,Database instance isolated from public internet
+l1_basic/cfn/cfn_rds_private_noflag.yaml,9,NO_FLAG,CFN,L1_BASIC,CFN-009,Storage encryption enabled on RDS instance
+l1_basic/cfn/cfn_ebs_unencrypted_flag.yaml,8,FLAG,CFN,L1_BASIC,CFN-010,EBS volume with explicit false on encryption property
+l1_basic/cfn/cfn_ebs_encrypted_noflag.yaml,8,NO_FLAG,CFN,L1_BASIC,CFN-011,EBS volume with encryption enabled
+l1_basic/cfn/cfn_pab_strict_noflag.yaml,7,NO_FLAG,CFN,L1_BASIC,CFN-012,Public access block active for public ACL blocking
+l1_basic/cfn/cfn_pab_strict_noflag.yaml,8,NO_FLAG,CFN,L1_BASIC,CFN-013,Public access block active for public policy blocking
+l1_basic/cfn/cfn_param_default_password_flag.yaml,6,FLAG,CFN,L1_BASIC,CFN-014,Hardcoded plaintext default value for sensitive password parameter
+l2_intermediate/cfn/network_and_storage.yaml,12,FLAG,CFN,L2_INTERMEDIATE,CFN-L2-001,Global SSH ingress rule on 0.0.0.0/0
+l2_intermediate/cfn/network_and_storage.yaml,16,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-002,Internal SSH ingress rule on 10.0.0.0/8
+l2_intermediate/cfn/network_and_storage.yaml,20,DEBATABLE,CFN,L2_INTERMEDIATE,CFN-L2-003,Public HTTPS web traffic ingress
+l2_intermediate/cfn/network_and_storage.yaml,26,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-004,Database inaccessible to public traffic
+l2_intermediate/cfn/network_and_storage.yaml,27,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-005,Database storage encryption enabled
+l2_intermediate/cfn/network_and_storage.yaml,31,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-006,Private ACL setting on S3 bucket
+l2_intermediate/cfn/iam_and_security.yaml,11,FLAG,CFN,L2_INTERMEDIATE,CFN-L2-007,Wildcard action in IAM policy statement
+l2_intermediate/cfn/iam_and_security.yaml,12,FLAG,CFN,L2_INTERMEDIATE,CFN-L2-008,Wildcard resource in IAM policy statement
+l2_intermediate/cfn/iam_and_security.yaml,20,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-009,Scoped read-only action in policy
+l2_intermediate/cfn/iam_and_security.yaml,33,NO_FLAG,CFN,L2_INTERMEDIATE,CFN-L2-010,PrincipalOrgID condition neutralizing open Principal
+l1_basic/robustness/rob_secret_in_comment_debatable.py,2,DEBATABLE,ROBUSTNESS,L1_BASIC,ROB-001,AWS credential string located solely inside Python code comment
+l1_basic/robustness/rob_keyword_in_string_noflag.py,3,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-002,Sensitive keyword occurrence inside constant log format message
+l1_basic/robustness/rob_partial_match_noflag.py,1,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-003,Identifier containing key substring with alphanumeric prefixes and suffixes
+l1_basic/robustness/rob_partial_match_noflag.py,2,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-004,Compound noun containing password without representing a secret
+l1_basic/robustness/rob_partial_match_noflag.py,3,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-005,Substring containing AKIA repeated within identifier
+l1_basic/robustness/rob_mixed_crlf.py,2,FLAG,ROBUSTNESS,L1_BASIC,ROB-006,Valid credential line terminated with Windows CRLF carriage returns
+l1_basic/robustness/rob_utf8_neighbors.py,3,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-007,Multilingual label with placeholder token
+l1_basic/robustness/rob_utf8_neighbors.py,4,FLAG,ROBUSTNESS,L1_BASIC,ROB-008,Valid Google API key followed by CJK unicode comment
+l1_basic/robustness/rob_bom_header.py,2,FLAG,ROBUSTNESS,L1_BASIC,ROB-009,Valid token inside file containing UTF-8 BOM prefix
+l1_basic/robustness/rob_unusual_ext.env.local,2,FLAG,ROBUSTNESS,L1_BASIC,ROB-010,Credential located in dotfile with compound secondary extension
+l1_basic/robustness/rob_service.conf,2,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-011,Path reference to password in configuration file
+l1_basic/robustness/rob_service.conf,3,FLAG,ROBUSTNESS,L1_BASIC,ROB-012,Cleartext Slack token inside .conf file
+l1_basic/robustness/rob_markdown_docs.md,4,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-013,Documentation code fence with placeholder token
+l1_basic/robustness/rob_markdown_docs.md,5,DEBATABLE,ROBUSTNESS,L1_BASIC,ROB-014,Documentation code fence containing official AWS sample key
+l1_basic/robustness/rob_minified_bundle.js,1,FLAG,ROBUSTNESS,L1_BASIC,ROB-015,"Secret embedded inside 10,000+ character minified JavaScript line"
+l1_basic/robustness/rob_windows_paths.py,2,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-016,Windows backslash file path to password file
+l1_basic/robustness/rob_windows_paths.py,3,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-017,Windows system directory path reference
+l1_basic/robustness/rob_yaml_block_scalar.yaml,3,NO_FLAG,ROBUSTNESS,L1_BASIC,ROB-018,Multiline block scalar containing template placeholder
+l1_basic/robustness/rob_yaml_block_scalar.yaml,5,FLAG,ROBUSTNESS,L1_BASIC,ROB-019,Multiline block scalar containing live personal access token
+l2_intermediate/robustness/multilingual_comments_and_strings.py,4,DEBATABLE,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-001,Real token inside developer task comment
+l2_intermediate/robustness/multilingual_comments_and_strings.py,5,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-002,Japanese text containing translation of word password
+l2_intermediate/robustness/multilingual_comments_and_strings.py,6,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-003,English user documentation string containing password keywords
+l2_intermediate/robustness/multilingual_comments_and_strings.py,7,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-004,Regular expression pattern definition matching 32-character tokens
+l2_intermediate/robustness/multilingual_comments_and_strings.py,8,FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-005,Active Stripe live API credential in production class attribute
+l2_intermediate/robustness/multilingual_comments_and_strings.py,10,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-006,Placeholder value in method return
+l2_intermediate/robustness/unusual_formats.tf.json,10,FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-007,Open SSH rule defined via Terraform JSON syntax
+l2_intermediate/robustness/unusual_formats.tf.json,18,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-008,Internal SSH rule defined via Terraform JSON syntax
+l2_intermediate/robustness/unusual_formats.tf.json,25,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-L2-009,Encrypted volume attribute in JSON format
+l2_intermediate/robustness/repetition_stress.py,3,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-001,Repetitive token name lookalike attribute index 1
+l2_intermediate/robustness/repetition_stress.py,4,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-002,Repetitive token name lookalike attribute index 2
+l2_intermediate/robustness/repetition_stress.py,5,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-003,Repetitive token name lookalike attribute index 3
+l2_intermediate/robustness/repetition_stress.py,6,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-004,Repetitive token name lookalike attribute index 4
+l2_intermediate/robustness/repetition_stress.py,7,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-005,Repetitive token name lookalike attribute index 5
+l2_intermediate/robustness/repetition_stress.py,8,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-006,Repetitive token name lookalike attribute index 6
+l2_intermediate/robustness/repetition_stress.py,9,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-007,Repetitive token name lookalike attribute index 7
+l2_intermediate/robustness/repetition_stress.py,10,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-008,Repetitive token name lookalike attribute index 8
+l2_intermediate/robustness/repetition_stress.py,11,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-009,Repetitive token name lookalike attribute index 9
+l2_intermediate/robustness/repetition_stress.py,12,NO_FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-010,Repetitive token name lookalike attribute index 10
+l2_intermediate/robustness/repetition_stress.py,13,FLAG,ROBUSTNESS,L2_INTERMEDIATE,ROB-REP-099,Real AWS credential embedded amidst repetitive lookalikes
+l3_advanced/flask_service/app.py,14,FLAG,SECRETS,L3_ADVANCED,L3-FLASK-001,Cleartext database credentials embedded in connection string
+l3_advanced/flask_service/app.py,15,DEBATABLE,SECRETS,L3_ADVANCED,L3-FLASK-002,Local development database URI with standard dummy credentials
+l3_advanced/flask_service/app.py,16,NO_FLAG,SECRETS,L3_ADVANCED,L3-FLASK-003,Secret file path pointer in application configuration
+l3_advanced/flask_service/app.py,17,NO_FLAG,SECRETS,L3_ADVANCED,L3-FLASK-004,Standard documentation template placeholder string
+l3_advanced/flask_service/app.py,18,NO_FLAG,SECRETS,L3_ADVANCED,L3-FLASK-005,Empty string password configuration variable
+l3_advanced/flask_service/app.py,33,NO_FLAG,SAST,L3_ADVANCED,L3-FLASK-006,Secure parameterized query using tuple substitution
+l3_advanced/flask_service/app.py,45,FLAG,SAST,L3_ADVANCED,L3-FLASK-007,SQL injection via string interpolation in user search route
+l3_advanced/flask_service/app.py,53,NO_FLAG,SAST,L3_ADVANCED,L3-FLASK-008,Safe YAML deserializer restricted to declarative types
+l3_advanced/flask_service/app.py,60,NO_FLAG,SECRETS,L3_ADVANCED,L3-FLASK-009,Authentication field identifier string
+l3_advanced/flask_service/app.py,61,NO_FLAG,SAST,L3_ADVANCED,L3-FLASK-010,Safe logging of username without sensitive credentials
+l3_advanced/flask_service/app.py,72,NO_FLAG,SAST,L3_ADVANCED,L3-FLASK-011,SHA-256 digest computation for data integrity
+l3_advanced/flask_service/app.py,73,NO_FLAG,SECRETS,L3_ADVANCED,L3-FLASK-012,CSS hex color codes in cosmetic palette list
+l3_advanced/flask_service/app.py,74,NO_FLAG,SAST,L3_ADVANCED,L3-FLASK-013,Non-security random selection for theme presentation
+l3_advanced/flask_service/app.py,78,FLAG,SAST,L3_ADVANCED,L3-FLASK-014,Flask development server run on all interfaces with debug mode enabled
+l3_advanced/express_api/server.js,16,FLAG,SECRETS,L3_ADVANCED,L3-EXPRESS-001,Personal access token hardcoded in API setup
+l3_advanced/express_api/server.js,17,NO_FLAG,SECRETS,L3_ADVANCED,L3-EXPRESS-002,Empty string credential definition
+l3_advanced/express_api/server.js,18,NO_FLAG,SECRETS,L3_ADVANCED,L3-EXPRESS-003,Filesystem reference string for signing key storage
+l3_advanced/express_api/server.js,19,NO_FLAG,SECRETS,L3_ADVANCED,L3-EXPRESS-004,Dynamic environment variable lookup for API key
+l3_advanced/express_api/server.js,27,NO_FLAG,SAST,L3_ADVANCED,L3-EXPRESS-005,Parameterized Postgres query protecting against SQL injection
+l3_advanced/express_api/server.js,33,FLAG,SAST,L3_ADVANCED,L3-EXPRESS-006,SQL query concatenation vulnerability in search handler
+l3_advanced/express_api/server.js,40,FLAG,SAST,L3_ADVANCED,L3-EXPRESS-007,JWT signature verification bypassed using algorithms: none
+l3_advanced/express_api/server.js,45,NO_FLAG,SAST,L3_ADVANCED,L3-EXPRESS-008,Safe binary execution via execFile without shell wrapping
+l3_advanced/express_api/server.js,53,FLAG,SAST,L3_ADVANCED,L3-EXPRESS-009,Command injection via string concatenation in child_process.exec
+l3_advanced/express_api/server.js,60,NO_FLAG,SAST,L3_ADVANCED,L3-EXPRESS-010,Cryptographically sound SHA-256 digest computation
+l3_advanced/go_microservice/main.go,26,NO_FLAG,SAST,L3_ADVANCED,L3-GO-001,Safe parameterized SQL query execution in Go
+l3_advanced/go_microservice/main.go,32,FLAG,SAST,L3_ADVANCED,L3-GO-002,SQL injection constructed via fmt.Sprintf interpolation
+l3_advanced/go_microservice/main.go,37,NO_FLAG,SAST,L3_ADVANCED,L3-GO-003,Direct invocation of system executable with fixed argument path
+l3_advanced/go_microservice/main.go,42,FLAG,SAST,L3_ADVANCED,L3-GO-004,Arbitrary shell execution using command interpreter with dynamic input
+l3_advanced/go_microservice/main.go,49,FLAG,SAST,L3_ADVANCED,L3-GO-005,Insecure TLS transport configuration skipping server certificate checks
+l3_advanced/go_microservice/main.go,55,NO_FLAG,SECRETS,L3_ADVANCED,L3-GO-006,Secure environment lookup for service secret key
+l3_advanced/django_portal/settings.py,6,FLAG,SECRETS,L3_ADVANCED,L3-DJANGO-001,Hardcoded Django production secret key literal
+l3_advanced/django_portal/settings.py,7,FLAG,SAST,L3_ADVANCED,L3-DJANGO-002,Production settings file with DEBUG mode set to True
+l3_advanced/django_portal/settings.py,8,FLAG,SAST,L3_ADVANCED,L3-DJANGO-003,Wildcard ALLOWED_HOSTS opening portal to host header poisoning
+l3_advanced/django_portal/settings.py,39,NO_FLAG,SECRETS,L3_ADVANCED,L3-DJANGO-004,Django password validation framework class reference
+l3_advanced/django_portal/settings.py,48,NO_FLAG,SECRETS,L3_ADVANCED,L3-DJANGO-005,Integer configuration timeout for password reset token
+l3_advanced/django_portal/settings.py,49,NO_FLAG,SAST,L3_ADVANCED,L3-DJANGO-006,Static asset routing URL path prefix
+l3_advanced/spring_backend/ApplicationConfig.java,17,NO_FLAG,SAST,L3_ADVANCED,L3-JAVA-001,Parameterized SQL query string with question mark placeholder
+l3_advanced/spring_backend/ApplicationConfig.java,25,FLAG,SAST,L3_ADVANCED,L3-JAVA-002,SQL injection via string concatenation in Java JDBC statement
+l3_advanced/spring_backend/ApplicationConfig.java,32,NO_FLAG,SAST,L3_ADVANCED,L3-JAVA-003,Cryptographically secure SHA-256 message digest instantiation
+l3_advanced/spring_backend/ApplicationConfig.java,37,FLAG,SAST,L3_ADVANCED,L3-JAVA-004,Insecure MD5 message digest instantiation in Java
+l3_advanced/terraform_infra/main.tf,23,DEBATABLE,TERRAFORM,L3_ADVANCED,L3-TF-001,Public web ALB ingress on HTTPS port 443
+l3_advanced/terraform_infra/main.tf,29,FLAG,TERRAFORM,L3_ADVANCED,L3-TF-002,Administrative SSH port 22 exposed globally to 0.0.0.0/0
+l3_advanced/terraform_infra/main.tf,35,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-003,Private network ingress on SSH port 22
+l3_advanced/terraform_infra/main.tf,41,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-004,Specific /29 IP block access on SSH port 22
+l3_advanced/terraform_infra/main.tf,44,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-005,High port number containing digit prefix 22 without being port 22
+l3_advanced/terraform_infra/main.tf,55,FLAG,TERRAFORM,L3_ADVANCED,L3-TF-006,Production database marked publicly accessible
+l3_advanced/terraform_infra/main.tf,56,FLAG,TERRAFORM,L3_ADVANCED,L3-TF-007,Database storage encryption disabled
+l3_advanced/terraform_infra/main.tf,63,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-008,Replica database secluded from public internet
+l3_advanced/terraform_infra/main.tf,64,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-009,Replica database storage encrypted
+l3_advanced/terraform_infra/main.tf,69,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-010,Audit bucket protected by private ACL
+l3_advanced/terraform_infra/main.tf,74,FLAG,TERRAFORM,L3_ADVANCED,L3-TF-011,Public-read ACL configured on distribution bucket
+l3_advanced/terraform_infra/main.tf,80,FLAG,TERRAFORM,L3_ADVANCED,L3-TF-012,Unencrypted EBS volume in production infrastructure
+l3_advanced/terraform_infra/main.tf,86,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-013,Encrypted EBS volume in production infrastructure
+l3_advanced/terraform_infra/main.tf,91,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-014,Public ACL blocking activated
+l3_advanced/terraform_infra/main.tf,92,NO_FLAG,TERRAFORM,L3_ADVANCED,L3-TF-015,Public policy blocking activated
+l3_advanced/k8s_workload/deployment.yaml,6,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-001,Workload label name string containing latest lookalike
+l3_advanced/k8s_workload/deployment.yaml,17,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-002,Host network sharing disabled on pod specification
+l3_advanced/k8s_workload/deployment.yaml,18,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-003,Host PID sharing disabled on pod specification
+l3_advanced/k8s_workload/deployment.yaml,21,FLAG,K8S,L3_ADVANCED,L3-K8S-004,Container image using mutable latest version tag
+l3_advanced/k8s_workload/deployment.yaml,23,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-005,Privileged container mode explicitly disabled
+l3_advanced/k8s_workload/deployment.yaml,24,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-006,Enforcing non-root container user execution
+l3_advanced/k8s_workload/deployment.yaml,25,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-007,Explicit non-root user UID assigned
+l3_advanced/k8s_workload/deployment.yaml,26,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-008,Privilege escalation prevented via security context
+l3_advanced/k8s_workload/deployment.yaml,28,NO_FLAG,K8S,L3_ADVANCED,L3-K8S-009,Diagnostic container image pinned to semantic version
+l3_advanced/k8s_workload/deployment.yaml,30,FLAG,K8S,L3_ADVANCED,L3-K8S-010,Diagnostic container running with privileged root access
+l3_advanced/k8s_workload/deployment.yaml,34,FLAG,K8S,L3_ADVANCED,L3-K8S-011,Dangerous root filesystem hostPath mount
+l3_advanced/docker_build/Dockerfile,4,FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-001,Build argument hardcoding GitHub personal access token
+l3_advanced/docker_build/Dockerfile,12,NO_FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-002,Standard runtime mode environment designation
+l3_advanced/docker_build/Dockerfile,13,NO_FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-003,Filesystem secret mount path rather than credential
+l3_advanced/docker_build/Dockerfile,16,NO_FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-004,Dedicated unprivileged non-root user in final container stage
+l3_advanced/docker_build/Dockerfile,17,FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-005,Insecure SSH port 22 exposed in production container
+l3_advanced/docker_build/Dockerfile,18,NO_FLAG,DOCKER,L3_ADVANCED,L3-DOCKER-006,Standard unprivileged application HTTP port
+l3_advanced/compose_stack/docker-compose.yml,5,DEBATABLE,DOCKER,L3_ADVANCED,L3-COMP-001,Standard public web ingress port 80
+l3_advanced/compose_stack/docker-compose.yml,8,NO_FLAG,DOCKER,L3_ADVANCED,L3-COMP-002,Privileged mode explicitly disabled on api service
+l3_advanced/compose_stack/docker-compose.yml,12,NO_FLAG,DOCKER,L3_ADVANCED,L3-COMP-003,Database port bound strictly to local loopback interface
+l3_advanced/compose_stack/docker-compose.yml,14,FLAG,DOCKER,L3_ADVANCED,L3-COMP-004,Cleartext database password literal in environment
+l3_advanced/compose_stack/docker-compose.yml,18,FLAG,DOCKER,L3_ADVANCED,L3-COMP-005,Host Docker socket mounted into container filesystem
+l3_advanced/github_ci/release.yml,6,NO_FLAG,CI,L3_ADVANCED,L3-CI-001,Restricted read-only repository permissions
+l3_advanced/github_ci/release.yml,11,NO_FLAG,CI,L3_ADVANCED,L3-CI-002,Checkout action pinned by immutable commit SHA
+l3_advanced/github_ci/release.yml,13,FLAG,CI,L3_ADVANCED,L3-CI-003,Direct script injection via pull request title
+l3_advanced/github_ci/release.yml,16,NO_FLAG,CI,L3_ADVANCED,L3-CI-004,Safe environment variable parameterization
+l3_advanced/github_ci/release.yml,17,NO_FLAG,CI,L3_ADVANCED,L3-CI-005,Quoted shell variable reference
+l3_advanced/github_ci/release.yml,20,FLAG,CI,L3_ADVANCED,L3-CI-006,Hardcoded deployment personal access token in CI step
+l3_advanced/github_ci/release.yml,21,NO_FLAG,CI,L3_ADVANCED,L3-CI-007,Workflow command instructing engine to mask sensitive token
+l3_advanced/deploy_script/deploy.sh,10,NO_FLAG,SAST,L3_ADVANCED,L3-SH-001,Standard restricted binary permissions
+l3_advanced/deploy_script/deploy.sh,11,FLAG,SAST,L3_ADVANCED,L3-SH-002,World-writable directory permissions granted to cache directory
+l3_advanced/deploy_script/deploy.sh,16,FLAG,SAST,L3_ADVANCED,L3-SH-003,Dynamic shell evaluation on variable function parameter
+l3_advanced/deploy_script/deploy.sh,20,DEBATABLE,SAST,L3_ADVANCED,L3-SH-004,Standard evaluation of ssh-agent daemon output
+l3_advanced/deploy_script/deploy.sh,24,NO_FLAG,SAST,L3_ADVANCED,L3-SH-005,Secure curl invocation with certificate verification
+l3_advanced/env_config/.env,4,FLAG,SECRETS,L3_ADVANCED,L3-ENV-001,Valid AWS Access Key ID assigned in environment configuration
+l3_advanced/env_config/.env,5,FLAG,SECRETS,L3_ADVANCED,L3-ENV-002,Hardcoded 40-character AWS Secret Access Key in environment
+l3_advanced/env_config/.env,6,FLAG,SECRETS,L3_ADVANCED,L3-ENV-003,Production Slack bot API token
+l3_advanced/env_config/.env,7,NO_FLAG,SECRETS,L3_ADVANCED,L3-ENV-004,Parameterized database connection URI with variable expansion
+l3_advanced/env_config/.env,8,NO_FLAG,SECRETS,L3_ADVANCED,L3-ENV-005,Documentation template placeholder token
+l3_advanced/env_config/.env,9,NO_FLAG,SECRETS,L3_ADVANCED,L3-ENV-006,Cloud Secrets Manager path identifier
+l3_advanced/env_config/.env,10,NO_FLAG,SECRETS,L3_ADVANCED,L3-ENV-007,Local container path pointing to mounted secret file
+l3_advanced/env_config/.env,11,NO_FLAG,SECRETS,L3_ADVANCED,L3-ENV-008,Git commit SHA digest string
+l3_advanced/app_config/config.yaml,5,FLAG,SECRETS,L3_ADVANCED,L3-YAML-001,Cleartext database credentials embedded in connection URL
+l3_advanced/app_config/config.yaml,6,NO_FLAG,SECRETS,L3_ADVANCED,L3-YAML-002,Resource identifier for secrets vault entry
+l3_advanced/app_config/config.yaml,8,FLAG,SECRETS,L3_ADVANCED,L3-YAML-003,Hardcoded Google AIza API credential in configuration
+l3_advanced/app_config/config.yaml,9,NO_FLAG,SECRETS,L3_ADVANCED,L3-YAML-004,Environment template interpolation variable
+l3_advanced/app_config/config.yaml,10,NO_FLAG,SECRETS,L3_ADVANCED,L3-YAML-005,Password complexity rule specification
+l3_advanced/node_pkg/package.json,2,NO_FLAG,SECRETS,L3_ADVANCED,L3-NPM-001,Package name containing passwordless and tokenizer substrings
+l3_advanced/node_pkg/package.json,7,FLAG,SECRETS,L3_ADVANCED,L3-NPM-002,Hardcoded GitHub token embedded directly into npm script command
+l3_advanced/docs_readme/README.md,5,NO_FLAG,SECRETS,L3_ADVANCED,L3-DOC-001,Documentation code fence demonstrating placeholder authorization token
+l3_advanced/docs_readme/README.md,6,DEBATABLE,SECRETS,L3_ADVANCED,L3-DOC-002,Documentation code block containing AWS documentation example key
+l3_advanced/docs_readme/README.md,7,FLAG,SECRETS,L3_ADVANCED,L3-DOC-003,Actual OpenAI secret key format accidentally committed in documentation
+l3_advanced/php_portal/index.php,4,NO_FLAG,SECRETS,L3_ADVANCED,L3-PHP-001,HTML input element type variable
+l3_advanced/php_portal/index.php,5,NO_FLAG,SECRETS,L3_ADVANCED,L3-PHP-002,Secure dynamic environment lookup for API token
+l3_advanced/php_portal/index.php,8,FLAG,SAST,L3_ADVANCED,L3-PHP-003,SQL injection via string concatenation in PHP query construction
+l3_advanced/php_portal/index.php,11,FLAG,SAST,L3_ADVANCED,L3-PHP-004,Arbitrary code execution via PHP eval on untrusted user POST parameter

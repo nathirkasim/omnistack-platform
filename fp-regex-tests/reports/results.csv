@@ -1,0 +1,481 @@
+scenario_id,file,line,expect,flagged(Y/N),rule_id,snippet,family,level,verdict
+SEC-001,l1_basic/secrets/aws_access_key_flag.py,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-002,l1_basic/secrets/aws_access_key_placeholder.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-003,l1_basic/secrets/aws_secret_key_flag.py,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-004,l1_basic/secrets/aws_secret_env_lookup.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-005,l1_basic/secrets/github_token_flag.js,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-006,l1_basic/secrets/github_token_env.js,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-007,l1_basic/secrets/openai_key_flag.py,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-008,l1_basic/secrets/openai_key_placeholder.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-009,l1_basic/secrets/slack_token_flag.go,4,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-010,l1_basic/secrets/slack_token_lookup.go,4,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-011,l1_basic/secrets/stripe_key_flag.js,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-012,l1_basic/secrets/stripe_key_empty.js,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-013,l1_basic/secrets/google_key_flag.py,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-014,l1_basic/secrets/google_key_null.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-015,l1_basic/secrets/rsa_private_key_flag.pem,1,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-016,l1_basic/secrets/rsa_public_key_noflag.pem,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-017,l1_basic/secrets/postgres_uri_flag.py,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-018,l1_basic/secrets/postgres_uri_debatable.py,3,DEBATABLE,N,,,SECRETS,L1_BASIC,DEBATABLE_IGNORED
+SEC-019,l1_basic/secrets/password_literal_flag.py,2,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-020,l1_basic/secrets/password_form_field.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-021,l1_basic/secrets/password_form_field.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-022,l1_basic/secrets/password_reference.py,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-023,l1_basic/secrets/password_reference.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-024,l1_basic/secrets/variable_name_lookalike.py,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-025,l1_basic/secrets/variable_name_lookalike.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-026,l1_basic/secrets/variable_name_lookalike.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-027,l1_basic/secrets/variable_name_lookalike.py,4,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-028,l1_basic/secrets/high_entropy_nonsecret.py,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-029,l1_basic/secrets/high_entropy_nonsecret.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-030,l1_basic/secrets/high_entropy_nonsecret.py,3,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-031,l1_basic/secrets/secret_split_literal.js,2,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-032,l1_basic/secrets/secret_heredoc.sh,3,FLAG,N,,,SECRETS,L1_BASIC,FALSE_NEGATIVE
+SEC-033,l1_basic/secrets/aws_doc_sample_debatable.py,2,DEBATABLE,N,,,SECRETS,L1_BASIC,DEBATABLE_IGNORED
+SEC-034,l1_basic/secrets/aws_doc_sample_debatable.py,3,DEBATABLE,N,,,SECRETS,L1_BASIC,DEBATABLE_IGNORED
+SEC-035,l1_basic/secrets/wrong_length_lookalike.py,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-036,l1_basic/secrets/wrong_length_lookalike.py,2,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-037,l1_basic/secrets/longer_identifier_prefix.py,1,NO_FLAG,N,,,SECRETS,L1_BASIC,TRUE_NEGATIVE
+SEC-L2-001,l2_intermediate/secrets/token_registry.py,6,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-002,l2_intermediate/secrets/token_registry.py,7,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-003,l2_intermediate/secrets/token_registry.py,8,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-004,l2_intermediate/secrets/token_registry.py,11,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-005,l2_intermediate/secrets/token_registry.py,12,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-006,l2_intermediate/secrets/token_registry.py,13,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-007,l2_intermediate/secrets/token_registry.py,14,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-008,l2_intermediate/secrets/token_registry.py,16,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-009,l2_intermediate/secrets/token_registry.py,19,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-010,l2_intermediate/secrets/credential_store.env,4,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-011,l2_intermediate/secrets/credential_store.env,5,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-012,l2_intermediate/secrets/credential_store.env,6,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-013,l2_intermediate/secrets/credential_store.env,7,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-014,l2_intermediate/secrets/credential_store.env,8,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-015,l2_intermediate/secrets/credential_store.env,9,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-016,l2_intermediate/secrets/credential_store.env,10,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-017,l2_intermediate/secrets/credential_store.env,11,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-018,l2_intermediate/secrets/format_robustness.py,2,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-019,l2_intermediate/secrets/format_robustness.py,3,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-020,l2_intermediate/secrets/format_robustness.py,4,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-021,l2_intermediate/secrets/format_robustness.py,5,FLAG,N,,,SECRETS,L2_INTERMEDIATE,FALSE_NEGATIVE
+SEC-L2-022,l2_intermediate/secrets/format_robustness.py,6,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-023,l2_intermediate/secrets/format_robustness.py,7,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SEC-L2-024,l2_intermediate/secrets/format_robustness.py,8,NO_FLAG,N,,,SECRETS,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-001,l1_basic/sast/py_sqli_modulo_flag.py,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-002,l1_basic/sast/py_sqli_param_noflag.py,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-003,l1_basic/sast/py_sqli_fstring_flag.py,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-004,l1_basic/sast/py_sqli_constant_noflag.py,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-005,l1_basic/sast/py_os_system_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-006,l1_basic/sast/py_os_system_constant_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-007,l1_basic/sast/py_subprocess_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-008,l1_basic/sast/py_subprocess_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-009,l1_basic/sast/py_eval_flag.py,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-010,l1_basic/sast/py_ast_literal_eval_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-011,l1_basic/sast/py_model_eval_noflag.py,4,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-012,l1_basic/sast/py_yaml_load_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-013,l1_basic/sast/py_yaml_safe_load_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-014,l1_basic/sast/py_md5_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-015,l1_basic/sast/py_sha256_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-016,l1_basic/sast/py_md5_debatable.py,3,DEBATABLE,N,,,SAST,L1_BASIC,DEBATABLE_IGNORED
+SAST-017,l1_basic/sast/py_random_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-018,l1_basic/sast/py_random_noflag.py,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-019,l1_basic/sast/py_flask_debug_flag.py,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-020,l1_basic/sast/js_sqli_flag.js,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-021,l1_basic/sast/js_sqli_param_noflag.js,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-022,l1_basic/sast/js_xss_innerhtml_flag.js,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-023,l1_basic/sast/js_xss_innerhtml_const_noflag.js,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-024,l1_basic/sast/js_xss_textcontent_noflag.js,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-025,l1_basic/sast/js_settimeout_variants.js,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-026,l1_basic/sast/js_settimeout_variants.js,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-027,l1_basic/sast/js_regex_exec_noflag.js,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-028,l1_basic/sast/go_exec_command_variants.go,5,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-029,l1_basic/sast/go_exec_command_variants.go,8,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-030,l1_basic/sast/go_insecure_tls_flag.go,6,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-031,l1_basic/sast/bash_eval_flag.sh,3,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-032,l1_basic/sast/bash_eval_debatable.sh,2,DEBATABLE,N,,,SAST,L1_BASIC,DEBATABLE_IGNORED
+SAST-033,l1_basic/sast/bash_chmod_variants.sh,2,FLAG,N,,,SAST,L1_BASIC,FALSE_NEGATIVE
+SAST-034,l1_basic/sast/bash_chmod_variants.sh,3,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-035,l1_basic/sast/http_svg_namespace_noflag.xml,2,NO_FLAG,N,,,SAST,L1_BASIC,TRUE_NEGATIVE
+SAST-L2-001,l2_intermediate/sast/python_pipeline.py,15,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-002,l2_intermediate/sast/python_pipeline.py,16,FLAG,N,,,SAST,L2_INTERMEDIATE,FALSE_NEGATIVE
+SAST-L2-003,l2_intermediate/sast/python_pipeline.py,20,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-004,l2_intermediate/sast/python_pipeline.py,23,FLAG,N,,,SAST,L2_INTERMEDIATE,FALSE_NEGATIVE
+SAST-L2-005,l2_intermediate/sast/python_pipeline.py,26,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-006,l2_intermediate/sast/python_pipeline.py,29,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-007,l2_intermediate/sast/python_pipeline.py,32,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-008,l2_intermediate/sast/node_service.js,8,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-009,l2_intermediate/sast/node_service.js,12,FLAG,N,,,SAST,L2_INTERMEDIATE,FALSE_NEGATIVE
+SAST-L2-010,l2_intermediate/sast/node_service.js,16,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-011,l2_intermediate/sast/node_service.js,17,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+SAST-L2-012,l2_intermediate/sast/node_service.js,21,FLAG,N,,,SAST,L2_INTERMEDIATE,FALSE_NEGATIVE
+SAST-L2-013,l2_intermediate/sast/node_service.js,25,NO_FLAG,N,,,SAST,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-001,l1_basic/terraform/tf_s3_public_read_flag.tf,3,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-002,l1_basic/terraform/tf_s3_private_noflag.tf,3,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-003,l1_basic/terraform/tf_sg_open_ssh_flag.tf,7,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-004,l1_basic/terraform/tf_sg_open_ssh_ipv6_flag.tf,7,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-005,l1_basic/terraform/tf_sg_private_ssh_noflag.tf,7,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-006,l1_basic/terraform/tf_sg_cidr_slash29_noflag.tf,7,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-007,l1_basic/terraform/tf_sg_port_2200_noflag.tf,3,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-008,l1_basic/terraform/tf_sg_egress_ssh_noflag.tf,2,NO_FLAG,Y,CKV_AWS_23,"1: resource ""aws_security_group_rule"" ""outbound_ssh"" {
+
+2:   type              = ""egress""
+
+3:   from_port         = 22
+
+4:   to_port           = 22
+
+5:   protocol          = ""tcp""
+
+6:   security_group_id = ""sg-0123456789abcdef0""
+
+7:   cidr_blocks       = [""0.0.0.0/0""]
+
+8: }
+",TERRAFORM,L1_BASIC,FP_CANDIDATE (UNREVIEWED)
+TF-009,l1_basic/terraform/tf_sg_desc_lookalike_noflag.tf,7,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-010,l1_basic/terraform/tf_ebs_unencrypted_flag.tf,4,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-011,l1_basic/terraform/tf_ebs_encrypted_noflag.tf,4,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-012,l1_basic/terraform/tf_rds_public_flag.tf,5,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-013,l1_basic/terraform/tf_rds_private_noflag.tf,5,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-014,l1_basic/terraform/tf_rds_private_noflag.tf,6,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-015,l1_basic/terraform/tf_ec2_public_ip_flag.tf,4,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-016,l1_basic/terraform/tf_ec2_public_ip_noflag.tf,4,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-017,l1_basic/terraform/tf_s3_pab_open_flag.tf,3,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-018,l1_basic/terraform/tf_s3_pab_strict_noflag.tf,3,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-019,l1_basic/terraform/tf_s3_pab_strict_noflag.tf,4,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-020,l1_basic/terraform/tf_iam_wildcard_flag.tf,6,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-021,l1_basic/terraform/tf_iam_wildcard_flag.tf,8,FLAG,N,,,TERRAFORM,L1_BASIC,FALSE_NEGATIVE
+TF-022,l1_basic/terraform/tf_iam_org_condition_noflag.tf,11,NO_FLAG,N,,,TERRAFORM,L1_BASIC,TRUE_NEGATIVE
+TF-023,l1_basic/terraform/tf_provider_hardcoded_flag.tf,3,FLAG,Y,CKV_SECRET_2;CKV_SECRET_6,"3:   access_key = ""AKIA2**********""
+",TERRAFORM,L1_BASIC,TRUE_POSITIVE
+TF-024,l1_basic/terraform/tf_provider_hardcoded_flag.tf,4,FLAG,Y,CKV_SECRET_2;CKV_SECRET_6,"3:   access_key = ""AKIA2**********""
+",TERRAFORM,L1_BASIC,TRUE_POSITIVE
+TF-L2-001,l2_intermediate/terraform/security_groups.tf,9,DEBATABLE,N,,,TERRAFORM,L2_INTERMEDIATE,DEBATABLE_IGNORED
+TF-L2-002,l2_intermediate/terraform/security_groups.tf,15,FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,FALSE_NEGATIVE
+TF-L2-003,l2_intermediate/terraform/security_groups.tf,21,FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,FALSE_NEGATIVE
+TF-L2-004,l2_intermediate/terraform/security_groups.tf,27,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-005,l2_intermediate/terraform/security_groups.tf,33,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-006,l2_intermediate/terraform/security_groups.tf,36,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-007,l2_intermediate/terraform/security_groups.tf,45,DEBATABLE,N,,,TERRAFORM,L2_INTERMEDIATE,DEBATABLE_IGNORED
+TF-L2-008,l2_intermediate/terraform/storage_resources.tf,3,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-009,l2_intermediate/terraform/storage_resources.tf,7,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-010,l2_intermediate/terraform/storage_resources.tf,8,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+TF-L2-011,l2_intermediate/terraform/storage_resources.tf,14,FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,FALSE_NEGATIVE
+TF-L2-012,l2_intermediate/terraform/storage_resources.tf,15,FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,FALSE_NEGATIVE
+TF-L2-013,l2_intermediate/terraform/storage_resources.tf,20,NO_FLAG,N,,,TERRAFORM,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-001,l1_basic/k8s/k8s_privileged_flag.yaml,10,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-002,l1_basic/k8s/k8s_privileged_noflag.yaml,10,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-003,l1_basic/k8s/k8s_hostnetwork_flag.yaml,6,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-004,l1_basic/k8s/k8s_hostnetwork_noflag.yaml,6,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-005,l1_basic/k8s/k8s_hostpid_flag.yaml,6,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-006,l1_basic/k8s/k8s_hostpath_root_flag.yaml,9,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-007,l1_basic/k8s/k8s_emptydir_noflag.yaml,8,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-008,l1_basic/k8s/k8s_runasroot_flag.yaml,10,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-009,l1_basic/k8s/k8s_runasnonroot_noflag.yaml,10,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-010,l1_basic/k8s/k8s_runasnonroot_noflag.yaml,11,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-011,l1_basic/k8s/k8s_escalation_flag.yaml,10,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-012,l1_basic/k8s/k8s_escalation_noflag.yaml,10,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-013,l1_basic/k8s/k8s_caps_flag.yaml,12,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-014,l1_basic/k8s/k8s_caps_drop_noflag.yaml,12,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-015,l1_basic/k8s/k8s_image_latest_flag.yaml,8,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-016,l1_basic/k8s/k8s_image_notag_flag.yaml,8,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-017,l1_basic/k8s/k8s_image_pinned_noflag.yaml,8,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-018,l1_basic/k8s/k8s_image_name_lookalike_noflag.yaml,8,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-019,l1_basic/k8s/k8s_secret_env_flag.yaml,11,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-020,l1_basic/k8s/k8s_secret_ref_noflag.yaml,12,NO_FLAG,N,,,K8S,L1_BASIC,TRUE_NEGATIVE
+K8S-021,l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,7,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-022,l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,9,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-023,l1_basic/k8s/k8s_rbac_wildcard_flag.yaml,11,FLAG,N,,,K8S,L1_BASIC,FALSE_NEGATIVE
+K8S-L2-001,l2_intermediate/k8s/pod_security_matrix.yaml,6,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-002,l2_intermediate/k8s/pod_security_matrix.yaml,17,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-003,l2_intermediate/k8s/pod_security_matrix.yaml,18,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-004,l2_intermediate/k8s/pod_security_matrix.yaml,21,FLAG,N,,,K8S,L2_INTERMEDIATE,FALSE_NEGATIVE
+K8S-L2-005,l2_intermediate/k8s/pod_security_matrix.yaml,23,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-006,l2_intermediate/k8s/pod_security_matrix.yaml,24,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-007,l2_intermediate/k8s/pod_security_matrix.yaml,25,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-008,l2_intermediate/k8s/pod_security_matrix.yaml,26,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-009,l2_intermediate/k8s/pod_security_matrix.yaml,27,FLAG,N,,,K8S,L2_INTERMEDIATE,FALSE_NEGATIVE
+K8S-L2-010,l2_intermediate/k8s/rbac_and_access.yaml,8,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-011,l2_intermediate/k8s/rbac_and_access.yaml,10,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-012,l2_intermediate/k8s/rbac_and_access.yaml,12,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-013,l2_intermediate/k8s/rbac_and_access.yaml,13,NO_FLAG,N,,,K8S,L2_INTERMEDIATE,TRUE_NEGATIVE
+K8S-L2-014,l2_intermediate/k8s/rbac_and_access.yaml,21,FLAG,N,,,K8S,L2_INTERMEDIATE,FALSE_NEGATIVE
+K8S-L2-015,l2_intermediate/k8s/rbac_and_access.yaml,25,FLAG,N,,,K8S,L2_INTERMEDIATE,FALSE_NEGATIVE
+DOCKER-001,l1_basic/docker/docker_user_root_flag.Dockerfile,3,FLAG,Y,CKV_DOCKER_8,"3: USER root
+",DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-002,l1_basic/docker/docker_nonroot_user_noflag.Dockerfile,4,NO_FLAG,N,,,DOCKER,L1_BASIC,TRUE_NEGATIVE
+DOCKER-003,l1_basic/docker/docker_multistage_builder_root_noflag.Dockerfile,7,NO_FLAG,N,,,DOCKER,L1_BASIC,TRUE_NEGATIVE
+DOCKER-004,l1_basic/docker/docker_curl_sh_flag.Dockerfile,2,FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3,"1: FROM alpine:3.18.4
+
+2: RUN curl -fsSL https://get.example.com/install.sh | sh",DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-005,l1_basic/docker/docker_curl_checksum_noflag.Dockerfile,2,NO_FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3,"1: FROM alpine:3.18.4
+
+2: RUN curl -fsSLo pkg.tar.gz https://vendor.com/pkg.tar.gz && echo ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  pkg.tar.gz"" | sha256sum -c",DOCKER,L1_BASIC,FP_CANDIDATE (UNREVIEWED)
+DOCKER-006,l1_basic/docker/docker_env_secret_flag.Dockerfile,2,FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3,"1: FROM alpine:3.18.4
+
+2: ENV APP_PASSWORD=Hunter2Hunter2",DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-007,l1_basic/docker/docker_arg_token_flag.Dockerfile,2,FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3;CKV_SECRET_6,"1: FROM alpine:3.18.4
+
+2: ARG GITHUB_TOKEN=ghp_1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R",DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-008,l1_basic/docker/docker_env_file_noflag.Dockerfile,2,NO_FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3,"1: FROM alpine:3.18.4
+
+2: ENV PASSWORD_FILE=/run/secrets/db_password",DOCKER,L1_BASIC,FP_CANDIDATE (UNREVIEWED)
+DOCKER-009,l1_basic/docker/docker_expose_22_flag.Dockerfile,2,FLAG,Y,CKV_DOCKER_1;CKV_DOCKER_2;CKV_DOCKER_3,2: EXPOSE 22,DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-010,l1_basic/docker/docker_expose_8080_noflag.Dockerfile,2,NO_FLAG,Y,CKV_DOCKER_2;CKV_DOCKER_3,"1: FROM alpine:3.18.4
+
+2: EXPOSE 8080",DOCKER,L1_BASIC,FP_CANDIDATE (UNREVIEWED)
+DOCKER-011,l1_basic/docker/compose_privileged_flag.yml,4,FLAG,N,,,DOCKER,L1_BASIC,FALSE_NEGATIVE
+DOCKER-012,l1_basic/docker/compose_sock_flag.yml,5,FLAG,N,,,DOCKER,L1_BASIC,FALSE_NEGATIVE
+DOCKER-013,l1_basic/docker/compose_local_port_noflag.yml,5,NO_FLAG,N,,,DOCKER,L1_BASIC,TRUE_NEGATIVE
+DOCKER-014,l1_basic/docker/compose_env_secret_flag.yml,5,FLAG,Y,CKV_SECRET_6,"5:       POSTGRES_PASSWORD: ""ProdS**********""
+",DOCKER,L1_BASIC,TRUE_POSITIVE
+DOCKER-L2-001,l2_intermediate/docker/backend.Dockerfile,4,FLAG,N,,,DOCKER,L2_INTERMEDIATE,FALSE_NEGATIVE
+DOCKER-L2-002,l2_intermediate/docker/backend.Dockerfile,11,NO_FLAG,N,,,DOCKER,L2_INTERMEDIATE,TRUE_NEGATIVE
+DOCKER-L2-003,l2_intermediate/docker/backend.Dockerfile,12,NO_FLAG,N,,,DOCKER,L2_INTERMEDIATE,TRUE_NEGATIVE
+DOCKER-L2-004,l2_intermediate/docker/backend.Dockerfile,13,NO_FLAG,N,,,DOCKER,L2_INTERMEDIATE,TRUE_NEGATIVE
+DOCKER-L2-005,l2_intermediate/docker/backend.Dockerfile,16,NO_FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L2_INTERMEDIATE,FP_CANDIDATE (UNREVIEWED)
+DOCKER-L2-006,l2_intermediate/docker/backend.Dockerfile,17,FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L2_INTERMEDIATE,TRUE_POSITIVE
+DOCKER-L2-007,l2_intermediate/docker/backend.Dockerfile,18,NO_FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L2_INTERMEDIATE,FP_CANDIDATE (UNREVIEWED)
+DOCKER-L2-008,l2_intermediate/docker/stack-compose.yml,4,NO_FLAG,N,,,DOCKER,L2_INTERMEDIATE,TRUE_NEGATIVE
+DOCKER-L2-009,l2_intermediate/docker/stack-compose.yml,6,DEBATABLE,N,,,DOCKER,L2_INTERMEDIATE,DEBATABLE_IGNORED
+DOCKER-L2-010,l2_intermediate/docker/stack-compose.yml,10,NO_FLAG,N,,,DOCKER,L2_INTERMEDIATE,TRUE_NEGATIVE
+DOCKER-L2-011,l2_intermediate/docker/stack-compose.yml,12,FLAG,Y,CKV_SECRET_6,"12:       POSTGRES_PASSWORD: ""Super**********""
+",DOCKER,L2_INTERMEDIATE,TRUE_POSITIVE
+DOCKER-L2-012,l2_intermediate/docker/stack-compose.yml,15,FLAG,N,,,DOCKER,L2_INTERMEDIATE,FALSE_NEGATIVE
+CI-001,l1_basic/ci/gha_injection_title_flag.yml,7,FLAG,N,,,CI,L1_BASIC,FALSE_NEGATIVE
+CI-002,l1_basic/ci/gha_injection_body_flag.yml,7,FLAG,N,,,CI,L1_BASIC,FALSE_NEGATIVE
+CI-003,l1_basic/ci/gha_env_mapping_noflag.yml,9,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-004,l1_basic/ci/gha_env_mapping_noflag.yml,10,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-005,l1_basic/ci/gha_safe_context_noflag.yml,7,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-006,l1_basic/ci/gha_permissions_writeall_flag.yml,3,FLAG,N,,,CI,L1_BASIC,FALSE_NEGATIVE
+CI-007,l1_basic/ci/gha_permissions_read_noflag.yml,4,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-008,l1_basic/ci/gha_pr_target_checkout_flag.yml,9,FLAG,N,,,CI,L1_BASIC,FALSE_NEGATIVE
+CI-009,l1_basic/ci/gha_pr_target_safe_noflag.yml,7,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-010,l1_basic/ci/gha_hardcoded_token_flag.yml,9,FLAG,Y,CKV_SECRET_6,"9:         GH_TOKEN: ""ghp_1a**********""
+",CI,L1_BASIC,TRUE_POSITIVE
+CI-011,l1_basic/ci/gha_mask_secret_noflag.yml,7,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-012,l1_basic/ci/gitlab_ci_secrets_flag.yml,4,FLAG,Y,CKV_SECRET_6,"4:     DEPLOY_TOKEN: ""ghp_1a**********""
+",CI,L1_BASIC,TRUE_POSITIVE
+CI-013,l1_basic/ci/gitlab_ci_variables_noflag.yml,4,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-014,l1_basic/ci/azure_pipelines_flag.yml,6,FLAG,Y,CKV_SECRET_6,"6:       API_KEY: ""ghp_1a**********""
+",CI,L1_BASIC,TRUE_POSITIVE
+CI-015,l1_basic/ci/azure_pipelines_noflag.yml,6,NO_FLAG,N,,,CI,L1_BASIC,TRUE_NEGATIVE
+CI-L2-001,l2_intermediate/ci/pr_validation.yml,6,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-002,l2_intermediate/ci/pr_validation.yml,7,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-003,l2_intermediate/ci/pr_validation.yml,12,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-004,l2_intermediate/ci/pr_validation.yml,14,FLAG,N,,,CI,L2_INTERMEDIATE,FALSE_NEGATIVE
+CI-L2-005,l2_intermediate/ci/pr_validation.yml,17,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-006,l2_intermediate/ci/pr_validation.yml,18,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-007,l2_intermediate/ci/pr_validation.yml,19,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CI-L2-008,l2_intermediate/ci/release_pipeline.yml,11,FLAG,Y,CKV_SECRET_6,"11:         DEPLOY_TOKEN: ""ghp_1a**********""
+",CI,L2_INTERMEDIATE,TRUE_POSITIVE
+CI-L2-009,l2_intermediate/ci/release_pipeline.yml,12,FLAG,Y,CKV_SECRET_6,"11:         DEPLOY_TOKEN: ""ghp_1a**********""
+",CI,L2_INTERMEDIATE,TRUE_POSITIVE
+CI-L2-010,l2_intermediate/ci/release_pipeline.yml,13,NO_FLAG,N,,,CI,L2_INTERMEDIATE,TRUE_NEGATIVE
+CFN-001,l1_basic/cfn/cfn_s3_public_read_flag.yaml,6,FLAG,N,,,CFN,L1_BASIC,FALSE_NEGATIVE
+CFN-002,l1_basic/cfn/cfn_s3_private_noflag.yaml,6,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-003,l1_basic/cfn/cfn_sg_open_ssh_flag.yaml,11,FLAG,N,,,CFN,L1_BASIC,FALSE_NEGATIVE
+CFN-004,l1_basic/cfn/cfn_sg_private_ssh_noflag.yaml,11,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-005,l1_basic/cfn/cfn_sg_cidr_slash29_noflag.yaml,11,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-006,l1_basic/cfn/cfn_sg_port_2200_noflag.yaml,9,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-007,l1_basic/cfn/cfn_rds_public_flag.yaml,8,FLAG,N,,,CFN,L1_BASIC,FALSE_NEGATIVE
+CFN-008,l1_basic/cfn/cfn_rds_private_noflag.yaml,8,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-009,l1_basic/cfn/cfn_rds_private_noflag.yaml,9,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-010,l1_basic/cfn/cfn_ebs_unencrypted_flag.yaml,8,FLAG,N,,,CFN,L1_BASIC,FALSE_NEGATIVE
+CFN-011,l1_basic/cfn/cfn_ebs_encrypted_noflag.yaml,8,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-012,l1_basic/cfn/cfn_pab_strict_noflag.yaml,7,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-013,l1_basic/cfn/cfn_pab_strict_noflag.yaml,8,NO_FLAG,N,,,CFN,L1_BASIC,TRUE_NEGATIVE
+CFN-014,l1_basic/cfn/cfn_param_default_password_flag.yaml,6,FLAG,N,,,CFN,L1_BASIC,FALSE_NEGATIVE
+CFN-L2-001,l2_intermediate/cfn/network_and_storage.yaml,12,FLAG,N,,,CFN,L2_INTERMEDIATE,FALSE_NEGATIVE
+CFN-L2-002,l2_intermediate/cfn/network_and_storage.yaml,16,NO_FLAG,N,,,CFN,L2_INTERMEDIATE,TRUE_NEGATIVE
+CFN-L2-003,l2_intermediate/cfn/network_and_storage.yaml,20,DEBATABLE,Y,CKV_AWS_118;CKV_AWS_157;CKV_AWS_161,"21:   InternalDB:
+
+22:     Type: AWS::RDS::DBInstance
+
+23:     Properties:
+
+24:       DBInstanceClass: db.t3.micro
+
+25:       Engine: postgres
+
+26:       PubliclyAccessible: false
+
+27:       StorageEncrypted: true
+",CFN,L2_INTERMEDIATE,DEBATABLE_HIT
+CFN-L2-004,l2_intermediate/cfn/network_and_storage.yaml,26,NO_FLAG,N,,,CFN,L2_INTERMEDIATE,TRUE_NEGATIVE
+CFN-L2-005,l2_intermediate/cfn/network_and_storage.yaml,27,NO_FLAG,Y,CKV_AWS_18;CKV_AWS_21;CKV_AWS_53;CKV_AWS_54;CKV_AWS_55;CKV_AWS_56,"28:   AppLogBucket:
+
+29:     Type: AWS::S3::Bucket
+
+30:     Properties:
+
+31:       AccessControl: Private
+",CFN,L2_INTERMEDIATE,FP_CANDIDATE (UNREVIEWED)
+CFN-L2-006,l2_intermediate/cfn/network_and_storage.yaml,31,NO_FLAG,N,,,CFN,L2_INTERMEDIATE,TRUE_NEGATIVE
+CFN-L2-007,l2_intermediate/cfn/iam_and_security.yaml,11,FLAG,N,,,CFN,L2_INTERMEDIATE,FALSE_NEGATIVE
+CFN-L2-008,l2_intermediate/cfn/iam_and_security.yaml,12,FLAG,N,,,CFN,L2_INTERMEDIATE,FALSE_NEGATIVE
+CFN-L2-009,l2_intermediate/cfn/iam_and_security.yaml,20,NO_FLAG,N,,,CFN,L2_INTERMEDIATE,TRUE_NEGATIVE
+CFN-L2-010,l2_intermediate/cfn/iam_and_security.yaml,33,NO_FLAG,N,,,CFN,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-001,l1_basic/robustness/rob_secret_in_comment_debatable.py,2,DEBATABLE,N,,,ROBUSTNESS,L1_BASIC,DEBATABLE_IGNORED
+ROB-002,l1_basic/robustness/rob_keyword_in_string_noflag.py,3,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-003,l1_basic/robustness/rob_partial_match_noflag.py,1,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-004,l1_basic/robustness/rob_partial_match_noflag.py,2,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-005,l1_basic/robustness/rob_partial_match_noflag.py,3,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-006,l1_basic/robustness/rob_mixed_crlf.py,2,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-007,l1_basic/robustness/rob_utf8_neighbors.py,3,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-008,l1_basic/robustness/rob_utf8_neighbors.py,4,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-009,l1_basic/robustness/rob_bom_header.py,2,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-010,l1_basic/robustness/rob_unusual_ext.env.local,2,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-011,l1_basic/robustness/rob_service.conf,2,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-012,l1_basic/robustness/rob_service.conf,3,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-013,l1_basic/robustness/rob_markdown_docs.md,4,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-014,l1_basic/robustness/rob_markdown_docs.md,5,DEBATABLE,N,,,ROBUSTNESS,L1_BASIC,DEBATABLE_IGNORED
+ROB-015,l1_basic/robustness/rob_minified_bundle.js,1,FLAG,N,,,ROBUSTNESS,L1_BASIC,FALSE_NEGATIVE
+ROB-016,l1_basic/robustness/rob_windows_paths.py,2,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-017,l1_basic/robustness/rob_windows_paths.py,3,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-018,l1_basic/robustness/rob_yaml_block_scalar.yaml,3,NO_FLAG,N,,,ROBUSTNESS,L1_BASIC,TRUE_NEGATIVE
+ROB-019,l1_basic/robustness/rob_yaml_block_scalar.yaml,5,FLAG,Y,CKV_SECRET_6,"5:     ghp_1a**********
+",ROBUSTNESS,L1_BASIC,TRUE_POSITIVE
+ROB-L2-001,l2_intermediate/robustness/multilingual_comments_and_strings.py,4,DEBATABLE,N,,,ROBUSTNESS,L2_INTERMEDIATE,DEBATABLE_IGNORED
+ROB-L2-002,l2_intermediate/robustness/multilingual_comments_and_strings.py,5,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-L2-003,l2_intermediate/robustness/multilingual_comments_and_strings.py,6,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-L2-004,l2_intermediate/robustness/multilingual_comments_and_strings.py,7,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-L2-005,l2_intermediate/robustness/multilingual_comments_and_strings.py,8,FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,FALSE_NEGATIVE
+ROB-L2-006,l2_intermediate/robustness/multilingual_comments_and_strings.py,10,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-L2-007,l2_intermediate/robustness/unusual_formats.tf.json,10,FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,FALSE_NEGATIVE
+ROB-L2-008,l2_intermediate/robustness/unusual_formats.tf.json,18,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-L2-009,l2_intermediate/robustness/unusual_formats.tf.json,25,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-001,l2_intermediate/robustness/repetition_stress.py,3,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-002,l2_intermediate/robustness/repetition_stress.py,4,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-003,l2_intermediate/robustness/repetition_stress.py,5,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-004,l2_intermediate/robustness/repetition_stress.py,6,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-005,l2_intermediate/robustness/repetition_stress.py,7,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-006,l2_intermediate/robustness/repetition_stress.py,8,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-007,l2_intermediate/robustness/repetition_stress.py,9,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-008,l2_intermediate/robustness/repetition_stress.py,10,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-009,l2_intermediate/robustness/repetition_stress.py,11,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-010,l2_intermediate/robustness/repetition_stress.py,12,NO_FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,TRUE_NEGATIVE
+ROB-REP-099,l2_intermediate/robustness/repetition_stress.py,13,FLAG,N,,,ROBUSTNESS,L2_INTERMEDIATE,FALSE_NEGATIVE
+L3-FLASK-001,l3_advanced/flask_service/app.py,14,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-FLASK-002,l3_advanced/flask_service/app.py,15,DEBATABLE,N,,,SECRETS,L3_ADVANCED,DEBATABLE_IGNORED
+L3-FLASK-003,l3_advanced/flask_service/app.py,16,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-004,l3_advanced/flask_service/app.py,17,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-005,l3_advanced/flask_service/app.py,18,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-006,l3_advanced/flask_service/app.py,33,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-007,l3_advanced/flask_service/app.py,45,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-FLASK-008,l3_advanced/flask_service/app.py,53,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-009,l3_advanced/flask_service/app.py,60,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-010,l3_advanced/flask_service/app.py,61,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-011,l3_advanced/flask_service/app.py,72,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-012,l3_advanced/flask_service/app.py,73,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-013,l3_advanced/flask_service/app.py,74,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-FLASK-014,l3_advanced/flask_service/app.py,78,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-EXPRESS-001,l3_advanced/express_api/server.js,16,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-EXPRESS-002,l3_advanced/express_api/server.js,17,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-EXPRESS-003,l3_advanced/express_api/server.js,18,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-EXPRESS-004,l3_advanced/express_api/server.js,19,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-EXPRESS-005,l3_advanced/express_api/server.js,27,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-EXPRESS-006,l3_advanced/express_api/server.js,33,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-EXPRESS-007,l3_advanced/express_api/server.js,40,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-EXPRESS-008,l3_advanced/express_api/server.js,45,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-EXPRESS-009,l3_advanced/express_api/server.js,53,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-EXPRESS-010,l3_advanced/express_api/server.js,60,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-GO-001,l3_advanced/go_microservice/main.go,26,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-GO-002,l3_advanced/go_microservice/main.go,32,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-GO-003,l3_advanced/go_microservice/main.go,37,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-GO-004,l3_advanced/go_microservice/main.go,42,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-GO-005,l3_advanced/go_microservice/main.go,49,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-GO-006,l3_advanced/go_microservice/main.go,55,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-DJANGO-001,l3_advanced/django_portal/settings.py,6,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-DJANGO-002,l3_advanced/django_portal/settings.py,7,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-DJANGO-003,l3_advanced/django_portal/settings.py,8,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-DJANGO-004,l3_advanced/django_portal/settings.py,39,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-DJANGO-005,l3_advanced/django_portal/settings.py,48,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-DJANGO-006,l3_advanced/django_portal/settings.py,49,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-JAVA-001,l3_advanced/spring_backend/ApplicationConfig.java,17,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-JAVA-002,l3_advanced/spring_backend/ApplicationConfig.java,25,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-JAVA-003,l3_advanced/spring_backend/ApplicationConfig.java,32,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-JAVA-004,l3_advanced/spring_backend/ApplicationConfig.java,37,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-001,l3_advanced/terraform_infra/main.tf,23,DEBATABLE,N,,,TERRAFORM,L3_ADVANCED,DEBATABLE_IGNORED
+L3-TF-002,l3_advanced/terraform_infra/main.tf,29,FLAG,N,,,TERRAFORM,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-003,l3_advanced/terraform_infra/main.tf,35,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-004,l3_advanced/terraform_infra/main.tf,41,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-005,l3_advanced/terraform_infra/main.tf,44,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-006,l3_advanced/terraform_infra/main.tf,55,FLAG,N,,,TERRAFORM,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-007,l3_advanced/terraform_infra/main.tf,56,FLAG,N,,,TERRAFORM,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-008,l3_advanced/terraform_infra/main.tf,63,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-009,l3_advanced/terraform_infra/main.tf,64,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-010,l3_advanced/terraform_infra/main.tf,69,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-011,l3_advanced/terraform_infra/main.tf,74,FLAG,N,,,TERRAFORM,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-012,l3_advanced/terraform_infra/main.tf,80,FLAG,N,,,TERRAFORM,L3_ADVANCED,FALSE_NEGATIVE
+L3-TF-013,l3_advanced/terraform_infra/main.tf,86,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-014,l3_advanced/terraform_infra/main.tf,91,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-TF-015,l3_advanced/terraform_infra/main.tf,92,NO_FLAG,N,,,TERRAFORM,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-001,l3_advanced/k8s_workload/deployment.yaml,6,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-002,l3_advanced/k8s_workload/deployment.yaml,17,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-003,l3_advanced/k8s_workload/deployment.yaml,18,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-004,l3_advanced/k8s_workload/deployment.yaml,21,FLAG,N,,,K8S,L3_ADVANCED,FALSE_NEGATIVE
+L3-K8S-005,l3_advanced/k8s_workload/deployment.yaml,23,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-006,l3_advanced/k8s_workload/deployment.yaml,24,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-007,l3_advanced/k8s_workload/deployment.yaml,25,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-008,l3_advanced/k8s_workload/deployment.yaml,26,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-009,l3_advanced/k8s_workload/deployment.yaml,28,NO_FLAG,N,,,K8S,L3_ADVANCED,TRUE_NEGATIVE
+L3-K8S-010,l3_advanced/k8s_workload/deployment.yaml,30,FLAG,N,,,K8S,L3_ADVANCED,FALSE_NEGATIVE
+L3-K8S-011,l3_advanced/k8s_workload/deployment.yaml,34,FLAG,N,,,K8S,L3_ADVANCED,FALSE_NEGATIVE
+L3-DOCKER-001,l3_advanced/docker_build/Dockerfile,4,FLAG,N,,,DOCKER,L3_ADVANCED,FALSE_NEGATIVE
+L3-DOCKER-002,l3_advanced/docker_build/Dockerfile,12,NO_FLAG,N,,,DOCKER,L3_ADVANCED,TRUE_NEGATIVE
+L3-DOCKER-003,l3_advanced/docker_build/Dockerfile,13,NO_FLAG,N,,,DOCKER,L3_ADVANCED,TRUE_NEGATIVE
+L3-DOCKER-004,l3_advanced/docker_build/Dockerfile,16,NO_FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L3_ADVANCED,FP_CANDIDATE (UNREVIEWED)
+L3-DOCKER-005,l3_advanced/docker_build/Dockerfile,17,FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L3_ADVANCED,TRUE_POSITIVE
+L3-DOCKER-006,l3_advanced/docker_build/Dockerfile,18,NO_FLAG,Y,CKV_DOCKER_1,"17: EXPOSE 22
+",DOCKER,L3_ADVANCED,FP_CANDIDATE (UNREVIEWED)
+L3-COMP-001,l3_advanced/compose_stack/docker-compose.yml,5,DEBATABLE,N,,,DOCKER,L3_ADVANCED,DEBATABLE_IGNORED
+L3-COMP-002,l3_advanced/compose_stack/docker-compose.yml,8,NO_FLAG,N,,,DOCKER,L3_ADVANCED,TRUE_NEGATIVE
+L3-COMP-003,l3_advanced/compose_stack/docker-compose.yml,12,NO_FLAG,N,,,DOCKER,L3_ADVANCED,TRUE_NEGATIVE
+L3-COMP-004,l3_advanced/compose_stack/docker-compose.yml,14,FLAG,Y,CKV_SECRET_6,"14:       POSTGRES_PASSWORD: ""ProdS**********""
+",DOCKER,L3_ADVANCED,TRUE_POSITIVE
+L3-COMP-005,l3_advanced/compose_stack/docker-compose.yml,18,FLAG,N,,,DOCKER,L3_ADVANCED,FALSE_NEGATIVE
+L3-CI-001,l3_advanced/github_ci/release.yml,6,NO_FLAG,N,,,CI,L3_ADVANCED,TRUE_NEGATIVE
+L3-CI-002,l3_advanced/github_ci/release.yml,11,NO_FLAG,N,,,CI,L3_ADVANCED,TRUE_NEGATIVE
+L3-CI-003,l3_advanced/github_ci/release.yml,13,FLAG,N,,,CI,L3_ADVANCED,FALSE_NEGATIVE
+L3-CI-004,l3_advanced/github_ci/release.yml,16,NO_FLAG,N,,,CI,L3_ADVANCED,TRUE_NEGATIVE
+L3-CI-005,l3_advanced/github_ci/release.yml,17,NO_FLAG,N,,,CI,L3_ADVANCED,TRUE_NEGATIVE
+L3-CI-006,l3_advanced/github_ci/release.yml,20,FLAG,Y,CKV_SECRET_6,"20:         DEPLOY_TOKEN: ""ghp_1a**********""
+",CI,L3_ADVANCED,TRUE_POSITIVE
+L3-CI-007,l3_advanced/github_ci/release.yml,21,NO_FLAG,Y,CKV_SECRET_6,"20:         DEPLOY_TOKEN: ""ghp_1a**********""
+",CI,L3_ADVANCED,FP_CANDIDATE (UNREVIEWED)
+L3-SH-001,l3_advanced/deploy_script/deploy.sh,10,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-SH-002,l3_advanced/deploy_script/deploy.sh,11,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-SH-003,l3_advanced/deploy_script/deploy.sh,16,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-SH-004,l3_advanced/deploy_script/deploy.sh,20,DEBATABLE,N,,,SAST,L3_ADVANCED,DEBATABLE_IGNORED
+L3-SH-005,l3_advanced/deploy_script/deploy.sh,24,NO_FLAG,N,,,SAST,L3_ADVANCED,TRUE_NEGATIVE
+L3-ENV-001,l3_advanced/env_config/.env,4,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-ENV-002,l3_advanced/env_config/.env,5,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-ENV-003,l3_advanced/env_config/.env,6,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-ENV-004,l3_advanced/env_config/.env,7,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-ENV-005,l3_advanced/env_config/.env,8,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-ENV-006,l3_advanced/env_config/.env,9,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-ENV-007,l3_advanced/env_config/.env,10,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-ENV-008,l3_advanced/env_config/.env,11,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-YAML-001,l3_advanced/app_config/config.yaml,5,FLAG,Y,CKV_SECRET_4,"5:   url: ""postgres://admin:S3**********@db.internal:5432/app""
+",SECRETS,L3_ADVANCED,TRUE_POSITIVE
+L3-YAML-002,l3_advanced/app_config/config.yaml,6,NO_FLAG,Y,CKV_SECRET_4,"5:   url: ""postgres://admin:S3**********@db.internal:5432/app""
+",SECRETS,L3_ADVANCED,FP_CANDIDATE (UNREVIEWED)
+L3-YAML-003,l3_advanced/app_config/config.yaml,8,FLAG,Y,CKV_SECRET_6,"8:   apiKey: ""AIzaSy**********""
+",SECRETS,L3_ADVANCED,TRUE_POSITIVE
+L3-YAML-004,l3_advanced/app_config/config.yaml,9,NO_FLAG,Y,CKV_SECRET_6,"8:   apiKey: ""AIzaSy**********""
+",SECRETS,L3_ADVANCED,FP_CANDIDATE (UNREVIEWED)
+L3-YAML-005,l3_advanced/app_config/config.yaml,10,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-NPM-001,l3_advanced/node_pkg/package.json,2,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-NPM-002,l3_advanced/node_pkg/package.json,7,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-DOC-001,l3_advanced/docs_readme/README.md,5,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-DOC-002,l3_advanced/docs_readme/README.md,6,DEBATABLE,N,,,SECRETS,L3_ADVANCED,DEBATABLE_IGNORED
+L3-DOC-003,l3_advanced/docs_readme/README.md,7,FLAG,N,,,SECRETS,L3_ADVANCED,FALSE_NEGATIVE
+L3-PHP-001,l3_advanced/php_portal/index.php,4,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-PHP-002,l3_advanced/php_portal/index.php,5,NO_FLAG,N,,,SECRETS,L3_ADVANCED,TRUE_NEGATIVE
+L3-PHP-003,l3_advanced/php_portal/index.php,8,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
+L3-PHP-004,l3_advanced/php_portal/index.php,11,FLAG,N,,,SAST,L3_ADVANCED,FALSE_NEGATIVE
