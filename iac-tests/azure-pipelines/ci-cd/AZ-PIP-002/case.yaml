@@ -1,0 +1,19 @@
+id: AZ-PIP-002
+iac_type: azure-pipelines
+category: ci-cd
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Hardened Azure DevOps pipeline with clean workspace and parameterized
+  task execution
+why_scanner_may_fail: Baseline safe Azure Pipelines definition.
+expected_findings: []
+expected_no_findings:
+- CKV_AZP_1
+compliance:
+  cis: '4.1'
+  nist_800_53: SA-11
+  pci_dss: 6.4.2
+  soc2: CC7.1
+source_refs:
+- https://learn.microsoft.com/en-us/azure/devops/pipelines/security/overview
+undeliverable_static: false

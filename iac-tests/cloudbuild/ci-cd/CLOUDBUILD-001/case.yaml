@@ -1,0 +1,26 @@
+id: CLOUDBUILD-001
+iac_type: cloudbuild
+category: ci-cd
+label: TRUE_POSITIVE
+severity: HIGH
+description: Google Cloud Build running unpinned third-party builder with root privileges
+  and token exposure
+why_scanner_may_fail: Baseline Cloud Build misconfiguration.
+expected_findings:
+- rule: CKV_GCB_1
+  cwe: CWE-829
+  cis: CIS GCP 1.3 - 5.1
+  nist: SA-11
+  resource: steps.unpinned-step
+  file: cloudbuild.yaml
+  line: 1
+  severity: HIGH
+expected_no_findings: []
+compliance:
+  cis: '5.1'
+  nist_800_53: SA-11
+  pci_dss: 6.4.2
+  soc2: CC7.1
+source_refs:
+- https://cloud.google.com/build/docs/securing-builds/overview
+undeliverable_static: false

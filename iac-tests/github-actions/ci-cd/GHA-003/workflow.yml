@@ -1,0 +1,14 @@
+name: Safe Issue Triage
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Issue Safely
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          echo "Processing issue safely: $ISSUE_TITLE"

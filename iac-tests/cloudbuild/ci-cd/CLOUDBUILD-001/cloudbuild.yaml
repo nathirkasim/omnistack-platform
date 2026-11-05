@@ -1,0 +1,6 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm:latest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'npm test'

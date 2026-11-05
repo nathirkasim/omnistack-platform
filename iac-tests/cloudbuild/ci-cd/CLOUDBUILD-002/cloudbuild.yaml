@@ -1,0 +1,3 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm@sha256:d8bb6aa16709a3dc5877f24032d84db8cc3bc5ab6ce6e5c8e235804aa3d56fcf'
+    args: ['ci']

@@ -1,0 +1,27 @@
+id: GHA-001
+iac_type: github-actions
+category: ci-cd
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: GitHub Actions workflow triggers on pull_request_target and checks out
+  untrusted PR head commit (critical RCE / token theft)
+why_scanner_may_fail: Baseline GitHub Actions vulnerability; pull_request_target with
+  checkout of fork code runs with target repo secrets.
+expected_findings:
+- rule: CKV_GHA_1
+  cwe: CWE-829
+  cis: CIS Software Supply Chain 1.0 - 2.1
+  nist: SA-11
+  resource: job.test
+  file: workflow.yml
+  line: 8
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: '2.1'
+  nist_800_53: SA-11
+  pci_dss: 6.4.2
+  soc2: CC7.1
+source_refs:
+- https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+undeliverable_static: false

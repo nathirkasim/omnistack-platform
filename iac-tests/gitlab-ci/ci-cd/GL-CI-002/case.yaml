@@ -1,0 +1,19 @@
+id: GL-CI-002
+iac_type: gitlab-ci
+category: ci-cd
+label: SAFE_LOOKALIKE
+severity: LOW
+description: GitLab CI pipeline using non-privileged runner with kaniko container
+  build and scoped secrets
+why_scanner_may_fail: Hardened GitLab CI build baseline; no findings should fire.
+expected_findings: []
+expected_no_findings:
+- CKV_GL_1
+compliance:
+  cis: '3.1'
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://docs.gitlab.com/ee/ci/docker/using_kaniko.html
+undeliverable_static: false

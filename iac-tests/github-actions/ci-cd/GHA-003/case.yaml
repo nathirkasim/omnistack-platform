@@ -1,0 +1,20 @@
+id: GHA-003
+iac_type: github-actions
+category: ci-cd
+label: SAFE_LOOKALIKE
+severity: LOW
+description: GitHub context safely mapped to environment variable before usage in
+  bash run script (safe idiom)
+why_scanner_may_fail: 'Naive regex scanners matching ''${{ github.event.* }}'' without
+  checking whether it is safely passed through an env: block trigger False Positives.'
+expected_findings: []
+expected_no_findings:
+- CKV_GHA_2
+compliance:
+  cis: '2.2'
+  nist_800_53: SI-10
+  pci_dss: 6.5.1
+  soc2: CC6.6
+source_refs:
+- https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+undeliverable_static: false
