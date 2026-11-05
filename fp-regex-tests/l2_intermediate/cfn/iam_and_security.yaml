@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: IAM Roles and Permissions
+Resources:
+  SuperUserPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action: '*'
+          Resource: '*'
+  AuditorPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action: 's3:GetObject'
+          Resource: 'arn:aws:s3:::audit-bucket/*'
+  OrgRestrictedPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action: 's3:GetObject'
+          Resource: 'arn:aws:s3:::shared-docs/*'
+          Principal: '*'
+          Condition:
+            StringEquals: { 'aws:PrincipalOrgID': 'o-abcdef1234' }

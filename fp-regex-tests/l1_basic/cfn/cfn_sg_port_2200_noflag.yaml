@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  CustomAppSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Custom Port Range
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 2200
+        ToPort: 2299
+        CidrIp: 0.0.0.0/0
