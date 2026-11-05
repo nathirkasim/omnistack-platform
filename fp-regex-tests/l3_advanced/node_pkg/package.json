@@ -1,0 +1,12 @@
+{
+  "name": "passwordless-tokenizer-service",
+  "version": "1.0.0",
+  "description": "Tokenizer utility for keyboard inputs",
+  "scripts": {
+    "test": "jest",
+    "publish-pkg": "export NPM_TOKEN=ghp_1a2B3c4D5e6F7g8H9i0J1k2L3m4N5o6P7q8R && npm publish"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,10 @@
+server:
+  host: 0.0.0.0
+  port: 8080
+database:
+  url: "postgres://admin:S3cr3tP4ss@db.internal:5432/app"
+  secretName: "aws/secretsmanager/auth-keys"
+security:
+  apiKey: "AIzaSyBv9x1d4E8f2G6h0J3k5L7m9N1p3Q5r7S"
+  placeholderKey: "${API_KEY}"
+  passwordPolicy: "min_length: 14"
