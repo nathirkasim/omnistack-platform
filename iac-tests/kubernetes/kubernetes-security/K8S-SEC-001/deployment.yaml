@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: critical-backend
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      hostNetwork: true
+      containers:
+        - name: app
+          image: backend-service:1.2.0
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: dockersock
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock

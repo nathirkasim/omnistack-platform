@@ -1,0 +1,27 @@
+id: K8S-SEC-004
+iac_type: kubernetes
+category: kubernetes-security
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Multi-document YAML file where Doc 1 is a benign ConfigMap, Doc 2 is
+  a secure frontend, and Doc 3 is an unconfined privileged DaemonSet
+why_scanner_may_fail: Scanners with incomplete YAML multi-document parsers only scan
+  the first document (---) in a stream and miss subsequent vulnerable documents.
+expected_findings:
+- rule: CKV_K8S_16
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.2.1
+  nist: AC-6
+  resource: DaemonSet.kube-system.node-debugger
+  file: multi-workload.yaml
+  line: 45
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: 5.2.1
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://yaml.org/spec/1.2/spec.html#id2760395
+undeliverable_static: false

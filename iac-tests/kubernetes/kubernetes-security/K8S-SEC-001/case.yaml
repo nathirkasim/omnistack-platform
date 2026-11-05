@@ -1,0 +1,43 @@
+id: K8S-SEC-001
+iac_type: kubernetes
+category: kubernetes-security
+label: TRUE_POSITIVE
+severity: CRITICAL
+description: 'Deployment with privileged: true, hostNetwork: true, and hostPath mount
+  to /var/run/docker.sock'
+why_scanner_may_fail: Baseline Kubernetes misconfiguration; must be detected by all
+  K8s security scanners.
+expected_findings:
+- rule: CKV_K8S_16
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.2.1
+  nist: AC-3, AC-6
+  resource: Deployment.production.critical-backend
+  file: deployment.yaml
+  line: 15
+  severity: CRITICAL
+- rule: CKV_K8S_19
+  cwe: CWE-284
+  cis: CIS Kubernetes 1.6 - 5.2.4
+  nist: SC-7
+  resource: Deployment.production.critical-backend
+  file: deployment.yaml
+  line: 12
+  severity: HIGH
+- rule: CKV_K8S_27
+  cwe: CWE-284
+  cis: CIS Kubernetes 1.6 - 5.2.7
+  nist: AC-3
+  resource: Deployment.production.critical-backend
+  file: deployment.yaml
+  line: 28
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: 5.2.1
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://kubernetes.io/docs/concepts/security/pod-security-standards/
+undeliverable_static: false

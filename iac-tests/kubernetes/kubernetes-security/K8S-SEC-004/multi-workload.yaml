@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: production
+data:
+  ENVIRONMENT: "production"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-frontend
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.25.3
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 101
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-debugger
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: node-debugger
+  template:
+    metadata:
+      labels:
+        app: node-debugger
+    spec:
+      hostPID: true
+      hostNetwork: true
+      containers:
+        - name: debugger
+          image: busybox:1.36
+          securityContext:
+            privileged: true

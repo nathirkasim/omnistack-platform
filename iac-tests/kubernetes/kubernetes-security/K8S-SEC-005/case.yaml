@@ -1,0 +1,27 @@
+id: K8S-SEC-005
+iac_type: kubernetes
+category: kubernetes-security
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: 'YAML anchor definition (&base_sec) has safe settings but subsequent
+  key override sets privileged: true after the alias'
+why_scanner_may_fail: Scanners that parse YAML anchors with simple shallow replacement
+  may only inspect the anchor definition and miss the overridden property.
+expected_findings:
+- rule: CKV_K8S_16
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.2.1
+  nist: AC-6
+  resource: Deployment.default.anchor-override
+  file: deployment.yaml
+  line: 18
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: 5.2.1
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://yaml.org/spec/1.2/spec.html#id2765865
+undeliverable_static: false
