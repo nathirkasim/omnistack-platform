@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload
+spec:
+  template:
+    spec:
+      hostNetwork: true
+      containers:
+        - name: app
+          securityContext:
+            privileged: true

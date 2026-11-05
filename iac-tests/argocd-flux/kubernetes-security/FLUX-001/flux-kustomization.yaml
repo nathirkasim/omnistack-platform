@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: privileged-sync
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: fleet-infra
+  path: ./clusters/production
+  prune: true
+  serviceAccountName: cluster-admin-sa

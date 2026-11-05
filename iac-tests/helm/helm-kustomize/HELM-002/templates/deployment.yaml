@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-cond-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: {{ .Values.image }}
+          {{- if .Values.debug.enabled }}
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: dockersock
+          {{- end }}
+      {{- if .Values.debug.enabled }}
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+      {{- end }}

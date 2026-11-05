@@ -1,0 +1,27 @@
+id: HELM-002
+iac_type: helm
+category: helm-kustomize
+label: EVASIVE_MISCONFIG
+severity: CRITICAL
+description: Helm template conditionally injects hostPath mount and SYS_ADMIN capability
+  under {{- if .Values.debug.enabled }}
+why_scanner_may_fail: Scanners that do not render Helm templates or only inspect raw
+  template files miss vulnerabilities embedded inside Go template conditionals.
+expected_findings:
+- rule: CKV_K8S_16
+  cwe: CWE-250
+  cis: CIS Kubernetes 1.6 - 5.2.1
+  nist: AC-6
+  resource: Deployment.release-name-cond-app
+  file: templates/deployment.yaml
+  line: 18
+  severity: CRITICAL
+expected_no_findings: []
+compliance:
+  cis: 5.2.1
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://helm.sh/docs/chart_template_guide/control_structures/
+undeliverable_static: false

@@ -1,0 +1,22 @@
+id: KUST-003
+iac_type: kustomize
+category: helm-kustomize
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Base deployment is missing securityContext, but dev overlay strategic
+  merge patch injects complete hardening
+why_scanner_may_fail: Scanning base manifest in isolation produces a False Positive
+  because the rendered overlay applies the fix.
+expected_findings: []
+expected_no_findings:
+- CKV_K8S_16
+- CKV_K8S_20
+- CKV_K8S_21
+compliance:
+  cis: 5.2.6
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
+undeliverable_static: false

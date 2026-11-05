@@ -1,0 +1,22 @@
+id: HELM-003
+iac_type: helm
+category: helm-kustomize
+label: SAFE_LOOKALIKE
+severity: LOW
+description: Helm chart delegates container securityContext to a shared named template
+  helper in _helpers.tpl that enforces full hardening
+why_scanner_may_fail: Scanners that do not evaluate {{ include '...' . }} helpers
+  see an empty securityContext in deployment.yaml and trigger False Positives.
+expected_findings: []
+expected_no_findings:
+- CKV_K8S_16
+- CKV_K8S_20
+- CKV_K8S_21
+compliance:
+  cis: 5.2.6
+  nist_800_53: AC-6
+  pci_dss: 2.2.4
+  soc2: CC6.3
+source_refs:
+- https://helm.sh/docs/chart_template_guide/named_templates/
+undeliverable_static: false
